@@ -7,3 +7,10 @@ git add -A → Добавить все файлы в коммит. _/ Можно
 
 git status → Посмотреть статус репозитория.
 git commit -am "Первый коммит" → Добавляет коммит.
+git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short → Лог истории в красивом варианте
+git <command> --help → Документация по командам (даже оффлайн)
+
+---
+
+git remote add js-react-school https://github.com/alienat3d/js-react-school.git → Добавляю локальный репозиторий на GitHub.
+git push -u js-react-school master → Запушаем изменения в ветку master.
