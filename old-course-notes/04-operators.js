@@ -14,7 +14,7 @@ console.log(decr);
 console.log(++incr);
 console.log(--decr);
 
-// Модуль — остаток от деления.
+// Модуль — остаток от деления
 console.log(5 % 2);
 
 // Нестрогое сравнение по значению
@@ -31,7 +31,12 @@ isClosed = false;
 console.log(isChecked && isClosed);
 console.log(isChecked || isClosed);
 
-// Оператор отрицания "!", меняет значение на обратное, true → false и т.д.
+// Оператор отрицания "!", меняет значение на обратное, true → false и наоборот.
 let isFalse = true;
 
 console.log(!isFalse);
+console.log('7' !== 7);
+
+// У операторов есть приоритетность, например умножение идёт перед сложением. Но если поставить сложение в скобки, то приоритетность сложения увеличивается, как и в математике.
+// ? Таблица приоритетности операторов в JS: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence
+console.log((2 + 2) * 2 === 8);
