@@ -1,0 +1,1 @@
+<h3>Notes & playground code for 2022 JavaScript course by Ivan Petrechenko.</h3>
