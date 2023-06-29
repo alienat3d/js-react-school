@@ -17,6 +17,7 @@ function learnJS(lang, callback) {
   console.log('Я учу ' + lang);
   callback();
 }
+// Применение с анонимной функцией (которая исчезнет после вызова).
 learnJS('JavaScript', function () {
   console.log('Я прошёл 3-й урок!');
 });
@@ -28,7 +29,9 @@ function learnJS(lang, callback) {
 }
 
 function done() {
-  console.log('Я прошёл 3-й урок!');
+  console.log('Я прошёл базовые уроки!');
 }
 
-learnJS('JavaScript', done);
+learnJS('PHP', done);
+
+// Callback-функции используются повсеместно например при работе с серверами или с событиями на странице.
