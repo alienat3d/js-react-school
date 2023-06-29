@@ -41,3 +41,8 @@ console.log(queen.substring(1));
 const king = 'Алексей';
 
 console.log(king.substr(1, 4));
+
+// Метод trim() удаляет пробелы вначале строки и в конце.
+const musicGroup = '            Metallica';
+
+console.log(musicGroup.trim());
