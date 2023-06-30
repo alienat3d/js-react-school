@@ -33,7 +33,7 @@ totalSum(res);
 
 // ? Также желательно, чтобы одна функция выполняла одно действие, не смешивая всё подряд.
 
-// convertToRUR(1000, USD);
+convertToRUR(7000, USD);
 // convertToRUR(100, EUR);
 // convertToRUR(25000, UAH);
 
