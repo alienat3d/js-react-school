@@ -24,7 +24,7 @@ console.log(personalMovieDB); */
 
 // Поместим функционал опрашивания пользователя в функцию и также выполним проверку. Чтобы пользователь не мог отменить вопрос, ввести пустую строку или ввести не число.
 // ? Если хотим проверять на этапе ввода данных в строку ввода, то надо использовать уже регулярные выражения, которые мы рассмотрим чуть позже.
-let numberOfFilms;
+// let numberOfFilms;
 
 // function start() {
 // numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
@@ -37,20 +37,20 @@ let numberOfFilms;
 // start();
 
 const personalMovieDB = {
-  count: numberOfFilms,
+  count: 0, // здесь мы заменили переменную numberOfFilms на 0, а ниже в методе askTotalAmountFilms мы уже используем это свойство, вместо переменной.
   movies: {},
   actors: {},
   genres: [],
   private: false,
   askTotalAmountFilms: function () {
-    numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+    personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
 
     while (
-      numberOfFilms == '' ||
-      numberOfFilms == null ||
-      isNaN(numberOfFilms)
+      personalMovieDB.count == '' ||
+      personalMovieDB.count == null ||
+      isNaN(personalMovieDB.count)
     ) {
-      numberOfFilms = +prompt('Сколько фильмов вы уже посмотрели?', '');
+      personalMovieDB.count = +prompt('Сколько фильмов вы уже посмотрели?', '');
     }
   },
   askLastFilms: function () {
@@ -76,6 +76,37 @@ const personalMovieDB = {
       }
     }
   },
+  askFavGenres: function () {
+    for (let index = 0; index < 1; index++) {
+      /* for (let index = 0; index < 3; index++) {
+      const favGenre = prompt(`Ваш любимый жанр под номером ${index + 1}?`, '');
+
+      if (favGenre == null || favGenre == '') {
+        console.log(
+          'Вы ввели ответ некорректно или не ввели вовсе, а они необходимы. Попробуйте снова.'
+        );
+        index--;
+      } else {
+        personalMovieDB.genres[index] = favGenre;
+      } */
+      // * Решаем ту же задачу, но с применением другого подхода:
+      const favGenres = prompt(`Введите ваши любимые жанры через запятую`, '').toLowerCase();
+
+      if (favGenres == null || favGenres == '' || favGenres.length < 3) {
+        console.log(
+          'Вы ввели ответ некорректно или не ввели вовсе, а они необходимы. Попробуйте снова.'
+        );
+        index--;
+      } else {
+        personalMovieDB.genres = favGenres.split(', '); // Вспоминаем метод массивов split(), который берёт строку, разбивает её на отдельные элементы и записывает как элементы массива.
+        personalMovieDB.genres.sort(); // Сортируем методом sort() жанры по алфавиту. Кстати, в сортировке заглавные буквы имеют больший приоритет и будут выводиться первыми. Для полноценной отработки метода sort(), нужно учесть эту особенность и предупредительно перевести ответ в нижний регистр.
+      }
+    }
+
+    personalMovieDB.genres.forEach((element, index) => {
+      console.log(`Любимый жанр #${index + 1} - это ${element}.`);
+    });
+  },
   detectPersonalLevel: function () {
     if (personalMovieDB.count < 30) {
       alert('Просмотрено довольно мало фильмов.');
@@ -87,37 +118,22 @@ const personalMovieDB = {
       alert('Произошла ошибка!');
     }
   },
-  askFavGenres: function () {
-    for (let index = 0; index < 3; index++) {
-      const favGenre = prompt(`Ваш любимый жанр под номером ${index + 1}?`, '');
-
-      if (favGenre != null && favGenre != '') {
-        personalMovieDB.genres[index] = favGenre;
-      } else {
-        index--;
-      }
-    }
-
-    personalMovieDB.genres.forEach((element, index) => {
-      console.log(`Любимый жанр #${index + 1} - это ${element}.`);
-    });
-  },
   showMyDB: function (hidden) {
     if (!hidden) {
       console.log(personalMovieDB);
     }
   },
   toggleVisibleMyDB: function () {
-    if (personalMovieDB.private === false) {
-      personalMovieDB.private = true;
-    } else {
+    if (personalMovieDB.private) {
       personalMovieDB.private = false;
+    } else {
+      personalMovieDB.private = true;
     }
   },
 };
 // personalMovieDB.toggleVisibleMyDB();
 // personalMovieDB.showMyDB();
-personalMovieDB.askFavGenres();
+// personalMovieDB.askFavGenres();
 // Нужно создать функцию showMyDB, которая будет проверять свойство private. Если стоит в позиции false - выводит в консоль главный объект программы. Оператор ! сделает из false true и условие будет верным, а значит база данных отобразится в консоли.
 /* function showMyDB(hidden) {
   if (!hidden) {
