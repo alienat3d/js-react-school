@@ -131,9 +131,12 @@ const personalMovieDB = {
     }
   },
 };
+// personalMovieDB.askTotalAmountFilms();
+// personalMovieDB.askLastFilms();
+// personalMovieDB.askFavGenres();
+// personalMovieDB.detectPersonalLevel();
 // personalMovieDB.toggleVisibleMyDB();
 // personalMovieDB.showMyDB();
-// personalMovieDB.askFavGenres();
 // Нужно создать функцию showMyDB, которая будет проверять свойство private. Если стоит в позиции false - выводит в консоль главный объект программы. Оператор ! сделает из false true и условие будет верным, а значит база данных отобразится в консоли.
 /* function showMyDB(hidden) {
   if (!hidden) {
