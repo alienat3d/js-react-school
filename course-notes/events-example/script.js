@@ -123,12 +123,12 @@ const buttons = document.querySelectorAll('button');
 // ! Но такой код работать не будет.
 // Дело в том, что к переменной buttons мы не можем применить обработчик событий, т.к. в ней сейчас лежит не какой-то элемент со страницы, а псевдо-массив. Поэтому, чтобы повесить на каждый из элементов псевдо-массива обработчик событий, нам следует сперва этот псевдо-массив перебрать. Можно использовать конечно и обычный цикл, но так как мы получили псевдо-массив при помощи метода querySelectorAll(), то удобнее будет использовать метод forEach().
 // ? Кстати также можно использовать и forOf(), но чаще будем использовать forEach().
-buttons.forEach(button => {
+buttons.forEach((button) => {
   button.addEventListener('click', (evt) => {
     evt.preventDefault();
 
     console.log(evt.target);
-  })
+  });
 });
 
 // ---- ==//== ---- ==//== ---- ==//== ----
@@ -137,7 +137,7 @@ buttons.forEach(button => {
 // Почитать про все можно здесь: https://developer.mozilla.org/ru/docs/Web/API/EventTarget/addEventListener
 // Наверное самая интересная из опций это "once". Оно указывает, что обработчик должен быть вызван не более одного раза после добавления. Если true, обработчик автоматически удаляется при вызове.
 // ? Это классная альтернатива removeEventListener(), т.к. в этом случае уже не нужно прописывать такую сложную конструкцию.
-// Например можем переписать код вместо: 
+// Например можем переписать код вместо:
 /* let i = 0;
 const deleteBtn = (evt) => {
   console.log(evt.target);
@@ -151,4 +151,5 @@ btn.addEventListener('click', deleteBtn); */
 // ...в подобном, укороченном виде:
 const deleteBtn = (evt) => console.log(evt.target);
 
-btn.addEventListener('click', deleteBtn, {once: true});
+btn.addEventListener('click', deleteBtn, { once: true });
+
