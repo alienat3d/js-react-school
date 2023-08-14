@@ -65,6 +65,10 @@ gulp.task('build-sass', () => {
 
 gulp.task('copy-assets', () => {
   gulp.src('./src/icons/**/*.*').pipe(gulp.dest(dist + '/icons'));
+  gulp.src('./src/favicons/**/*.*').pipe(gulp.dest(dist + '/favicons'));
+  gulp.src('./src/favicon.ico').pipe(gulp.dest(dist));
+  gulp.src('./src/browserconfig.xml').pipe(gulp.dest(dist));
+  gulp.src('./src/site.webmanifest').pipe(gulp.dest(dist));
 
   return gulp
     .src('./src/img/**/*.*')
