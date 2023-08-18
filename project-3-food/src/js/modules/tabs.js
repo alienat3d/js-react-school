@@ -1,4 +1,4 @@
-export const tabsFunc = () => {
+const tabsFunc = () => {
   // 1. Получим: 1) все элементы "табы" меню, 2) контент, который к ним относится 3) и всю обёртку для использования делегирования. (А то ведь могут после нас ещё какие-то элементы меню добавиться и это необходимо учесть сразу.)
   const tabs = document.querySelectorAll('.tabheader__item'),
     tabsContent = document.querySelectorAll('.tabcontent'),
@@ -49,3 +49,5 @@ export const tabsFunc = () => {
   hideTabContent();
   showTabContent();
 };
+
+export default tabsFunc;
