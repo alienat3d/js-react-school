@@ -97,10 +97,77 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_tabs_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/tabs.js */ "./src/js/modules/tabs.js");
 /* harmony import */ var _modules_timer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/timer.js */ "./src/js/modules/timer.js");
+/* harmony import */ var _modules_modal_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/modal.js */ "./src/js/modules/modal.js");
+
 
 
 Object(_modules_tabs_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
 Object(_modules_timer_js__WEBPACK_IMPORTED_MODULE_1__["default"])();
+Object(_modules_modal_js__WEBPACK_IMPORTED_MODULE_2__["default"])();
+
+/***/ }),
+
+/***/ "./src/js/modules/modal.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/modal.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const modalFunc = () => {
+  // 1.1 Сперва нам нужно найти в вёрстке триггеры, которые будут вызывать наше модальное окно. Триггеры это такие элементы на странице, которые запускают выполнение какого-то JS кода.
+  // 1.2 У них могут быть абсолютно разные классы или даже теги, поэтому частенько, чтобы пометить, что эти элементы у нас вызывают одно и то же действие, им назначаются какие-то определённые data-атрибуты. Например здесь логично будет всем триггером для модального окна дать атрибут "data-modal".
+  // 1.3 Похожая система будет также и с обратной ситуацией, когда нам нужно будет закрывать модальное окно. Этому элементу повесим data-close.
+  const modalTriggers = document.querySelectorAll('[data-modal]'),
+        modal = document.querySelector('.modal'),
+        modalCloseButton = modal.querySelector('.modal__close'); // ? Тут также допустимо использование toggle.
+  // 1.5.1 Следуя DRY, мы заметили, что придётся снова повторить кусочек кода для закрытия модального окна, поэтому лучше вынести его в отдельную функцию.
+
+  const closingModal = () => {
+    // modal.classList.toggle('show'); // - Вариант с toggle.
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+    document.body.style.overflow = ''; // Не забываем после закрытие модального окна восстанавливать скролл на странице.
+  };
+
+  modalTriggers.forEach(trigger => trigger.addEventListener('click', () => {
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+    document.body.style.overflow = 'hidden'; // Чтобы отключать возможность скролла при активном модальном окне.
+  })); // 1.5.2 Заметим, что здесь мы сократили запись.
+
+  modalCloseButton.addEventListener('click', () => closingModal()); // 1.4 Пропишем функционал, чтобы можно было закрывать модальное окно по клику вне самого окна. Внутри проверим, если event.target (куда кликнул пользователь) строго не совпадает с областью модального окна, то мы закрываем окно.
+
+  modal.addEventListener('click', evt => {
+    if (evt.target === modal) {
+      closingModal();
+    }
+  }); // ! А вот такой код считается плохой практикой и может не везде работать. К тому же мы нарушаем логику и читабельность кода другими разработчиками:
+
+  /* modal.addEventListener('click', () => {
+    if (event.target === modal) {
+      modal.classList.add('hide');
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+  }); */
+  // 1.5.1 Также нам нужен функционал, который будет закрывать модальное окно, если на клавиатуре будет нажата клавиша "Escape". Здесь нам понадобится событие keydown. 
+  // 1.5.2 А также продумает такой момент, чтобы браузер реагировал на клавишу Escape и запускал наш код, только когда модальное окно у нас открыто.
+
+  document.addEventListener('keydown', evt => {
+    if (evt.code === 'Escape' && modal.classList.contains('show')) {
+      closingModal();
+    }
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (modalFunc); // |===:===:===:===>
+
+/** links:
+ *  https://www.toptal.com/developers/keycode
+ * */
 
 /***/ }),
 
@@ -189,14 +256,23 @@ const timerFunc = () => {
   // 2.3.2 В случае с днями всё довольно просто, нам нужно количество миллисекунд в дэдлайне разделить на количество миллисекунд в 24 часах, а также нужно будет результат округлить с помощью Math.floor(). Это округление до ближайшего целого значения. Мы берём наш timestamp делим на произведение 1000 миллисекунд 60 и 60 и 24 (так мы получаем количество миллисекунд в сутках).
   // 2.3.3 В случае с часами нам нужно разделить timestamps на количество миллисекунд в одном часе. И вот тут мы можем получить как подходящее количество часов (в пределах одних суток), так и например 100 или 1000 часов, что нам уже никак не подходит, ведь мы также считаем уже отдельно и дни. Поэтому здесь нам также понадобится модуль, оператор %, который делит что-то (в данном случае на 24) и получает остаток от деления.
   // 2.3.4 По принципу вычисления часов также находим и минуты с секундами.
+  // 7 На случай, если наша дата "просрочена", т.е. раньше текущего числа, то нам следует выводить нули (или даже скрывать этот блок\выводить сообщение, что акция закончена, в зависимости от ТЗ). Но пока реализуем нули. Итак, ещё на этапе высчитывания разницы миллисекунд и занесения значения в "time", мы можем сделать проверку на отрицательное значение. И если оно будет отрицательным, то мы просто возвращаем нули. Мы даже сэкономим ресурсы пользователю и не будем рассчитывать дальнейшие временные данные, связанные с этим основным числом.
 
   const getTimeRemaining = endTime => {
-    const time = Date.parse(endTime) - Date.parse(new Date()),
-          days = Math.floor(time / (1000 * 60 * 60 * 24)),
-          hours = Math.floor(time / (1000 * 60 * 60) % 24),
-          minutes = Math.floor(time / (1000 * 60) % 60),
-          seconds = Math.floor(time / 1000 % 60); // 2.4.1 Пока эти переменные существую только внутри этой функции и чтобы их вернуть в удобном виде наружу, чтобы как-то работать с полученными результатами, используем возвращение объекта.
+    let days, hours, minutes, seconds;
+    const time = Date.parse(endTime) - Date.parse(new Date());
+
+    if (time <= 0) {
+      // Тут мы можем вместо того, чтобы подставлять нули, например вывести какую-то вёрстку или убрать блок.
+      days = 0;
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+    } else {
+      days = Math.floor(time / (1000 * 60 * 60 * 24)), hours = Math.floor(time / (1000 * 60 * 60) % 24), minutes = Math.floor(time / (1000 * 60) % 60), seconds = Math.floor(time / 1000 % 60);
+    } // 2.4.1 Пока эти переменные существую только внутри этой функции и чтобы их вернуть в удобном виде наружу, чтобы как-то работать с полученными результатами, используем возвращение объекта.
     // 2.4.2 Первым у нас будет возвращаться свойство "total" со значением равным общему количеству оставшихся миллисекунд. Оно нам также понадобится, т.к. нам нужно точно знать, вдруг у нас таймер закончился. Ведь если он закончился, то здесь будет отрицательное значение, т.к. количество миллисекунда в текущей дате будет больше, чем установленной в дэдлайне.
+
 
     return {
       total: time,
