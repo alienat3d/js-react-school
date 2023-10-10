@@ -1,0 +1,14 @@
+{
+  "name": "js-react",
+  "version": "1.0.0",
+  "description": "<h3>Notes & playground code for 2022 JavaScript course by Ivan Petrechenko.</h3>",
+  "main": "interview-tasks.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.50.0"
+  }
+}
