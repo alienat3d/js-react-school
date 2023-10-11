@@ -60,8 +60,9 @@ async function sleep(millis) {
   await new Promise((resolve) => setTimeout(resolve, millis));
 }
 
-sleep(100);
-console.log(sleep());
+let t = Date.now();
+
+sleep(200).then(() => console.log(Date.now() - t));
 /**
  * let t = Date.now()
  * sleep(100).then(() => console.log(Date.now() - t)) // 100
