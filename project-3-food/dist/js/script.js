@@ -181,7 +181,7 @@ const modalFunc = () => {
   // 2.9.3 Сейчас, если пользователь доскроллил до конца страницы и увидел один раз модальное окно, сколько бы он не скроллил вверх и вниз, модалка уже не появится.
 
   const showModalByScroll = () => {
-    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+    if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
       openingModal();
       window.removeEventListener('scroll', showModalByScroll);
     }
