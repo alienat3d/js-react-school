@@ -30,5 +30,7 @@ console.log(JSON.stringify(person));
 console.log(JSON.parse(JSON.stringify(person)));
 // |===:===:===:===>
 /** links:
- *
+ * https://ru.wikipedia.org/wiki/JSON
+ * https://ru.wikipedia.org/wiki/HTTP
+ * https://medium.com/@stasonmars/%D0%BA%D0%BE%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2-%D0%B2-javascript-d25c261a7aff
  * */
