@@ -69,6 +69,7 @@ gulp.task('copy-assets', () => {
   gulp.src('./src/favicon.ico').pipe(gulp.dest(dist));
   gulp.src('./src/browserconfig.xml').pipe(gulp.dest(dist));
   gulp.src('./src/site.webmanifest').pipe(gulp.dest(dist));
+  gulp.src('./src/*.php').pipe(gulp.dest(dist));
 
   return gulp
     .src('./src/img/**/*.*')

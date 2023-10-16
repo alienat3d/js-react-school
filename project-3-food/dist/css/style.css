@@ -65,6 +65,15 @@ a {
   display: none;
 }
 
+.loading {
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  bottom: 2%;
+  width: 38px;
+  height: 38px;
+}
+
 .fade {
   animation-name: fade;
   animation-duration: 1s;
@@ -422,7 +431,6 @@ a {
 .menu .container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
 }
 .menu .title {
   text-align: center;
@@ -434,9 +442,11 @@ a {
   background: rgba(249, 254, 126, 0.25);
 }
 .menu__item {
+  display: flex;
+  flex-direction: column;
   width: 320px;
   min-height: 450px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
   font-size: 16px;
   font-weight: 300;
@@ -454,19 +464,16 @@ a {
 }
 .menu__item-descr {
   margin-top: 20px;
+  margin-bottom: 20px;
   padding: 0 20px;
 }
-.menu__item-divider {
-  width: 100%;
-  height: 1px;
-  background-color: rgba(0, 0, 0, 0.25);
-  margin-top: 40px;
-}
 .menu__item-price {
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
 }
 .menu__item-price span {
   font-size: 24px;
@@ -480,6 +487,7 @@ a {
   text-align: center;
 }
 .order__form {
+  position: relative;
   margin-top: 70px;
   padding: 0 100px;
   display: flex;
@@ -492,7 +500,7 @@ a {
 .order__input {
   width: 280px;
   height: 50px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   border: none;
   font-size: 18px;
@@ -602,7 +610,7 @@ a {
 .modal__content {
   position: relative;
   width: 100%;
-  padding: 40px;
+  padding: 40px 40px 45px 40px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
@@ -631,7 +639,7 @@ a {
   margin: 20px auto 20px auto;
   width: 280px;
   height: 50px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   border: none;
   font-size: 18px;
