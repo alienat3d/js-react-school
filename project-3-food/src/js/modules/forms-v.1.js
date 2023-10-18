@@ -1,3 +1,4 @@
+// ! ===> Это версия реализации коммуникации фронтенда с бэкендом при помощи устаревших XMLHttpRequest, для более современного fetch() см. forms.js // ==>>
 import { openingModal, closingModal } from './modal.js';
 
 const formsFunc = () => {
@@ -53,16 +54,19 @@ const formsFunc = () => {
       statusMessage.classList.add('loading');
       form.insertAdjacentElement('beforeend', statusMessage);
 
+      const request = new XMLHttpRequest();
+
+      request.open('POST', 'server.php');
       // * ====== *
       // ! Когда мы используем связку XMLHttpRequest & FormData, то заголовок устанавливать не нужно. Он установится автоматически. Иначе могут быть ошибки и мы не получим на сервер данные.
       // request.setRequestHeader('Content-type', 'multipart/form-data');
       // * ====== *
       // * 1.6.0 Но что, если мы хотим отправить данные в формате JSON?
       // 1.6.1 Здесь нам уже понадобятся заголовки.
-      /* request.setRequestHeader(
+      request.setRequestHeader(
         'Content-type',
         'application/json; charset=utf-8'
-      ); */
+      );
       // 1.6.2 Далее нам нужно объект FormData перевести в JSON.
       const formData = new FormData(form);
       // 1.6.3 Но просто так мы его не можем перевести в этот формат и нам нужно воспользоваться следующим распространённым приёмом: Создадим пустой объект.
@@ -71,38 +75,23 @@ const formsFunc = () => {
       formData.forEach(function (value, key) {
         object[key] = value;
       });
-      // 1.6.5 Теперь, когда у нас собрался обычный объект, то мы можем осуществить с ним конвертацию в JSON.
-      fetch('server.php', {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json; charset=utf-8' },
-        body: JSON.stringify(object),
-      })
-        .then((data) => data.text())
-        .then((data) => {
-          console.log(data);
-          form.reset();
-          showThanksModal(message.success);
-          statusMessage.remove();
-        })
-        .catch(() => {
-          form.reset();
-          showThanksModal(message.failure);
-        });
-      // todo Вообще-то .finally() должно было работать, но с ним почему-то не работает "gulp build"
-      /* .finally(() => {
-          form.reset();
-        }); */
+      // 1.6.5 Теперь, когда у нас собрался обычный объект, то мы можем осуществить с ним конвертацию в JSON. Для наглядности создадим промежуточную переменную json, хотя можно было бы её сразу в send(body) поместить.
+      const json = JSON.stringify(object);
+
+      // request.send(formData);
+      request.send(json);
       // ? Есть ещё один нюанс, связанный с бэкенд-разработкой. PHP нативно не умеет с форматом данных JSON и чаще всего такие данные будут отправляться на сервера с использованием NodeJS. Но тем не менее есть возможность поработать и в PHP-окружении с таким типом данных. (см. далее в server.php файле)
 
-      /* request.addEventListener('load', () => {
+      request.addEventListener('load', () => {
         if (request.status === 200) {
           showThanksModal(message.success);
           form.reset(); // не забудем очистить форму, после отсылки данных на сервер
+          // ? Альтернативно мы могли бы взять все input'ы в этой форме перебрать их и очистить их value, чтобы они были пустые. Работать будет одинаково.
           statusMessage.remove();
         } else {
           showThanksModal(message.failure);
         }
-      }); */
+      });
     });
   };
 
