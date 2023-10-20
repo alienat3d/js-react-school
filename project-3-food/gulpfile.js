@@ -70,6 +70,7 @@ gulp.task('copy-assets', () => {
   gulp.src('./src/browserconfig.xml').pipe(gulp.dest(dist));
   gulp.src('./src/site.webmanifest').pipe(gulp.dest(dist));
   gulp.src('./src/*.php').pipe(gulp.dest(dist));
+  gulp.src('./src/db/*.*').pipe(gulp.dest(dist + '/db'));
 
   return gulp
     .src('./src/img/**/*.*')
@@ -104,6 +105,7 @@ gulp.task('prod', () => {
   gulp.src('./src/favicon.ico').pipe(gulp.dest(dist));
   gulp.src('./src/browserconfig.xml').pipe(gulp.dest(dist));
   gulp.src('./src/site.webmanifest').pipe(gulp.dest(dist));
+  gulp.src('./src/db/*.*').pipe(gulp.dest(dist + '/db'));
 
   gulp
     .src('./src/js/main.js')
