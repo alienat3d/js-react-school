@@ -419,3 +419,59 @@ function showThanksModal(message) {
     originalModalDialog.classList.remove('hide');
   }, 5000);
 }
+
+// * === Делаем slider своими руками === * \\
+/* 9.0.0 Как всегда, сперва мы разобьём нашу задачу на логические этапы:
+  1) Получить все элементы, которые нам нужны для работы функционала;
+  2) Далее нам требуется какой-то index, который будет определять текущий слайд (его мы будем использовать и изменять при клике на стрелки);
+  3) Функция, которая будет заниматься показом слайдов (в ней будет сразу две функции: показ текущего слайда и скрытие других). Т.е. она примет какой-то индекс и покажет слайд с этим индексом, а остальные скроет. Внутри себя эта функция должна также проверять условием, не является ли слайд крайним сначала или конца, чтобы переместить нас в начало или в конец соответственно;
+  4) Также должна быть и нумерация, которую нужно тоже предусмотреть. Когда страница создаётся нам нужно определять сколько у нас слайдов находится в вёрстке, после того, как мы определили количество, помещаем их сверху после /;
+  5) Далее мы отображаем первый слайд и также указываем его индекс перед /. */
+const sliderImages = document.querySelectorAll('.offer__slide'),
+  prevSlideBtn = document.querySelector('.offer__slider-prev'),
+  nextSlideBtn = document.querySelector('.offer__slider-next'),
+  currentSlideCounter = document.querySelector('#current'),
+  totalSlidesCounter = document.querySelector('#total');
+// 9.1.0 Создадим некий индекс, чтобы различать наши слайды и по умолчанию присвоим ему 1.
+let slideIndex = 1;
+// 9.2.0 Напишем функцию по показу и скрытию наших слайдов. Она будет принимать аргумент n, это и будет slideIndex, который будет показывать на каком слайде мы находимся.
+// 9.2.1 Теперь предусмотрим условием, что будет происходить, когда мы достигаем крайних слайдов вначале и в конце. Если индекс у нас больше, чем всего слайдов в слайдере, то мы должны переместиться на первый слайд, т.е. указать ему опять 1.
+// 9.3.0 Также сделаем похожую операцию, только в обратную сторону.
+// 9.4.0 Удалим класс "hide", который покажет нам нужный слайд (в вёрстке по умолчанию у всех слайдов "hide").
+const showSlide = (n) => {
+  if (n > sliderImages.length) {
+    slideIndex = 1;
+  }
+
+  if (n < 1) {
+    slideIndex = sliderImages.length;
+  }
+
+  sliderImages.forEach((element) => {
+    element.classList.add('hide');
+  });
+  // Т.к. у нас индексы в массиве начинаются с 0, а не с 1, то отнимем 1.
+  sliderImages[slideIndex - 1].classList.remove('hide');
+
+  if (sliderImages.length < 10) {
+    currentSlideCounter.textContent = `0${slideIndex}`;
+  } else {
+    currentSlideCounter.textContent = slideIndex;
+  }
+};
+// 9.4.1 Инициализируем функцию, подставив в неё изначальное значение.
+showSlide(slideIndex);
+// 9.5.0 Сюда, если придёт 1, то мы увеличим индекс на 1, а если придёт -1, то уменьшим индекс на 1.
+const changeSlide = (n) => {
+  showSlide((slideIndex += n));
+};
+
+prevSlideBtn.addEventListener('click', () => changeSlide(-1));
+
+nextSlideBtn.addEventListener('click', () => changeSlide(1));
+
+if (sliderImages.length < 10) {
+  totalSlidesCounter.textContent = `0${sliderImages.length}`;
+} else {
+  totalSlidesCounter.textContent = sliderImages.length;
+}
