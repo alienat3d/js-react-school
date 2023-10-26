@@ -324,68 +324,25 @@ function showThanksModal(message) {
 }
 
 // * === Делаем slider-карусель своими руками === * \\
-
-const slider = document.querySelector('.offer__slider'),
-  slidesWrapper = slider.querySelector('.offer__slider-wrapper'),
+// * 10.0.0 Теперь мы сделаем более продвинутый слайдер-карусель.
+// 10.1.0 Для начала нам нужна в HTML дополнительная обёртка (.offer__slider-inner), делается это для того, чтобы эта обёртка была как бы "окошком", через которое мы видим текущий слайд. Слово "окошко" было выбрано не просто так, дело в том, что у нас также есть родительская обёртка (.offer__slider-wrapper) и ей мы назначим CSS-свойство "overflow: hidden;" — значит всё, что не подходит под размеры этой обёртки будет скрываться. Ну а следующий блок (.offer__slider-wrapper), который обернёт все слайды будет в виде карусели и займёт столько места, сколько у нас слайдов в ширину, если поставить их рядом друг с другом. Например, если у нас 4 слайда, то он будет занимать 400% от ширины одного слайда.
+// 10.1.1 И когда мы будем нажимать кнопки предыдущего и следующего слайда, то слайды будут просто сдвигаться влево или вправо. Происходить это будет при помощи свойства "translate".
+// 10.2 Нам понадобятся переменные для главной обёртки и внутренней slidesWrapper & slidesField.
+// * 10.3 а также width — которая будет хранить ширину окошка, видимой области слайдера. Её мы получим через метод глобального объекта window getComputedStyle(). Внутрь этого метода поместим тот блок, чью ширину мы хотим получить, т.е. slidesWrapper. Ну и чтобы получить из объекта со всеми CSS-стилями элемента именно ширину укажем ".width".
+const slidesWrapper = document.querySelector('.offer__slider-wrapper'),
   slidesField = slidesWrapper.querySelector('.offer__slider-inner'),
   sliderImages = slidesWrapper.querySelectorAll('.offer__slide'),
-  prevSlideBtn = slider.querySelector('.offer__slider-prev'),
-  nextSlideBtn = slider.querySelector('.offer__slider-next'),
-  currentSlideCounter = slider.querySelector('#current'),
-  totalSlidesCounter = slider.querySelector('#total'),
+  prevSlideBtn = document.querySelector('.offer__slider-prev'),
+  nextSlideBtn = document.querySelector('.offer__slider-next'),
+  currentSlideCounter = document.querySelector('#current'),
+  totalSlidesCounter = document.querySelector('#total'),
   width = window.getComputedStyle(slidesWrapper).width;
 
 let slideIndex = 1,
   offset = 0;
-
-// 11.2 Создадим также обёртку для всех наших "dots", чтобы потом её стилизовать. Также добавим её в слайдер методом append().
-const indicators = document.createElement('ol'),
-  dots = [];
-
-indicators.classList.add('carousel-indicators');
-
-slider.append(indicators);
-
-const settingActiveDot = () => {
-  dots.forEach(dot => dot.style.opacity = '0.5');
-  dots[slideIndex - 1].style.opacity = 1;
-};
-
-const addingZero = (element, number) => {
-  if (sliderImages.length < 10) {
-    element.textContent = `0${number}`;
-  } else {
-    element.textContent = number;
-  }
-};
-
-// * 11.3.0 Теперь, основываясь на количестве слайдов нужно создать количество "dots" для слайдера. Воспользуемся здесь для разнообразия самым обычным циклом, который давно уже не использовали. 
-// 11.3.1 Мы зададим, что наш цикл закончится тогда, когда закончатся слайды (index < slides.length).
-// 11.3.2 А ещё нам нужно установить какой-то атрибут методом setAttribute(), чтобы связать точки со слайдами. Другими словами мы каждой точке установим уникальный дата-атрибут с нумерацией, начиная с 1.
-// 11.3.3 Добавляем каждую точку с append() в общий блок с "dots".
-
-// * 11.4.0 Также нужно как-то выделить тот «dot», слайд которого сейчас мы видим. Для этого можно было бы прописать отдельный класс в CSS, но для тренировки пропишем его через JS.
-// 11.4.1 Мы можем написать проверку, исходя из которой определить какая из точек должна быть сейчас активна и тогда назначить ей класс активности.
-// 11.4.2 Т.к. изначально класс активности у нас равен 1, то и ориентироваться мы можем на него. Теперь у нас первый dot будет ярче остальных.
-// 11.4.3 Но нам нужно, чтобы они также подсвечивались динамично, в зависимости от слайда, что мы видим. Для этого нужно все dots поместить в какую-то структуру. Для этого создадим вспомогательный пустой массив dots.
-for (let index = 0; index < sliderImages.length; index++) {
-  const dot = document.createElement('li');
-
-  dot.classList.add('dot');
-  dot.setAttribute('data-slide-to', index + 1);
-
-  if (index === 0) {
-    dot.style.opacity = 1;
-  }
-
-  indicators.append(dot);
-  // 11.4.3 И когда мы уже добавили точки на страницу, то мы будем помещать её и в массив dots. Таким образом у нас будем ещё и массив с этими dots, с которым можно работать. Работать это будет похожим образом, как и в самом простом варианте слайдера. (см. ниже)
-  dots.push(dot);
-}
-
-addingZero(totalSlidesCounter, sliderImages.length);
-addingZero(currentSlideCounter, slideIndex);
-
+// 10.10.0 Ровно, как и в предыдущем слайдере (см. script-with-notes-(v.2).js) нам нужно сделать проверку, что если слайдов у нас меньше 10, то нам нужно подставлять 0 перед значением, а если 10 или более просто записывать их количество соответственно.
+// 10.10.1 Однако нам также нужно учесть и обозначение текущего номера слайда.
+// 10.10.2 Также и при клике на кнопках, листающих слайдер, нужно учесть изменение значения slideIndex. (см. ниже)
 if (sliderImages.length < 10) {
   totalSlidesCounter.textContent = `0${sliderImages.length}`;
   currentSlideCounter.textContent = `0${slideIndex}`;
@@ -394,11 +351,20 @@ if (sliderImages.length < 10) {
   currentSlideCounter.textContent = slideIndex;
 }
 
+// 10.4 Установим ширину внутренней обёртке равно 100% * кол-во всех слайдов. Не забудем конкатенировать и знак "%", т.к. мы устанавливаем CSS свойство, где это будет необходимо.
 slidesField.style.width = 100 * sliderImages.length + '%';
 
+// 10.5 Слайды, которые будут помещаться внутрь могут быть разной ширины, если она где-то не зафиксирована. Поэтому продумаем и это и каждому из слайдов установим фиксированную ширину, как у нашего окошка.
 sliderImages.forEach((slide) => (slide.style.width = width));
 
-// 11.4.4 Теперь в обработчиках событий мы также работаем и с dots. Мы возьмём массив dots, переберём его при помощи forEach() и укажем, что каждой точки мы изначально установим прозрачность на значение "0.5". А вот dot с текущим индексом получит opacity = 1; .
+// todo 10.6 Следующим шагом будет добавить стиль (_offer.scss) "display: flex;" нашей обёртке slidesField, чтобы все слайды выстроились в одну строчку. А также добавим свойство "transition" для плавного передвижения слайдов.
+
+// 10.7 Теперь, чтобы сдвигать наши слайды, используем свойство translate. Чтобы корректно сдвигать слайды нам нужен какой-то ориентир, например отступ, чтобы знать, насколько мы уже сдвинули вправо или влево. Для этого создадим новую переменную offset.
+// 10.8.0 Назначаем обработчики события для передвижения слайдов. Тут понадобится чуточку математики. Прежде всего, когда пользователь кликнет на кнопку "стрелка вправо", то слайд должен сдвинуться влево. Чтобы сдвинуть элемент влево, то используем отрицательное значение translate по горизонтальной оси X.
+// 10.8.1 Однако нам также пригодится механизм изменения offset и его проверки. Поэтому, когда мы двигаем слайдер влево, то нам нужно предусмотреть его поведение, когда он достигнет самого крайнего правого своего края. В этом случае нам нужно возвращать слайде в начальное положение. Т.е. translateX возвращаем в 0.
+// 10.8.2 Но только в переменной у нас лежит какое-то значение в строковом виде данных (например "500px"), а нам нужно числовое для расчётов и обрезать "px". И здесь есть как минимум два варианта решения этой задачи: 1) поработать с ней, как со строкой и обрезать ненужные нам "px"; 2) использовать регулярные выражения, и он был бы лаконичнее, но т.к. эту темы мы пока на текущий момент не прошли, то воспользуемся первым способом.
+// 10.8.3 Поставим унарный +, чтобы превратить в числовой тип данных и применим метод строк slice(), который обрезает определённую часть строки и мы укажем в нём, что нам нужна строка с 0 и два последних символа не должны включаться. Теперь у нас останется только число, которое уже нормально рассчитается по формуле.
+// 10.8.4 Если же это не последний слайд, то добавляем смещение во второй части условия после else. Проще говоря, когда мы кликнем стрелку вправо, то к offset будет прибавляться ещё одна ширина 1 слайда и таким образом он будет смещаться влево.
 nextSlideBtn.addEventListener('click', () => {
   if (
     offset ===
@@ -410,36 +376,20 @@ nextSlideBtn.addEventListener('click', () => {
   }
 
   slidesField.style.transform = `translateX(-${offset}px)`;
-
+  // 10.10.3 Итак, создадим условие, что если slideIndex сравнялся с количеством всех слайдов (т.е. находится на последнем из них), то присвоим ему 1. Ну а если ещё не сравнялся, то прибавим единицу.
   if (slideIndex === sliderImages.length) {
     slideIndex = 1;
   } else {
     slideIndex++;
   }
-
-  addingZero(currentSlideCounter, slideIndex);
-  settingActiveDot();
-  // * 11.5.0 Осталось добавить функционал клика по dots для перехода на нужный слайд. Здесь нужно учесть сразу несколько факторов: 1) нам нужно менять переменную offset, 2) контролировать индикатор текущего слайды сверху, 3) устанавливать нужный slideIndex.
-  // 11.5.1 Сперва переберём массив dots и каждой повесим обработчик события. Будем использовать объект события, ведь, как мы помним, у каждой из точек есть атрибут "data-slide-to", который нам надо получить и на него мы будем потом ориентироваться.
-  // 11.5.2 В slideIndex запишем значение атрибута slideTo.
-  // 11.5.3 Также в offset мы рассчитываем ширину, взяв прежнюю логику, но заменим sliderImages.length на slideTo.
-  // 11.5.4 Также не забудем сделать и смещение слайдера при помощи transform translateX, что мы уже писали ранее.
-  // 11.5.5 Не забудем также про индикатор текущего слайда и про dots.
-  dots.forEach(dot => {
-    dot.addEventListener('click', (evt) => {
-      const slideTo = evt.target.getAttribute('data-slide-to');
-
-      slideIndex = slideTo;
-
-      offset = +width.slice(0, width.length - 2) * (slideTo - 1);
-      slidesField.style.transform = `translateX(-${offset}px)`;
-
-      addingZero(currentSlideCounter, slideIndex);
-      settingActiveDot();
-    });
-  });
+  // 10.10.4 Теперь запишем значение slideIndex в наш блок отображения текущего слайда.
+  if (sliderImages.length < 10) {
+    currentSlideCounter.textContent = `0${slideIndex}`;
+  } else {
+    currentSlideCounter.textContent = slideIndex;
+  }
 });
-// 11.4.5 Повторим тоже самое и для кнопки слайдера "стрелка влево".
+
 prevSlideBtn.addEventListener('click', () => {
   if (offset === 0) {
     offset = +width.slice(0, width.length - 2) * (sliderImages.length - 1);
@@ -448,24 +398,50 @@ prevSlideBtn.addEventListener('click', () => {
   }
 
   slidesField.style.transform = `translateX(-${offset}px)`;
-
+  // 10.9 Тоже самое сделаем и для кнопки слайдера "стрелка влево", только с обратной логикой.
   if (slideIndex === 1) {
     slideIndex = sliderImages.length;
   } else {
     slideIndex--;
   }
 
-  addingZero(currentSlideCounter, slideIndex);
-  settingActiveDot();
+  if (sliderImages.length < 10) {
+    currentSlideCounter.textContent = `0${slideIndex}`;
+  } else {
+    currentSlideCounter.textContent = slideIndex;
+  }
 });
 
-// * 11.0 Добавим ещё одну такую популярную модификацию слайдеру «dots» (или «точки»). Точки мы будем добавлять скриптом без модификации HTML и будут расположены снизу нашего слайдера
-/* 11.1 Если создать алгоритм создания "dots" на странице, то у нас будут следующие пункты:
-  1) Нужно получить как элемент весь слайдер, а не только wrapper, потому что в него включаются индикаторы и другие какие-то элементы;
-  2) Установить ему "position: relative;", т.к. "dots" будут в зависимости от него спозиционированны под этим слайдером.
-  3) Далее создадим обёртку для "dots";
-  4) При помощи цикла или метода перебора создадим количество точек, которое будет равно количеству наших слайдов;
-  5) Каждой точке установим какой-то атрибут, чтобы "привязать" конкретные точки к определённым слайдам;
-  6) Добавим одной из точек класс "active", чтобы понимать какой именно слайд сейчас активен;
-  7) По клику по каждой из точек она будет перемещать нас на привязанный к ней слайд.
-*/
+/* const showSlide = (n) => {
+  if (n > sliderImages.length) {
+    slideIndex = 1;
+  }
+
+  if (n < 1) {
+    slideIndex = sliderImages.length;
+  }
+
+  sliderImages.forEach((element) => element.classList.add('hide'));
+
+  sliderImages[slideIndex - 1].classList.remove('hide');
+
+  if (sliderImages.length < 10) {
+    currentSlideCounter.textContent = `0${slideIndex}`;
+  } else {
+    currentSlideCounter.textContent = slideIndex;
+  }
+};
+
+showSlide(slideIndex);
+
+const changeSlide = n => showSlide((slideIndex += n));
+
+prevSlideBtn.addEventListener('click', () => changeSlide(-1));
+
+nextSlideBtn.addEventListener('click', () => changeSlide(1));
+
+if (sliderImages.length < 10) {
+  totalSlidesCounter.textContent = `0${sliderImages.length}`;
+} else {
+  totalSlidesCounter.textContent = sliderImages.length;
+} */
