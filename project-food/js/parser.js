@@ -1,24 +1,16 @@
 'use strict';
-
-// * === Пишем parser — скрипт для считывания данных с сайта, который можно потом использовать на любом сайте. === *
-// ? Часто пишут следующую конструкцию для парсера сайта, чтобы удостовериться, что все элементы загрузились как следует:
-// window.addEventListener('DOMContentLoaded', () => {});
-// ? Но так как у нас у главного подключаемого к HTML JS-файла стоит атрибут defer, то можно этим пренебречь.
-// * 1.0.0 Итак, сперва получим главный тег body со всем содержимым на странице.
-// const parserFunc = () => {
 const body = document.querySelector('body');
-// 1.1.0 Теперь мы хотим увидеть только те дочерние теги, что входят в body. Через childNodes мы обратимся ко всем его потомкам.
-// 1.1.1 Но нам бы хотелось показать не только прямых потомков body, но вообще всё древо потомков (элементов DOM-дерева). Здесь нам пригодится приём рекурсии. Мы переберём все узлы до тех пор, пока не наткнёмся на какой-то текстовый (конечный) узел (если такой будет).
-// ? Напоминание: «Рекурсия» — это когда функция запускает саму себя.
-// 1.2.0 Теперь мы body передадим в качестве аргумента функции recursion(), в консоль получим все ноды верхнего уровня (прямых потомков body), а дальше проверяем, что если элемент, который приходит в аргумент elem имеет более, чем 1 потомка, то мы запустим эту функцию заново и уже с тем потомком, который придёт в forEach переборе "node".
-// 1.3.0 Получим только теги, без текстовых нод.
-function recursion(elem) {
-  elem.childNodes.forEach(node => {
-    // if (elem.childNodes.length > 1) {
-    if (node.nodeName === '#text') {
-      return;
+let textNodes = [];
+
+function recursion(element) {
+  element.childNodes.forEach(node => {
+    if (node.nodeName.match(/^H\d/)) {
+      const object = {
+        header: node.nodeName,
+        content: node.textContent.trim()
+      };
+      textNodes.push(object);
     } else {
-      console.log(node);
       recursion(node);
     }
   });
@@ -26,13 +18,12 @@ function recursion(elem) {
 
 recursion(body);
 
-// * 2.0.0 Теперь, когда мы парсим всю страницу нашим скриптом, то мы можем выполнять разные манипуляции с этими данными. Например представим задачу, что надо получить все теги заголовков, которые есть на странице, их содержимое и отправить эту информацию себе на сервер.
-// ? Чтобы быстро получить нужный элемент в консоль, мы можем в DevTools сперва нажать Ctrl+Shift+C, выделить элемент и набрать в консоли "console.dir($0);", таким образом мы увидим все свойства нужного нам элемента.
-// 2.1.0 Там мы находим подходящее нам свойство "nodeName"
-
-
-// };
-
-// export default parserFunc;
-
-// Link to video: https://www.youtube.com/watch?v=wPG7RgPzxmM
+fetch('https://jsonplaceholder.typicode.com/posts', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json; charset=utf-8'
+  },
+  body: JSON.stringify(textNodes)
+})
+  .then(response => response.json())
+  .then(json => console.log(json));
