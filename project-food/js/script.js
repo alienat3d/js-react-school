@@ -148,7 +148,7 @@ class MenuCard {
 // FIXME: Вернуть, если не хотим использовать axios.
 const getData = async (url) => {
   const result = await fetch(url);
-  
+
   if (!result.ok) {
     throw new Error(`Could not fetch ${url}, status: ${result.status}`);
   }
@@ -360,6 +360,8 @@ const addingZero = (element, number) => {
   }
 };
 
+const getDigitsOnly = (str) => +str.replace(/\D/g, '');
+
 // * 11.3.0 Теперь, основываясь на количестве слайдов нужно создать количество "dots" для слайдера. Воспользуемся здесь для разнообразия самым обычным циклом, который давно уже не использовали. 
 // 11.3.1 Мы зададим, что наш цикл закончится тогда, когда закончатся слайды (index < slides.length).
 // 11.3.2 А ещё нам нужно установить какой-то атрибут методом setAttribute(), чтобы связать точки со слайдами. Другими словами мы каждой точке установим уникальный дата-атрибут с нумерацией, начиная с 1.
@@ -400,14 +402,17 @@ slidesField.style.width = 100 * sliderImages.length + '%';
 sliderImages.forEach((slide) => (slide.style.width = width));
 
 // 11.4.4 Теперь в обработчиках событий мы также работаем и с dots. Мы возьмём массив dots, переберём его при помощи forEach() и укажем, что каждой точки мы изначально установим прозрачность на значение "0.5". А вот dot с текущим индексом получит opacity = 1; .
+// * 12.0 Немного модифицируем код, заменив метод slice на регулярное выражение. Такой способ более выгоден не только потому, что replace() в принципе более интуитивно понятен, чем slice(), но и мы себя обезопасили на случай, если к нам придёт какое-то значение не с 2-мя, а с 3-мя символами, например. Регулярка отсечёт всё, что не является цифрами и мы уже не привязаны здесь к количеству символов после значения.
 nextSlideBtn.addEventListener('click', () => {
   if (
     offset ===
-    +width.slice(0, width.length - 2) * (sliderImages.length - 1)
+    // +width.slice(0, width.length - 2) * (sliderImages.length - 1)
+    getDigitsOnly(width) * (sliderImages.length - 1)
   ) {
     offset = 0;
   } else {
-    offset += +width.slice(0, width.length - 2);
+    // offset += +width.slice(0, width.length - 2);
+    offset += getDigitsOnly(width);
   }
 
   slidesField.style.transform = `translateX(-${offset}px)`;
@@ -432,7 +437,8 @@ nextSlideBtn.addEventListener('click', () => {
 
       slideIndex = slideTo;
 
-      offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+      // offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+      offset = getDigitsOnly(width) * (slideTo - 1);
       slidesField.style.transform = `translateX(-${offset}px)`;
 
       addingZero(currentSlideCounter, slideIndex);
@@ -443,9 +449,11 @@ nextSlideBtn.addEventListener('click', () => {
 // 11.4.5 Повторим тоже самое и для кнопки слайдера "стрелка влево".
 prevSlideBtn.addEventListener('click', () => {
   if (offset === 0) {
-    offset = +width.slice(0, width.length - 2) * (sliderImages.length - 1);
+    // offset = +width.slice(0, width.length - 2) * (sliderImages.length - 1);
+    offset = getDigitsOnly(width) * (sliderImages.length - 1);
   } else {
-    offset -= +width.slice(0, width.length - 2);
+    // offset -= +width.slice(0, width.length - 2);
+    offset -= getDigitsOnly(width);
   }
 
   slidesField.style.transform = `translateX(-${offset}px)`;
@@ -470,3 +478,79 @@ prevSlideBtn.addEventListener('click', () => {
   6) Добавим одной из точек класс "active", чтобы понимать какой именно слайд сейчас активен;
   7) По клику по каждой из точек она будет перемещать нас на привязанный к ней слайд.
 */
+// * >===== Калькулятор калорий =====< * \\
+// ? Данные и формулы расчётов были взяты со страницы: https://fitseven.ru/zdorovie/metabolism/sutochnaya-norma-kaloriy
+// * 13.0 Сперва создадим переменную, куда будем записывать все результаты вычислений result.
+const result = document.querySelector('.calculating__result > span');
+let gender, height, weight, age, ratio;
+
+// 13.1.0 Функция, которая будет подсчитывать конечный результат.
+// 13.1.1 Здесь нужно удостовериться, что были введены все данные, ведь если какого-то значения не будет, то никакие расчёты у нас уже вестись не будут. Этот момент в калькуляторах всегда надо предусматривать. Пропишем условие, что, если хотя бы одна из переменных будет в значении false, то и функция не будет выполняться. Отправляем в результат точки и прерываем функцию ключевым словом "return".
+// 13.2.1 Также учитываем, что наша формула отличается для мужчин и для женщин, поэтому нужно ориентироваться на то, какой пол выбрал пользователь и в зависимости от этого рассчитываем по одной или другой формуле.
+const calcTotal = () => {
+  if (!gender || !height || !weight || !age || !ratio) {
+    result.textContent = '... ';
+    return;
+  }
+
+  if (gender === 'female') {
+    result.textContent = (447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio;
+  } else {
+    result.textContent = (88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio;
+  }
+};
+// 13.3.0 Создадим отдельную функцию для кликов по кнопкам выбора пола и активности, которая будет получать статическую информацию с этих кнопок. Нам также понадобятся атрибуты "parentSelector" для выбора блока, к которому будет применяться данная функция. И атрибут "activeClass" для назначения класса активности.
+// 13.3.1 Получим элементы блока в elements.
+// 13.3.2 Теперь нам необходимо отслеживать клики по родительскому элементу, который содержит все div'ы. Делегирование событий здесь будет как раз кстати. Повесим обработчик события на родительский блок и не забудем указать объект события.
+// 13.3.3 Подходим к такому интересному моменту, что у нас два разных блока, с которыми будет работать данная функция (gender & ratio [пол и активность]). Они отличаются тем, из чего мы получаем информацию. Если это блок "активность", то мы обращаемся к data-атрибуту "data-ratio", а если это блок "пол", то мы обращаемся к значению id каждой из опций. Можно написать простое условие, что если у блока, на который мы кликнули, есть определённый атрибут (например data-ratio), то будет изменяться переменная ratio. А если такого атрибута нет, то берём значение id.
+// 13.3.4 Итак, если пользователь кликнул по блоку, в котором есть атрибут "data-ratio", то значение этого атрибута будет записано в переменную ratio.
+// 13.3.5 Ну и соответственно не найдя такого атрибута, JS будет забирать значение из id, т.к. очевидно, что пользователь кликнул по блоку выбора пола.
+// 13.3.6 Также нам нужно учесть, что после клика пользователем на одну из опций, она должна окрашиваться зелёным цветом, т.е. присваиваться класс активности. Для этого используем следующую схему: сперва уберём класс активности у всех элементов, а затем добавляем только тому, по которому пользователь только что кликнул.
+const getStaticInfo = (parentSelector, activeClass) => {
+  const elements = document.querySelectorAll(`${parentSelector} div`);
+
+  document.querySelector(parentSelector).addEventListener('click', (evt) => {
+    if (evt.target.getAttribute('data-ratio')) {
+      ratio = +evt.target.getAttribute('data-ratio');
+    } else {
+      gender = evt.target.getAttribute('id');
+    }
+
+    console.log(ratio, gender);
+
+    elements.forEach(element => {
+      element.classList.remove(activeClass);
+    });
+
+    evt.target.classList.add(activeClass);
+  });
+};
+
+// 13.4.0 Теперь наша задача создать функцию, которая будет обрабатывать каждый отдельный input, куда пользователь должен будет ввести какие-то данные для расчёта калорий.
+// 13.4.1 Эта функция уже будет принимать лишь 1 аргумент — тот селектор инпута, с которым и будет работать.
+// 13.4.2 Также нам нужно проверять с какой именно переменной будет работать данный инпут, т.е. в данный момент пользователь вводит свой рост, вес или возраст. Здесь уместно будет использовать конструкцию switch-case. При помощи неё можно проверить соответствие строки. У каждого из инпутов также есть свой уникальный id, поэтому, когда что-то вводится в один из инпутов, мы можем проверить его id, и есть он будет в значении "height", то мы запишем введённые пользователем данные в переменную height. Если в значении "weight" — в переменную "weight" и т.д. Таким образом, мы получим разветвлённое на 3 условие.
+// 13.4.3 В switch запишем то, что мы проверяем — атрибут id инпутов. А внутри уже проверим на строку. Сперва у нас идёт "height" и если это действительно инпут с данными о росте, то берём эту переменную и записываем значение, которое ввёл пользователь. После чего останавливаем функцию оператором "break". Ну, а если это был не "height", то скрипт игнорирует и переходит к следующему case.
+const getDynamicInfo = (selector) => {
+  const input = document.querySelector(selector);
+
+  input.addEventListener('input', () => {
+    switch (input.getAttribute('id')) {
+      case 'height':
+        height = +input.value;
+        break;
+      case 'weight':
+        weight = +input.value;
+        break;
+      case 'age':
+        age = +input.value;
+        break;
+    }
+  });
+};
+
+calcTotal();
+getStaticInfo('#gender', 'calculating__choose-item_active');
+getStaticInfo('.calculating__choose_big', 'calculating__choose-item_active');
+getDynamicInfo('#height');
+getDynamicInfo('#weight');
+getDynamicInfo('#age');
