@@ -146,7 +146,7 @@ class MenuCard {
 // * == getData == * \\
 
 // FIXME: Вернуть, если не хотим использовать axios.
-/* const getData = async (url) => {
+const getData = async (url) => {
   const result = await fetch(url);
   
   if (!result.ok) {
@@ -154,14 +154,14 @@ class MenuCard {
   }
 
   return await result.json();
-}; */
+};
 
 // FIXME: Можно вернуть, если не хотим использовать axios.
-/* getData('http://localhost:3000/menu').then((data) =>
+getData('http://localhost:3000/menu').then((data) =>
   data.forEach(({ img, altimg, title, descr, price }) =>
     new MenuCard(img, altimg, title, descr, price, '.menu .container').render()
   )
-); */
+);
 
 // * *==* *** *==* * //
 // ? Доп. вариант динамического создания карточек с меню.
@@ -188,12 +188,13 @@ data.forEach(({ img, altimg, title, descr, price }) => {
   document.querySelector('.menu .container').append(element);
 }); */
 // * *==* *** *==* * //
+// FIXME: Comment if don't need to use axios lib.
 // eslint-disable-next-line no-undef
-axios.get('http://localhost:3000/menu').then((response) => {
+/* axios.get('http://localhost:3000/menu').then((response) => {
   response.data.forEach(({ img, altimg, title, descr, price }) =>
     new MenuCard(img, altimg, title, descr, price, '.menu .container').render()
   );
-});
+}); */
 
 // * == Modal == * \\
 
