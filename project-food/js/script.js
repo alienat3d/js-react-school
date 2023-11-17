@@ -482,23 +482,29 @@ prevSlideBtn.addEventListener('click', () => {
 // ? Данные и формулы расчётов были взяты со страницы: https://fitseven.ru/zdorovie/metabolism/sutochnaya-norma-kaloriy
 // * 13.0 Сперва создадим переменную, куда будем записывать все результаты вычислений result.
 const result = document.querySelector('.calculating__result > span');
-let gender, height, weight, age, ratio;
+let gender = 'female', 
+  height, 
+  weight, 
+  age, 
+  ratio = '1.375';
 
 // 13.1.0 Функция, которая будет подсчитывать конечный результат.
 // 13.1.1 Здесь нужно удостовериться, что были введены все данные, ведь если какого-то значения не будет, то никакие расчёты у нас уже вестись не будут. Этот момент в калькуляторах всегда надо предусматривать. Пропишем условие, что, если хотя бы одна из переменных будет в значении false, то и функция не будет выполняться. Отправляем в результат точки и прерываем функцию ключевым словом "return".
 // 13.2.1 Также учитываем, что наша формула отличается для мужчин и для женщин, поэтому нужно ориентироваться на то, какой пол выбрал пользователь и в зависимости от этого рассчитываем по одной или другой формуле.
 const calcTotal = () => {
   if (!gender || !height || !weight || !age || !ratio) {
-    result.textContent = '... ';
+    result.innerHTML = '<img class="calculating__no-data-img" src="./img/calc/no-data.gif" />';
+    // result.textContent = '... ';
     return;
   }
 
   if (gender === 'female') {
-    result.textContent = (447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio;
+    result.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio);
   } else {
-    result.textContent = (88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio;
+    result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
   }
 };
+
 // 13.3.0 Создадим отдельную функцию для кликов по кнопкам выбора пола и активности, которая будет получать статическую информацию с этих кнопок. Нам также понадобятся атрибуты "parentSelector" для выбора блока, к которому будет применяться данная функция. И атрибут "activeClass" для назначения класса активности.
 // 13.3.1 Получим элементы блока в elements.
 // 13.3.2 Теперь нам необходимо отслеживать клики по родительскому элементу, который содержит все div'ы. Делегирование событий здесь будет как раз кстати. Повесим обработчик события на родительский блок и не забудем указать объект события.
@@ -509,31 +515,42 @@ const calcTotal = () => {
 const getStaticInfo = (parentSelector, activeClass) => {
   const elements = document.querySelectorAll(`${parentSelector} div`);
 
-  document.querySelector(parentSelector).addEventListener('click', (evt) => {
-    if (evt.target.getAttribute('data-ratio')) {
-      ratio = +evt.target.getAttribute('data-ratio');
-    } else {
-      gender = evt.target.getAttribute('id');
-    }
+  elements.forEach(element => {
+    element.addEventListener('click', (evt) => {
+      if (evt.target.getAttribute('data-ratio')) {
+        ratio = +evt.target.getAttribute('data-ratio');
+      } else {
+        gender = evt.target.getAttribute('id');
+      }
 
-    console.log(ratio, gender);
+      elements.forEach(element => {
+        element.classList.remove(activeClass);
+      });
 
-    elements.forEach(element => {
-      element.classList.remove(activeClass);
+      evt.target.classList.add(activeClass);
+
+      calcTotal();
     });
-
-    evt.target.classList.add(activeClass);
   });
 };
+
 
 // 13.4.0 Теперь наша задача создать функцию, которая будет обрабатывать каждый отдельный input, куда пользователь должен будет ввести какие-то данные для расчёта калорий.
 // 13.4.1 Эта функция уже будет принимать лишь 1 аргумент — тот селектор инпута, с которым и будет работать.
 // 13.4.2 Также нам нужно проверять с какой именно переменной будет работать данный инпут, т.е. в данный момент пользователь вводит свой рост, вес или возраст. Здесь уместно будет использовать конструкцию switch-case. При помощи неё можно проверить соответствие строки. У каждого из инпутов также есть свой уникальный id, поэтому, когда что-то вводится в один из инпутов, мы можем проверить его id, и есть он будет в значении "height", то мы запишем введённые пользователем данные в переменную height. Если в значении "weight" — в переменную "weight" и т.д. Таким образом, мы получим разветвлённое на 3 условие.
 // 13.4.3 В switch запишем то, что мы проверяем — атрибут id инпутов. А внутри уже проверим на строку. Сперва у нас идёт "height" и если это действительно инпут с данными о росте, то берём эту переменную и записываем значение, которое ввёл пользователь. После чего останавливаем функцию оператором "break". Ну, а если это был не "height", то скрипт игнорирует и переходит к следующему case.
+// 13.5 Ещё у нас есть функция calcTotal(), которая должна вызываться всякий раз, когда происходят изменения на странице.
+// 13.6 Теперь займёмся валидацией. Нам нужно предусмотреть также случаи, когда пользователь ввёл в поле неправильное значение. Там нужно как-то ему об этом сообщить. Для примера сделаем красную обводку вокруг инпута. Здесь для проверки будет также удобно использовать регулярное выражение.
 const getDynamicInfo = (selector) => {
   const input = document.querySelector(selector);
 
   input.addEventListener('input', () => {
+    if (input.value.match(/\D/g || input.value === '')) {
+      input.classList.add('input-error');
+    } else {
+      input.classList.remove('input-error');
+    }
+
     switch (input.getAttribute('id')) {
       case 'height':
         height = +input.value;
@@ -545,12 +562,15 @@ const getDynamicInfo = (selector) => {
         age = +input.value;
         break;
     }
+
+    calcTotal();
   });
 };
 
-calcTotal();
 getStaticInfo('#gender', 'calculating__choose-item_active');
 getStaticInfo('.calculating__choose_big', 'calculating__choose-item_active');
 getDynamicInfo('#height');
 getDynamicInfo('#weight');
 getDynamicInfo('#age');
+
+// * 14.0.0 Поработаем с localStorage. Представим, что у нас есть задача — выбранные и введённые ранее пользователем данные должны сохраняться у него в Local Storage, чтобы ему не приходилось их вводить снова и снова при каждом заходе на сайт.

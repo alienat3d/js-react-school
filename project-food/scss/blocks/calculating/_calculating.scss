@@ -46,7 +46,7 @@
             text-align: center;
             font-size: 14px;
             cursor: pointer;
-            outline: none;
+            outline: transparent;
             transition: 0.3s all;
             &_active {
                 color: #fff;
@@ -81,10 +81,14 @@
         align-items: center;
     }
     &__result {
-        font-size: 18px;
+        font-size: 22px;
         font-weight: bold;
         span {
-            font-size: 42px;
+            font-size: 47px;
         }
+    }
+    &__no-data-img {
+      margin-bottom: -1px;
+      margin-right: 10px;
     }
 }

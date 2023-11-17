@@ -112,6 +112,11 @@ a {
   animation-duration: 1s;
 }
 
+.calculating__choose-item.input-error {
+  outline: #ffc8dd ridge 1px;
+  outline-offset: 1px;
+}
+
 @keyframes fade {
   from {
     opacity: 0.1;
@@ -423,7 +428,7 @@ a {
   text-align: center;
   font-size: 14px;
   cursor: pointer;
-  outline: none;
+  outline: transparent;
   transition: 0.3s all;
 }
 .calculating__choose-item_active {
@@ -457,11 +462,15 @@ a {
   align-items: center;
 }
 .calculating__result {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
 }
+.calculating__no-data-img {
+  margin-bottom: -1px;
+  margin-right: 10px;
+}
 .calculating__result span {
-  font-size: 42px;
+  font-size: 47px;
 }
 
 .menu {
