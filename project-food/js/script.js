@@ -481,7 +481,10 @@ prevSlideBtn.addEventListener('click', () => {
 // * >===== Калькулятор калорий =====< * \\
 // ? Данные и формулы расчётов были взяты со страницы: https://fitseven.ru/zdorovie/metabolism/sutochnaya-norma-kaloriy
 // * 13.0 Сперва создадим переменную, куда будем записывать все результаты вычислений result.
-const result = document.querySelector('.calculating__result > span');
+const result = document.querySelector('.calculating__result > span'),
+  inputHeight = document.querySelector('#height'),
+  inputWeight = document.querySelector('#weight'),
+  inputAge = document.querySelector('#age');
 
 let gender, height, weight, age, ratio;
 
@@ -491,12 +494,23 @@ if (localStorage.getItem('gender')) {
   gender = 'female';
   localStorage.setItem('gender', 'female');
 }
-
 if (localStorage.getItem('ratio')) {
   ratio = localStorage.getItem('ratio');
 } else {
   ratio = 1.375;
   localStorage.setItem('ratio', 1.375);
+}
+if (localStorage.getItem('height')) {
+  height = localStorage.getItem('height');
+  inputHeight.value = height;
+}
+if (localStorage.getItem('weight')) {
+  weight = localStorage.getItem('weight');
+  inputWeight.value = weight;
+}
+if (localStorage.getItem('age')) {
+  age = localStorage.getItem('age');
+  inputAge.value = age;
 }
 
 // 13.1.0 Функция, которая будет подсчитывать конечный результат.
@@ -567,12 +581,15 @@ const getDynamicInfo = (selector) => {
     switch (input.getAttribute('id')) {
       case 'height':
         height = +input.value;
+        localStorage.setItem('height', +input.value);
         break;
       case 'weight':
         weight = +input.value;
+        localStorage.setItem('weight', +input.value);
         break;
       case 'age':
         age = +input.value;
+        localStorage.setItem('age', +input.value);
         break;
     }
 
@@ -597,6 +614,8 @@ const initLocalSettings = (selector, activeClass) => {
       element.classList.add(activeClass);
     }
   });
+
+  calcTotal();
 };
 
 getStaticInfo('#gender div', 'calculating__choose-item_active');
@@ -611,3 +630,4 @@ initLocalSettings('.calculating__choose_big div', 'calculating__choose-item_acti
 // 14.1 Сделать это можно добавлением в функцию getStaticInfo(), которая работает с этими элементами localStorage.setItem('ratio', +evt.target.getAttribute('data-ratio')), тоже самое будем делать и для gender. [см. выше]
 // 14.2 Теперь, когда у нас записываются значения мы можем их использовать в самом начале для дефолтных значений. Для этого создаём условие if.
 // 14.3 ...(см. выше) =>
+// * 15 Также мы будем сохранять в Local Storage и значения из инпутов "рост", "вес" и "возраст". А также добавим в getDynamicInfo() и дефолтные условия кусочки кода, чтобы опрашивался Local Storage, и при нахождении в нём значений, они бы подставлялись в качестве дефолтных.
