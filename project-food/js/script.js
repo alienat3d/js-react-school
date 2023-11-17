@@ -230,7 +230,7 @@ document.addEventListener('keydown', (evt) => {
 });
 
 // FIXME: Сильно увеличил время, чтобы не мешало разработке.
-const modalTimerID = setTimeout(openingModal, 500000);
+const modalTimerID = setTimeout(openingModal, 50000);
 
 const showModalByScroll = () => {
   if (
@@ -482,11 +482,22 @@ prevSlideBtn.addEventListener('click', () => {
 // ? Данные и формулы расчётов были взяты со страницы: https://fitseven.ru/zdorovie/metabolism/sutochnaya-norma-kaloriy
 // * 13.0 Сперва создадим переменную, куда будем записывать все результаты вычислений result.
 const result = document.querySelector('.calculating__result > span');
-let gender = 'female', 
-  height, 
-  weight, 
-  age, 
-  ratio = '1.375';
+
+let gender, height, weight, age, ratio;
+
+if (localStorage.getItem('gender')) {
+  gender = localStorage.getItem('gender');
+} else {
+  gender = 'female';
+  localStorage.setItem('gender', 'female');
+}
+
+if (localStorage.getItem('ratio')) {
+  ratio = localStorage.getItem('ratio');
+} else {
+  ratio = 1.375;
+  localStorage.setItem('ratio', 1.375);
+}
 
 // 13.1.0 Функция, которая будет подсчитывать конечный результат.
 // 13.1.1 Здесь нужно удостовериться, что были введены все данные, ведь если какого-то значения не будет, то никакие расчёты у нас уже вестись не будут. Этот момент в калькуляторах всегда надо предусматривать. Пропишем условие, что, если хотя бы одна из переменных будет в значении false, то и функция не будет выполняться. Отправляем в результат точки и прерываем функцию ключевым словом "return".
@@ -512,15 +523,17 @@ const calcTotal = () => {
 // 13.3.4 Итак, если пользователь кликнул по блоку, в котором есть атрибут "data-ratio", то значение этого атрибута будет записано в переменную ratio.
 // 13.3.5 Ну и соответственно не найдя такого атрибута, JS будет забирать значение из id, т.к. очевидно, что пользователь кликнул по блоку выбора пола.
 // 13.3.6 Также нам нужно учесть, что после клика пользователем на одну из опций, она должна окрашиваться зелёным цветом, т.е. присваиваться класс активности. Для этого используем следующую схему: сперва уберём класс активности у всех элементов, а затем добавляем только тому, по которому пользователь только что кликнул.
-const getStaticInfo = (parentSelector, activeClass) => {
-  const elements = document.querySelectorAll(`${parentSelector} div`);
+const getStaticInfo = (selector, activeClass) => {
+  const elements = document.querySelectorAll(selector);
 
   elements.forEach(element => {
     element.addEventListener('click', (evt) => {
       if (evt.target.getAttribute('data-ratio')) {
         ratio = +evt.target.getAttribute('data-ratio');
+        localStorage.setItem('ratio', +evt.target.getAttribute('data-ratio'));
       } else {
         gender = evt.target.getAttribute('id');
+        localStorage.setItem('gender', evt.target.getAttribute('id'));
       }
 
       elements.forEach(element => {
@@ -567,10 +580,34 @@ const getDynamicInfo = (selector) => {
   });
 };
 
-getStaticInfo('#gender', 'calculating__choose-item_active');
-getStaticInfo('.calculating__choose_big', 'calculating__choose-item_active');
+// * [14.3.0]=> (начало ниже) Нам также нужно расставлять класс активности согласно тому, что у нас записано в Local Storage. Для этого создадим отдельную функцию. Она будет запускаться один раз при загрузки страницы, инициализируя наш калькулятор. Эту функцию сперва будем использовать сперва на блоке с выбором пола, а потом на блоке выбора активности.
+// 14.3.1 Сперва, как и в другой функции getStaticInfo(), нужно убрать класс активности со всех кнопок, а потом поставить только там, чьё значение соответствует данным из Local Storage.
+// 14.3.2 Напишем условие, что если значение атрибута id равен значению в Local Storage, то этому элементу назначим класс активности.
+// 14.3.3 Во втором случае для блока опций выбора активности запишем ещё одного условие на проверку наличия атрибута "data-ratio".
+const initLocalSettings = (selector, activeClass) => {
+  const elements = document.querySelectorAll(selector);
+
+  elements.forEach(element => {
+    element.classList.remove(activeClass);
+
+    if (element.getAttribute('id') === localStorage.getItem('gender')) {
+      element.classList.add(activeClass);
+    }
+    if (element.getAttribute('data-ratio') === localStorage.getItem('ratio')) {
+      element.classList.add(activeClass);
+    }
+  });
+};
+
+getStaticInfo('#gender div', 'calculating__choose-item_active');
+getStaticInfo('.calculating__choose_big div', 'calculating__choose-item_active');
 getDynamicInfo('#height');
 getDynamicInfo('#weight');
 getDynamicInfo('#age');
+initLocalSettings('#gender div', 'calculating__choose-item_active');
+initLocalSettings('.calculating__choose_big div', 'calculating__choose-item_active');
 
-// * 14.0.0 Поработаем с localStorage. Представим, что у нас есть задача — выбранные и введённые ранее пользователем данные должны сохраняться у него в Local Storage, чтобы ему не приходилось их вводить снова и снова при каждом заходе на сайт.
+// * 14.0 Поработаем с Local Storage. Представим, что у нас есть задача — выбранные и введённые ранее пользователем данные должны сохраняться у него в Local Storage, чтобы ему не приходилось их вводить снова и снова при каждом заходе на сайт. Сперва нам нужно сделать так, что при клике на одной из опций калькулятора её значение сохранялась бы в Local Storage.
+// 14.1 Сделать это можно добавлением в функцию getStaticInfo(), которая работает с этими элементами localStorage.setItem('ratio', +evt.target.getAttribute('data-ratio')), тоже самое будем делать и для gender. [см. выше]
+// 14.2 Теперь, когда у нас записываются значения мы можем их использовать в самом начале для дефолтных значений. Для этого создаём условие if.
+// 14.3 ...(см. выше) =>
