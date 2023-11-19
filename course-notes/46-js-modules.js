@@ -45,5 +45,5 @@ const user = (function () {
 user.sayHello();
 // |===:===:===:===>
 /** links:
- * 
+ * https://thecode.media/iife/
  * */
