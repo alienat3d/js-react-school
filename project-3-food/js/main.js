@@ -1,3 +1,6 @@
+require('es6-promise').polyfill(); // - commonJS версия подключения
+import 'nodelist-foreach-polyfill'; // - очень удобное подключение NPM-пакетов напрямую из папки node_modules в наш проект
+
 import tabs from './modules/tabs';
 import modal from './modules/modal';
 import timer from './modules/timer';
