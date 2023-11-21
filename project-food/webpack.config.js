@@ -10,7 +10,7 @@ let path = require('path');
 // ? "plugins" - подключение различных плагинов, однако используется не так часто, т.к. основные ключевые плагины уже есть в стандартных настройках Webpack.
 module.exports = {
   mode: 'development',
-  entry: './js/script.js',
+  entry: './js/main.js',
   output: {
     filename: 'bundle.js',
     path: __dirname + '/js/dist'
