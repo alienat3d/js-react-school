@@ -3,7 +3,8 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['eslint:recommended', 'jquery'],
+  // extends: ['eslint:recommended', 'jquery'],
+  extends: 'eslint:recommended',
   overrides: [
     {
       env: {
