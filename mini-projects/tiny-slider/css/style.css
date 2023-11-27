@@ -1,0 +1,8 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.my-slider img {
+  max-width: 100%;
+  width: 700px;
+}
