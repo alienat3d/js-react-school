@@ -135,3 +135,14 @@ console.log(2);
 
 // |==/—/===/—/==|
 
+// ? 15. «В каком порядке появятся сообщения в консоли?»
+
+setTimeout(() => console.log('timeout'));
+
+Promise.resolve().then(() => console.log('promise'));
+
+console.log('code');
+
+// |==/—/===/—/==|
+
+// ? 16. «»
