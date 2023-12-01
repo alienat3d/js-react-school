@@ -15,4 +15,5 @@
  * https://www.npmjs.com/package/es6-promise
  * https://github.com/zloirock/core-js
  * https://babeljs.io/
+ * https://browsersl.ist/
  * */
