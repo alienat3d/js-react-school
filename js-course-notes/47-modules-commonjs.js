@@ -43,5 +43,4 @@ myModuleInstance.bye();
 /** links:
  * https://largescalejs.ru/commonjs-modules/
  * https://webpack.js.org/configuration/devtool/
- * 
  * */
