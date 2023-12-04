@@ -68,5 +68,7 @@ console.log(robotName);
 
 // |===:===:===:===>
 /** links:
- * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+ * (Документация RegExp): https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+ * (Конструктор регулярных выражении): https://regex101.com/
+ * (Статья Регулярные выражения): https://learn.javascript.ru/regular-expressions
  * */

@@ -92,6 +92,7 @@ console.log(JSON.parse(localStorage.getItem('alex')));
 
 // |===:===:===:===>
 /** links:
- * https://tproger.ru/articles/localstorage/
- * https://www.youtube.com/watch?v=7FbAM52h9QA
+ * (LocalStorage на пальцах): https://tproger.ru/articles/localstorage/
+ * (Про cookies): https://www.youtube.com/watch?v=7FbAM52h9QA
+ * (Проверить вместимость хранилища): http://dev-test.nemikor.com/web-storage/support-test/
  * */

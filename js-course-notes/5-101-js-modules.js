@@ -46,4 +46,5 @@ user.sayHello();
 // |===:===:===:===>
 /** links:
  * https://thecode.media/iife/
+ * (Паттерн Модуль) https://habr.com/ru/company/ruvds/blog/419997/
  * */

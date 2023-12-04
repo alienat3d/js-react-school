@@ -17,6 +17,6 @@
 
 // |===:===:===:===>
 /** links:
- * https://winnote.ru/security/160-windows-powershell-vypolnenie-scenariev-otklyucheno-v-etoy-sisteme.html
- * https://github.com/typicode/json-server
+ * (Сервис JSON-server): https://github.com/typicode/json-server
+ * (Политика выполнения скриптов): https://winnote.ru/security/160-windows-powershell-vypolnenie-scenariev-otklyucheno-v-etoy-sisteme.html
  * */

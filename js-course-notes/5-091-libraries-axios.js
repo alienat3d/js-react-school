@@ -68,7 +68,7 @@ axios
 
 // |===:===:===:===>
 /** links:
- * https://www.youtube.com/watch?v=5w5hmUgrTFo
- * https://github.com/axios/axios
- * https://cdnjs.com/
+ * (Создаем свою минибиблиотеку в ООП стиле): https://www.youtube.com/watch?v=5w5hmUgrTFo
+ * (Axios): https://github.com/axios/axios
+ * (cdnjs): https://cdnjs.com/
  * */

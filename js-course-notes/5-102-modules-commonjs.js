@@ -41,6 +41,10 @@ myModuleInstance.bye();
 
 // |===:===:===:===>
 /** links:
- * https://largescalejs.ru/commonjs-modules/
- * https://webpack.js.org/configuration/devtool/
+ * (Главная дока с визуальной инструкцией): https://webpack.js.org/
+ * (Виды devtool): https://webpack.js.org/configuration/devtool/
+ * (Модули Webpack): https://webpack.js.org/concepts/modules/
+ * (Про CommonJS): http://largescalejs.ru/commonjs-modules/
+ * (Режимы работы Webpack): https://webpack.js.org/concepts/mode/
+ * (Установка Webpack): https://webpack.js.org/guides/getting-started/
  * */

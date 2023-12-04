@@ -146,7 +146,6 @@ facebook.say();
 
 // |===:===:===:===>
 /** links:
- * http://www.codenet.ru/progr/cpp/ipn.php
- * https://medium.com/devschacht/javascripts-new-private-class-fields-c60daffe361b
- * 
+ * (Инкапсуляция полиморфизм наследование): http://www.codenet.ru/progr/cpp/ipn.php
+ * (Новые приватные поля классов в JavaScript): https://medium.com/devschacht/javascripts-new-private-class-fields-c60daffe361b
  * */

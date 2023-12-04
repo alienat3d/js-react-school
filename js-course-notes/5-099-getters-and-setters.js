@@ -29,5 +29,5 @@ console.log(person.userAge);
 
 // |===:===:===:===>
 /** links:
- * https://learn.javascript.ru/property-accessors
+ * (Статья про get & set): https://learn.javascript.ru/property-accessors
  * */
