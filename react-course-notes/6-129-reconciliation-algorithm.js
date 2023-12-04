@@ -21,4 +21,5 @@
  * (EN Новая документация): https://react.dev/learn/preserving-and-resetting-state
  * (Базовая документация): https://ru.reactjs.org/docs/reconciliation.html
  * (Перевод новой документации): https://reactdev.ru/learn/preserving-and-resetting-state/
+ * (Сверка и Fiber): https://habr.com/ru/post/444276/
  * */
