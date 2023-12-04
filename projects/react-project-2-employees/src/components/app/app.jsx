@@ -5,6 +5,12 @@ import EmployeesList from '../employees-list/employees-list';
 import EmployeeAddForm from '../employee-add-form/employee-add-form';
 
 import './app.css';
+// * 1.0.0 Итак, представим, что data нам пришла с сервера и нам нужно на основе неё создать компонент EmployeesList. [далее в employees-list.jsx]
+const data = [
+  {name: 'Денис З.', salary: 42000, increase: false},
+  {name: 'Дмитрий Д.', salary: 177000, increase: false},
+  {name: 'Алексей Ц.', salary: 400000, increase: true},
+];
 
 function App() {
   return (
@@ -14,7 +20,7 @@ function App() {
         <SearchPanel/>
         <AppFilter/>
       </div>
-      <EmployeesList/>
+      <EmployeesList data={data}/>
       <EmployeeAddForm/>
     </div>
   );
