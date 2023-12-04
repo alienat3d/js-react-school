@@ -30,6 +30,5 @@ fetch('https://jsonplaceholder.typicode.com/posts', {
 
 // |===:===:===:===>
 /** links:
- * https://developer.mozilla.org/ru/docs/Web/API/Fetch_API/Using_Fetch
- * 
- * */
+ * (Fetch API): https://developer.mozilla.org/ru/docs/Web/API/Fetch_API/Using_Fetch
+*/

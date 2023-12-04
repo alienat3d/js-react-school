@@ -108,7 +108,7 @@ Promise.race([test(1000), test(5000)]).then(() => { console.log('All successfull
 
 // |===:===:===:===>
 /** links:
- * https://stasonmars.ru/javascript/promisy-v-javascript-dlya-chainikov/
- * https://learn.javascript.ru/promise-basics
- * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise
- * */
+ * (Про Promise 1): https://learn.javascript.ru/promise-basics
+ * (Про Promise 2): https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise
+ * (Наглядныи пример промисов): https://stasonmars.ru/javascript/promisy-v-javascript-dlya-chainikov/
+*/

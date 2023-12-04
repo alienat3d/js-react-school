@@ -17,10 +17,11 @@
 
 // |===:===:===:===>
 /** links:
- * https://developer.mozilla.org/ru/docs/Web/API/FormData/Using_FormData_Objects
- * https://ilikekillnerds.com/2017/09/convert-formdata-json-object/
- * https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_%D0%BA%D0%BE%D0%B4%D0%BE%D0%B2_%D1%81%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F_HTTP
- * https://developer.mozilla.org/ru/docs/Web/API/XMLHttpRequest/readyState
- * https://developer.mozilla.org/ru/docs/Web/API/XMLHttpRequest
- * https://developer.mozilla.org/ru/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
- * */
+ * (XMLHttpRequest): https://developer.mozilla.org/ru/docs/Web/API/XMLHttpRequest
+ * (XMLHttpRequestreadyState): https://developer.mozilla.org/ru/docs/Web/API/XMLHttpRequest/readyState
+ * (Заголовки HTTP): https://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B8_HTTP
+ * (Из formData в JSON): https://ilikekillnerds.com/2017/09/convert-formdata-json-object/
+ * (Использование XMLHttpRequest): https://developer.mozilla.org/ru/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
+ * (Объект FormData): https://developer.mozilla.org/ru/docs/Web/API/FormData/Using_FormData_Objects
+ * (Список кодов состояния HTTP): https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_%D0%BA%D0%BE%D0%B4%D0%BE%D0%B2_%D1%81%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F_HTTP
+*/
