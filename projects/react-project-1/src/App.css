@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+button {
+  border: none;
+  border-radius: 50%;
+  background: #ddd;
+  cursor: pointer;
+}
+
+.wrapper {margin-top: 20px; margin-bottom: 20px;}
+
+.btn-icon {
+  width: 30px;
+  height: 30px;
+}
