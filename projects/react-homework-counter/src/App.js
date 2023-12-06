@@ -10,26 +10,26 @@ class Counter extends Component {
     }
   }
 
-  increaseCount = () => {
+  onIncreaseCount = () => {
     if (this.state.count < 50) {
       this.setState(state => ({
         count: state.count + 1
       }));
     }
   }
-  decreaseCount = () => {
+  onDecreaseCount = () => {
     if (this.state.count > -50) {
       this.setState(state => ({
         count: state.count - 1
       }));
     }
   }
-  randomizeCount = () => {
+  onRandomizeCount = () => {
     this.setState({
       count: +(Math.random() * (50 - -50) + -50).toFixed(0)
     })
   }
-  resetCount = () => {
+  onResetCount = () => {
     this.setState({
       count: this.props.counter
     })
@@ -42,16 +42,16 @@ class Counter extends Component {
       <div className='app'>
         <div className='counter'>{count}</div>
         <div className='controls'>
-          <button onClick={this.decreaseCount}>
+          <button onClick={this.onDecreaseCount}>
             <img className='control-btn-img' src='./img/minus.svg' alt='' />
           </button>
-          <button onClick={this.increaseCount}>
+          <button onClick={this.onIncreaseCount}>
             <img className='control-btn-img' src='./img/plus.svg' alt='' />
           </button>
-          <button onClick={this.randomizeCount}>
+          <button onClick={this.onRandomizeCount}>
             <img className='control-btn-img' src='./img/dice.svg' alt='' />
           </button>
-          <button onClick={this.resetCount}>
+          <button onClick={this.onResetCount}>
             <img className='control-btn-img' src='./img/reset.svg' alt='' />
           </button>
         </div>
