@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 import './employees-list-item.css';
 
-// ? [135]
+// ? [135.2]
 // todo [начало в employees-list\employees-list.jsx]
 
 class EmployeesListItem extends Component {
