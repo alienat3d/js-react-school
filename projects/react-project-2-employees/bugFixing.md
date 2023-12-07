@@ -1,1 +1,0 @@
-TODO: render list of employees with a "increase" state based on it’s props.
