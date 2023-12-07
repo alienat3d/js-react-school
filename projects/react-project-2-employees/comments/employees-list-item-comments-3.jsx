@@ -2,6 +2,9 @@ import { Component } from 'react';
 
 import './employees-list-item.css';
 
+// ? [135]
+// todo [начало в employees-list\employees-list.jsx]
+
 class EmployeesListItem extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +23,7 @@ class EmployeesListItem extends Component {
       rise: !rise 
     }))
   }
+  // * 1.0.4 Находим пропсы и добавляем нашу новую функцию onDelete().
   render () {
     const {name, salary, onDelete} = this.props;
     const {increase, rise} = this.state;
@@ -30,6 +34,9 @@ class EmployeesListItem extends Component {
     if (rise) {
       classNames += ' like';
     }
+    // * 1.0.5 Находим кнопку "корзинка" и назначим ей обработчик события.
+    // 1.0.8 И в итоге передаём функцию onDelete в обработчик события onClick.
+    // ? Также можно передавать вниз и данные и методы и т.п.
     return (
       <li className={classNames}>
         <span 
