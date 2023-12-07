@@ -61,5 +61,6 @@ console.log(div.calcArea());
 
 // |===:===:===:===>
 /** links:
- *  http://jsraccoon.ru/es6-classes
+ *  (Документация по JS-классам): https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Classes
+ *  (Статья по классам): http://jsraccoon.ru/es6-classes
  * */

@@ -133,5 +133,5 @@ console.log(double(15));
 
 // |===:===:===:===>
 /** links:
- *  https://tproger.ru/translations/javascript-this-keyword
+ *  (Большой гайд по this): https://tproger.ru/translations/javascript-this-keyword/
  * */

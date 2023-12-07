@@ -93,6 +93,6 @@ console.log(readMessages.has(messages[0]));
 // * Вывод: WeakMap() & WeakSet() - по сути являются дополнительными хранилищами для объектов, управляемых из других мест в коде. В обоих мы работаем только (!) с объектами и если на них нет ссылок на их содержимое, то оно будет удалено из памяти «сборщиком мусора».
 // |===:===:===:===>
 /** links:
- *  https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/WeakMap
- *  https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/WeakSet
- * */
+ *  (Документация по WeakMap): https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/WeakMap
+ *  (Документация по WeakSet): https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/WeakSet
+*/

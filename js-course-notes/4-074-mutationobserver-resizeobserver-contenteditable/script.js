@@ -36,9 +36,10 @@ const resizeObserver = new ResizeObserver((resizeEntries) => {
 resizeObserver.observe(box);
 // |===:===:===:===>
 /** links:
- * https://www.udemy.com/course/reactjs_admin_panel/?referralCode=DE420C6578305FB12019
- * https://developer.mozilla.org/ru/docs/Web/API/MutationObserver
- * https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
- * https://www.youtube.com/watch?v=M2c37drnnOA
- * https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+ * (EN Документация по MutationRecord): https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
+ * (EN Документация по ResizeObserver): https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+ * (Использование ResizeObserver): https://www.youtube.com/watch?v=M2c37drnnOA&ab_channel=WebDevSimplified
+ * (RU Документация по MutationObserver): https://developer.mozilla.org/ru/docs/Web/API/MutationObserver
+ * (Пример использования MutationObserver): https://learn.javascript.ru/mutation-observer#ispolzovanie-dlya-integratsii
+ * (Курс по админке): https://www.udemy.com/course/reactjs_admin_panel/?referralCode=DE420C6578305FB12019
  * */

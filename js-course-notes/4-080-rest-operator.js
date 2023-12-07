@@ -24,5 +24,6 @@ calcOrDouble(20, 10);
 
 // |===:===:===:===>
 /** links:
- *  https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Rest_parameters
+ *  (rest): https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Rest_parameters
+ *  (Параметры по умолчанию): https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Default_parameters
  * */

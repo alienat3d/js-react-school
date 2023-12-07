@@ -78,6 +78,6 @@ console.log(`Время выполнения цикла "for": ${end - start} м
 // ? Ещё это называют бенчмарки, тесты производительности какого-то скрипта и выглядят они сложнее этого примера, но идея всё так же.
 // |===:===:===:===>
 /** links:
- * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Date
- * https://learn.javascript.ru/date
+ * (Документация по Date): https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Date
+ * (Статья про Date): https://learn.javascript.ru/date
  * */

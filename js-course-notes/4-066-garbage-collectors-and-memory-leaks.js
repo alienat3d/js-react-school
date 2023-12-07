@@ -90,8 +90,8 @@ deleteElement();
 // ? Скорее всего вряд ли где-то придётся сталкиваться с подобными задачами, кроме вопросов на собеседовании, но всё так, если вдруг придётся работать с задачей поиска утечек памяти, то может помочь инструмент профилирования в браузере. Если это потребуется, то рекомендуется ознакомиться с докой того браузере, в котором будет использоваться инструмент профилирования. (Memory Inspector)
 // |===:===:===:===>
 /** links:
- *  https://learn.javascript.ru/garbage-collection
- *  https://html-plus.in.ua/kak-izbezhat-utechek-pamyati-v-javascript/
- *  https://developer.chrome.com/docs/devtools/memory-inspector/
- *  https://nuancesprog.ru/p/12524/
+ *  (Документация про Memory Inspector): https://developer.chrome.com/docs/devtools/memory-inspector/
+ *  (Статья «Как избежать утечек памяти в JavaScript»): https://html-plus.in.ua/kak-izbezhat-utechek-pamyati-v-javascript/
+ *  (Компилятор VS интерпретатор): https://nuancesprog.ru/p/12524/
+ *  (Статья про Сборщик мусора): https://learn.javascript.ru/garbage-collection
  * */

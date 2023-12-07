@@ -73,3 +73,8 @@ console.log(document.documentElement.scrollTop);
 // * 9.1 Есть ещё 2 специфичных метода, которые занимаются положением на странице: "scrollBy" и "scrollTo".
 // 9.2 scrollBy - скроллит страницу относительно текущего положения. Например window.scrollBy(0, 400) промотает на 400px вниз от текущего положения на странице.
 // 9.3 scrollTo - скроллит страницу относительно всей страницы, а не текущего положения.
+
+// |===:===:===:===>
+/** links:
+ * (EN Документация по MutationRecord): https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
+ * */

@@ -74,5 +74,5 @@ Admin();
 Admin2();
 // |===:===:===:===>
 /** links:
- *  https://learn.javascript.ru/constructor-new
+ *  (Дока по функциям-конструкторам): https://learn.javascript.ru/constructor-new
  * */
