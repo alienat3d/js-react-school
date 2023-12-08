@@ -1,7 +1,7 @@
 // import React from 'react';
 import { Component } from 'react';
 import './App.css';
-// todo Начало в [react-course-notes/5-123-react-components.js]
+// todo Начало в [react-course-notes/6-123-react-components.js]
 // * 1.4.0 Здесь мы видим функцию App, которая экспортируется в index.js новых React-проектах по умолчанию и вставляется в качестве демонстрации на страницу. 
 // ? 1.4.1 Компоненты это функции, которые могут возвращать JSX-элементы и внутри себя могут содержать какое-то поведение.
 // 1.4.2 Итак, рассмотрим структуру функции React-компонента в деталях: 

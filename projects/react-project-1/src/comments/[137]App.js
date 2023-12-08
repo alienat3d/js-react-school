@@ -4,7 +4,7 @@ import { Component } from 'react';
 import './App.css';
 
 // * == Реакт-фрагменты == * \\
-// ? [6.137.1]
+// ? [6.137]
 // todo [начало в react-course-notes\6-137-react-fragments.js]
 // * 1.1.1 Итак, сперва импортируем "Fragment" ↑. 
 
