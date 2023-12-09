@@ -1,11 +1,11 @@
 import './employees-list-item.css';
 
-// ? [6-140]
+// ? [142.1]
 
 const EmployeesListItem = (props) => { 
   const { name, salary, onDelete, onToggleProp, increase, rise } = props;
   let classNames = 'list-group-item d-flex justify-content-between';
-  
+  // * 1.0.0 На самом деле создание подобных классов и стилей мы уже использовали здесь (где мы использовали условия, чтобы добавлять в строку с CSS-классами определённые классы "increase" & "like"). Это и есть динамические классы:
   if (increase) {
     classNames += ' increase';
   }
