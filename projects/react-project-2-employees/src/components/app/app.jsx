@@ -26,11 +26,15 @@ class App extends Component {
         { name: 'Дмитрий Дмитриевич Дёмин', salary: 177000, increase: false, rise: false, id: 1 },
         { name: 'Алексей Васильевич Цвайг', salary: 400000, increase: true, rise: true, id: 2 },
         { name: 'Семён Моисеевич Циммерман', salary: 195000, increase: false, rise: false, id: 3 },
-        { name: 'Алёна Алексеевна Воробьёва', salary: 105000, increase: true, rise: false, id: 4 }
+        { name: 'Алёна Алексеевна Воробьёва', salary: 105000, increase: true, rise: true, id: 4 },
+        { name: 'Дмитрий Валерьевич Гонцов', salary: 95000, increase: true, rise: false, id: 5 },
+        { name: 'Василий Александрович Чёрный', salary: 45000, increase: false, rise: false, id: 6 },
+        { name: 'Марина Валерьевна Луговая', salary: 125000, increase: false, rise: true, id: 7 },
       ],
-      term: ''
+      term: '',
+      filter: 'all'
     }
-    this.maxId = 4;
+    this.maxId = 7;
   }
 
   deleteItem = (id) => {
@@ -58,10 +62,10 @@ class App extends Component {
   }
 
   onToggleProp = (id, prop) => {
-    this.setState(({data}) => ({
+    this.setState(({ data }) => ({
       data: data.map(item => {
         if (item.id === id) {
-          return {...item, [prop]: !item[prop]}
+          return { ...item, [prop]: !item[prop] }
         }
         return item;
       })
@@ -78,7 +82,7 @@ class App extends Component {
   }
   // * 1.1.8 Как и в случае с deleteItem и onToggleProp, чтобы "поднять стейт" из SearchPanel компонента, нам нужно создать метод, назовём его onUpdateSearch(). Аргументом он будет принимать строку "term" и его действием будет установка стейта. Здесь мы не зависим от предыдущего стейта, т.ч. можем просто передать term (term: term сократили до term - это сокр. запись объекта). 
   // 1.1.9 Теперь этот метод передадим в компонент. ↓
-  onUpdateSearch = (term) => this.setState({term})
+  onUpdateSearch = (term) => this.setState({ term })
 
   // 1.0.3 И сразу запишем стейты, применим деструктуризацию, т.к. у нас уже два стейта.
   // 1.1.3 Теперь результаты поиска нам нужно отобразить. Теперь мы хотим отображать не просто data, а сперва их отфильтровать и уже потом отображать.
@@ -88,11 +92,42 @@ class App extends Component {
   // todo [перейдём в search-panel\search-panel.jsx]
   // [1.1.9] Передавать мы его будем соответственно в SearchPanel. ↓
   // todo [перейдём в search-panel\search-panel.jsx]
+
+  // * 2.0.0 == Пишем реализацию фильтра ==
+  /* 2.0.1 Логика алгоритма будет следующей:
+    1) После того, как пользователь кликнет на одну из кнопок фильтра в нашем UI, выбранный фильтр поднимается наверх;
+    2) На основании значения этого фильтра фильтруются данные;
+    3) На основе этих данных рендерится список сотрудников.
+  */
+  // 2.0.2 Для начала мы запишем в data новое свойство 'filter' с пустой строкой, куда будет записываться значение фильтра.
+  // 2.0.3 Напишем новый метод для фильтрации данных. Когда у нас в условии больше 2-ух случаев, то удобно использовать конструкцию "switch case".
+  // 2.0.4 В первый случай запишем, что с помощью метода filter() мы будем возвращать только те объекты, в свойство rise которых будет в значении true.
+  // ? Обычно в реакте break; не ставится, т.к. реакт и так знает, что нужно остановиться. Но и написать его не будет ошибкой.
+  filterEmployees = (items, filter) => {
+    switch (filter) {
+      case 'rise':
+        return items.filter(item => item.rise)
+      case '> 100000':
+        return items.filter(item => item.salary > 100000)
+      default:
+        return items;
+    }
+  }
+  // * 2.1.0 Теперь у нас ситуация, когда мы уже фильтруем тот же массив объектов data, по введённому значению в строку поиска. В этом случае нам нужно скомбинировать эти две функции, чтобы фильтрация шла и по введённому значению в поиск и по выбранному пользователем фильтру одновременно. Для этого запишем метод filterEmployees, который также принимает в себя массив 'items' и filter. И вот вместо массива мы запишем другой метод searchEmployee(). Получается, что мы ещё раз фильтруем уже отфильтрованный массив данных. Сперва у нас идёт фильтрация по значению в поиске, а потом по выбранному фильтру.
+  // todo [перейдём в app-filter\app-filter.jsx]
+  // * 2.2.5 В компонент AppFilter мы передадим текущий стейт filter.
+  // todo [вернёмся в app-filter\app-filter.jsx]
+  // * 2.3.0 Осталось создать метод onFilterSelect(), который мы передадим как действие во внутрь компонента AppFilter. Очень простой метод изменяющий стейт фильтра.
+  // ? Ещё раз обращаем внимание на нейминг тех методов, которые связанны со взаимодействием пользователя со страницей, их мы называем со слова "on...", а остальные методы без этого слова, таким образом понятность кода возрастает.
+  // 2.3.1 Теперь передаём его вниз по иерархии, добавляя компоненту AppFilter ещё один атрибут "onFilterSelect" и в него одноимённый метод с контекстом вызова this.
+  // todo [вернёмся в app-filter\app-filter.jsx]
+  onFilterSelect = (filter) => this.setState({ filter })
+
   render() {
-    const { data, term } = this.state;
+    const { data, term, filter } = this.state;
     const employeesCount = data.length;
     const increasedCount = data.filter(item => item.increase).length;
-    const visibleData = this.searchEmployee(data, term);
+    const visibleData = this.filterEmployees(this.searchEmployee(data, term), filter);
 
     return (
       <div className="app">
@@ -103,7 +138,9 @@ class App extends Component {
         <div className="search-panel">
           <SearchPanel
             onUpdateSearch={this.onUpdateSearch} />
-          <AppFilter />
+          <AppFilter
+            filter={filter}
+            onFilterSelect={this.onFilterSelect} />
         </div>
 
         <EmployeesList

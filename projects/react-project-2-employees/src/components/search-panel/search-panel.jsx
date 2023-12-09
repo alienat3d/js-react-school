@@ -26,7 +26,7 @@ class SearchPanel extends Component {
     this.props.onUpdateSearch(term);
   }
 
-  render(onUpdateSearch) {
+  render() {
     return (
       <input
         className="form-control search-input"
