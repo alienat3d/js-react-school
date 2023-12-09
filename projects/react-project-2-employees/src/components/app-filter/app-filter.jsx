@@ -14,6 +14,7 @@ const AppFilter = (props) => {
       <button
         className={`btn ${clazz}`}
         type="button"
+        tabIndex={2}
         key={name}
         onClick={() => props.onFilterSelect(name)} >
         {label}

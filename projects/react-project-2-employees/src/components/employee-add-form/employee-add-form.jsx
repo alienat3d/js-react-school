@@ -41,19 +41,24 @@ class EmployeeAddForm extends Component {
           className="add-form d-flex"
           onSubmit={this.onSubmit}>
           <input
-            className="form-control new-post-label" type="text"
+            className="form-control new-post-label" 
+            tabIndex={7}
+            type="text"
             placeholder="Как его зовут?"
             name="name"
             value={name}
             onChange={this.onValueChange} />
           <input
-            className="form-control new-post-label" type="number"
+            className="form-control new-post-label"
+            tabIndex={8} 
+            type="number"
             placeholder="Зарплата в ₽?"
             name="salary"
             value={salary}
             onChange={this.onValueChange} />
           <button
             className="btn btn-outline-light"
+            tabIndex={9}
             type="submit">
             Добавить
           </button>

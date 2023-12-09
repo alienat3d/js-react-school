@@ -63,6 +63,12 @@ class App extends Component {
     }))
   }
 
+  onEnterSpaceKeyDown = (evt, func) => {
+    if (evt.key === 'Enter' || evt.key === 'Space') {
+      return func;
+    }
+  }
+
   searchEmployee = (items, term) => {
     if (term.length === 0) {
       return items;
