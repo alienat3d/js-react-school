@@ -1,6 +1,9 @@
 import { Component } from 'react';
 
-import './employee-add-form.css';
+// import './employee-add-form.css';
+import './employee-add-form.scss';
+
+// ? [6-141] Работа с SASS-стилями.
 
 class EmployeeAddForm extends Component {
   constructor(props) {
