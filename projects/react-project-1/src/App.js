@@ -1,13 +1,48 @@
 import { Component } from 'react';
+import styled from 'styled-components';
 
 import './App.css';
+
+const EmpItem = styled.div`
+  margin-bottom: 15px;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  a {
+    display: block;
+    margin: 10px 0 10px 0;
+    color: ${props => props.active ? 'orange' : 'navy'};
+    &:hover {
+      color: yellowgreen;
+    }
+  }
+  input {
+    display: block;
+    margin-top: 10px;
+  }
+`;
+const Header = styled.h2`
+  font-size: 25px;
+`;
+const SubHeader = styled.h3`
+  font-size: 22px;
+`;
+export const Button = styled.button`
+  margin: 0 auto 10px;
+  display: block;
+  border-radius: 50%;
+  padding: 0;
+  background-color: gold;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+`;
 
 class WhoAmI extends Component {
   constructor(props) {
     super(props);
     this.state = {
       age: 37,
-      text: '+',
+      imgUrl: './img/plus.svg',
       occupation: ''
     }
   }
@@ -24,14 +59,15 @@ class WhoAmI extends Component {
   }
   render() {
     const { name, surname, link } = this.props;
-    const { age, occupation } = this.state;
+    const { age, occupation, imgUrl } = this.state;
     return (
-      <>
-        <button onClick={this.nextYear}>
+      <EmpItem active>
+        <Button onClick={this.nextYear}>
+          <img className='btn-icon' src={imgUrl} alt="" />
           {this.state.text}
-        </button>
-        <h2>My name is {name} {surname}. I’m {age} years old.</h2>
-        <h3>My occupation is {occupation}.</h3>
+        </Button>
+        <Header>My name is {name} {surname}. I’m {age} years old.</Header>
+        <SubHeader>My occupation is {occupation}.</SubHeader>
         <a href={link}>My LinkedIn Profile</a>
         <form>
           <label htmlFor="occupation">
@@ -42,16 +78,21 @@ class WhoAmI extends Component {
               onChange={(evt) => this.commitInputChanges(evt, 'some color')} />
           </label>
         </form>
-      </>
+      </EmpItem>
     )
   };
 }
+const Wrapper = styled.div`
+  margin: 80px auto 0 auto;
+  width: 600px;
+`;
+
 function App() {
   return (
-    <div className="App">
+    <Wrapper>
       <WhoAmI name='Al' surname='Tsaplin' link='https://www.linkedin.com/in/altdev/' />
       <WhoAmI name='Andrey' surname='Teplonogov' link='https://www.linkedin.com/in/antepliy/' />
-    </div>
+    </Wrapper>
   );
 }
 
