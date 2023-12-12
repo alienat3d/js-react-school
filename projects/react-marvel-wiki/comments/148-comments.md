@@ -1,0 +1,11 @@
+// * === Новыи проект и работа с сервером (148) === * \\
+
+-> * 1.0.0 Первым делом создадим новую папку "services", где будут находиться части нашего приложения, которые будут общаться со сторонними ресурсами (например с API). Там мы создадим отдельный файл MarvelService.js, это будет отдельный компонент, который будет общаться с Marvel API.
+
+<!-- todo: Перейдём в [projects\react-marvel-wiki\src\services\MarvelService.js] -->
+
+// |===:===:===:===>
+/** links:
+*  (Marvel API Docs): https://developer.marvel.com/docs
+*  (Как скрывать API-ключи): https://betterprogramming.pub/how-to-hide-your-api-keys-c2b952bc07e6
+*/
