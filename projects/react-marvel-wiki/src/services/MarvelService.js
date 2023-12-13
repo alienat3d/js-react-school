@@ -1,9 +1,4 @@
-// ? [148.1]
-// * 1.0.1 Вспомним функцию getResource(), которую мы создавали в приложении «Food» в курсе про нативный JS. Здесь она нам также понадобится.
-// 1.0.2 Сперва создадим одноимённый файлу класс. Заметьте, что здесь мы не импортируем Component и не дописываем "extends Component", т.к. создаваемый здесь класс будет на нативном JS и ему от реакта ничего не нужно, ни препроцессор JSX, ни пропсы. Туда мы просто скопируем уже написанную нами ранее асинхронную функцию, преобразовав её в стрелочную.
 class MarvelService {
-  // ? 1.3.0 Также не забываем про принцип DRY и выносим повторяющиеся сущности в отдельную переменную. Здесь у нас и основной url и apikey повторяются дважды, и вероятно повторятся более раз. Так что имеет смысл вынести их. Используем классическое называние _apiBase, куда поместим начальное URL нашего Marvel API. А второе _apiKey собственно наш уникальный идентификационный ключ пользователя API, дающий нам доступ к нему.
-  // ? 1.3.1 Здесь мы используем в названии в начале "_" (lodash), что говорит другим программистам, что значение этой переменной запрещено менять для адекватной работы приложения.
   _apiBase = 'https://gateway.marvel.com:443/v1/public/';
   _apiKey = 'apikey=0856e08c6fd8cf6a102714f9dd77f559';
 
@@ -17,17 +12,24 @@ class MarvelService {
     return await res.json();
   }
 
-  // * 1.1.0 Далее нам потребуется делать запросы к API. И в этот класс мы можем добавить такие методы, которые как раз этим и займутся. Один из них будет getAllCharacters(), который получит всех персонажей.
-  // 1.1.1 Воспользуемся this.getResource, что нам вернёт данные в виде JSON. А дальше нам нужно сформировать некий запрос. Обратимся к документации API и найдём то, что нам требуется.
-  // 1.1.2 Ну и теперь протестируем его, импортировав в index.js
-  // todo [перейдём в index.js]
-  getAllCharacters = () => {
-    return this.getResource(`${this._apiBase}characters?limit=9&offset=1500&${this._apiKey}`);
+  getAllCharacters = async () => {
+    const res = await this.getResource(`${this._apiBase}characters?limit=9&offset=1500&${this._apiKey}`);
+    return res.data.results.map(this._transformCharacter);
   }
-  // * 1.2.0 Также напишем второй метод, чтобы отправить запрос на информацию одного персонажа по какому-то id, который ему соответствует. Для этого у нас есть ещё один "конструктор запроса" с пометкой "Fetches a single character by id". Этот id уже есть у каждого персонажа свой уникальный и мы можем по нему обращаться для вывода какого-то персонажа. Мы будем внутрь принимать уникальный id. И его же мы будем передавать перед "?" в URL.
-  // todo [перейдём в index.js]
-  getCharacter = (id) => {
-    return this.getResource(`${this._apiBase}characters/${id}?${this._apiKey}`);
+
+  getCharacter = async (id) => {
+    const res = await this.getResource(`${this._apiBase}characters/${id}?${this._apiKey}`);
+    return this._transformCharacter(res.data.results[0]);
+  }
+
+  _transformCharacter = (char) => {
+    return {
+      thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
+      name: char.name,
+      description: char.description,
+      homepage: char.urls[0].url,
+      wiki: char.urls[1].url
+    }
   }
 }
 
