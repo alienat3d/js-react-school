@@ -17,7 +17,6 @@
     width: 180px;
     height: 180px;
     object-fit: cover;
-    object-position: left;
   }
 
   &__info {
@@ -48,6 +47,7 @@
 
   &__static {
     padding: 40px 35px;
+    height: 100%;
     background-color: $dark;
     position: relative;
 
@@ -70,7 +70,7 @@
 
   &__decoration {
     position: absolute;
-    bottom: 14px;
-    right: -37px;
+    bottom: 25px;
+    right: 25px;
   }
 }
