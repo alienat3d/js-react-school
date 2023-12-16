@@ -1,8 +1,9 @@
 import { Component } from 'react';
 
+import MarvelService from '../../services/MarvelService';
+
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import MarvelService from '../../services/MarvelService';
 
 import './charList.scss';
 
@@ -10,7 +11,7 @@ class CharList extends Component {
   state = {
     charList: [],
     loading: true,
-    error: false,
+    error: false
   }
 
   marvelService = new MarvelService();
@@ -28,12 +29,15 @@ class CharList extends Component {
     })
   }
 
-  onError = () => this.setState({
-    loading: false,
-    error: true
-  })
+  onError = () => {
+    this.setState({
+      error: true,
+      loading: false
+    })
+  }
 
-  // ? Этот метод создан для оптимизации, чтобы не помещать такую конструкцию в метод render.
+  // Этот метод создан для оптимизации, 
+  // чтобы не помещать такую конструкцию в метод render
   renderItems(arr) {
     const items = arr.map((item) => {
       let imgStyle = { 'objectFit': 'cover' };
@@ -46,10 +50,7 @@ class CharList extends Component {
           className="char__item"
           key={item.id}
           onClick={() => this.props.onCharSelected(item.id)}>
-          <img 
-            src={item.thumbnail} 
-            alt={item.name} 
-            style={imgStyle} />
+          <img src={item.thumbnail} alt={item.name} style={imgStyle} />
           <div className="char__name">{item.name}</div>
         </li>
       )
