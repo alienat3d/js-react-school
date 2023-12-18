@@ -90,7 +90,7 @@ const personalMovieDB = {
         personalMovieDB.genres[index] = favGenre;
       } */
       // * Решаем ту же задачу, но с применением другого подхода:
-      const favGenres = prompt(`Введите ваши любимые жанры через запятую`, '').toLowerCase();
+      const favGenres = prompt('Введите ваши любимые жанры через запятую', '').toLowerCase();
 
       if (favGenres == null || favGenres == '' || favGenres.length < 3) {
         console.log(
