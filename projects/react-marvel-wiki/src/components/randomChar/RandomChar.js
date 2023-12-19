@@ -25,18 +25,12 @@ class RandomChar extends Component {
   //   clearInterval(this.timerId);
   // };
 
-  onCharLoaded = (char) => {
-    this.setState({
-      char,
-      loading: false
-    })
-  }
+  onCharLoaded = (char) => this.setState({
+    char,
+    loading: false
+  })
 
-  onCharLoading = () => {
-    this.setState({
-      loading: true
-    })
-  }
+  onCharLoading = () => this.setState({ loading: true })
 
   onError = () => this.setState({
     loading: false,
@@ -76,9 +70,9 @@ class RandomChar extends Component {
             onClick={this.updateCharacter}>
             <div className="inner">try it</div>
           </button>
-          <img 
-            src={mjolnir} 
-            alt="mjolnir" 
+          <img
+            src={mjolnir}
+            alt="mjolnir"
             className="randomchar__decoration" />
         </div>
       </div>
@@ -97,8 +91,8 @@ const View = ({ char }) => {
 
   return (
     <div className="randomchar__block">
-      <img src={thumbnail} 
-        alt="Random character" 
+      <img src={thumbnail}
+        alt="Random character"
         className="randomchar__img"
         style={imgStyle} />
       <div className="randomchar__info">

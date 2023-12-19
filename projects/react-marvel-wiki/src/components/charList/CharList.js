@@ -22,19 +22,15 @@ class CharList extends Component {
       .catch(this.onError)
   }
 
-  onCharListLoaded = (charList) => {
-    this.setState({
-      charList,
-      loading: false
-    })
-  }
+  onCharListLoaded = (charList) => this.setState({
+    charList,
+    loading: false
+  })
 
-  onError = () => {
-    this.setState({
-      error: true,
-      loading: false
-    })
-  }
+  onError = () => this.setState({
+    error: true,
+    loading: false
+  })
 
   // Этот метод создан для оптимизации, 
   // чтобы не помещать такую конструкцию в метод render

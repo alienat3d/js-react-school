@@ -1,14 +1,17 @@
 import { Component } from 'react';
 
-import MarvelService from '../../services/MarvelService';
+import MarvelService from '../src/services/MarvelService';
 
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
-import Skeleton from '../skeleton/Skeleton';
+import Spinner from '../src/components/spinner/Spinner';
+import ErrorMessage from '../src/components/errorMessage/ErrorMessage';
+import Skeleton from '../src/components/skeleton/Skeleton';
 
 import './charInfo.scss';
 
+// ?[153.1]
+// * 1.0.0 Итак, мы представим, что у нас закралась какая-то ошибка в этом компоненте и нам нужно её обработать, чтобы пользователю был показан не пустая страница. Здесь нам поможет хук, который срабатывает в самом конце жизненного цикла componentDidCatch. ↓
 class CharInfo extends Component {
+
   state = {
     char: null,
     loading: false,
@@ -26,6 +29,13 @@ class CharInfo extends Component {
       this.updateChar();
     }
   }
+  // * 1.0.1 Хук componentDidCatch принимает два аргумента ошибку и информацию о компоненте, в котором произошла ошибка. И подставим сюда тоже, что у нас было в методе onError, только не будем трогать loading.
+  // 1.0.2 Перенесём этот хук в отдельный компонент ErrorBoundaries.
+  // todo перейдём в [projects\react-marvel-wiki\src\components\errorBoundary\ErrorBoundary.js]
+  /*   componentDidCatch(err, info) {
+      console.log(err, info);
+      this.setState({ error: true });
+    } */
 
   updateChar = () => {
     const { charId } = this.props;
@@ -43,19 +53,25 @@ class CharInfo extends Component {
     // this.foo.bar = 0; - для теста предохранителей для ошибок
   }
 
-  onCharLoaded = (char) => this.setState({
-    char,
-    loading: false
-  })
+  onCharLoaded = (char) => {
+    this.setState({
+      char,
+      loading: false
+    })
+  }
 
-  onCharLoading = () => this.setState({
-    loading: true
-  })
+  onCharLoading = () => {
+    this.setState({
+      loading: true
+    })
+  }
 
-  onError = () => this.setState({
-    loading: false,
-    error: true
-  })
+  onError = () => {
+    this.setState({
+      loading: false,
+      error: true
+    })
+  }
 
   render() {
     const { char, loading, error } = this.state;
