@@ -21,3 +21,5 @@ Homework:
 
 152 - Практика с жизненным циклом componentDidUpdate
 153 - Предохранители Error Boundaries
+154 - Пагинация данных - дозагрузка персонажей
+Homework: с 16:34
