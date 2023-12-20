@@ -1,3 +1,6 @@
+// ? [154.2]
+// todo (начало в CharList)
+
 class MarvelService {
   // FIXME: Hide _apiBase & _apiKey!
   _apiBase = 'https://gateway.marvel.com:443/v1/public/';
@@ -15,7 +18,8 @@ class MarvelService {
 
     return await res.json();
   }
-
+  // * 1.0.1 Сперва подправим сервисную функцию getAllCharacters, т.к. нам удобнее вынести значение offset в отдельную переменную _baseOffset. Но вероятно нам нужно будет это значение как-то изменять из других вызовов этой функции, т.ч. сделаем ещё и аргумент offset, который по умолчанию будет "this._baseOffset". Теперь мы можем гибко манипулировать при вызове этот отступ.
+  // todo переходим в [projects\react-marvel-wiki\src\components\charList\CharList.js]
   getAllCharacters = async (offset = this._baseOffset) => {
     const res = await this.getResource(`${this._apiBase}characters?limit=9&offset=${offset}&${this._apiKey}`);
     return res.data.results.map(this._transformCharacter);
