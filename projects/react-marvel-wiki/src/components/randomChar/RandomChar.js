@@ -17,6 +17,7 @@ class RandomChar extends Component {
   marvelService = new MarvelService();
 
   componentDidMount() {
+    console.log('RandomChar componentDidMount');
     this.updateCharacter();
     // this.timerId = setInterval(this.updateCharacter, 15000);
   };
@@ -47,6 +48,7 @@ class RandomChar extends Component {
   }
 
   render() {
+    console.log('RandomChar render');
     const { char, loading, error } = this.state;
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
@@ -72,7 +74,7 @@ class RandomChar extends Component {
           </button>
           <img
             src={mjolnir}
-            alt="mjolnir"
+            alt="A Mjolnir hammer"
             className="randomchar__decoration" />
         </div>
       </div>
