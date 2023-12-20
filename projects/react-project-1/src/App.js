@@ -1,5 +1,7 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
+
+import BootstrapTest from './BootstrapTest';
 
 import './App.css';
 
@@ -87,12 +89,40 @@ const Wrapper = styled.div`
   width: 600px;
 `;
 
+const DynamicGreeting = (props) => {
+  return (
+    <div className={'mb-3 p-3 border border-' + props.color}>
+      {
+        React.Children.map(props.children, child => {
+          return React.cloneElement(child, { className: 'shadow p-3 m-3 border rounded' })
+        })
+      }
+      {/* {props.children} */}
+    </div>
+  )
+}
+
 function App() {
   return (
     <Wrapper>
+      <BootstrapTest
+        left={
+          <DynamicGreeting color={'primary'}>
+            <h2>Hello world!</h2>
+            <h3>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus asperiores totam fuga ut culpa placeat.</h3>
+          </DynamicGreeting>
+        }
+        right={
+          <DynamicGreeting color={'secondary'}>
+            <h2>Hello underworld!</h2>
+            <p>Lorem ipsum.</p>
+          </DynamicGreeting>
+        }
+      />
+
       <WhoAmI name='Al' surname='Tsaplin' link='https://www.linkedin.com/in/altdev/' />
       <WhoAmI name='Andrey' surname='Teplonogov' link='https://www.linkedin.com/in/antepliy/' />
-    </Wrapper>
+    </Wrapper >
   );
 }
 

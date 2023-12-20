@@ -1,9 +1,10 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
-import App from './App';
+import App from '../App';
+// import BootstrapTest from './BootstrapTest';
 import styled from 'styled-components';
-import { Button } from './App';
+import { Button } from '../App';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
@@ -21,5 +22,6 @@ root.render(
     <App />
     <BigButton>CLICK ME</BigButton>
     <BigButton as='a' href='www.google.com'>I’m a link now!</BigButton>
+    {/* <BootstrapTest /> */}
   </StrictMode>
 );

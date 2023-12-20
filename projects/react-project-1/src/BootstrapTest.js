@@ -1,11 +1,6 @@
 import { Container, Row, Col, Carousel, Form, Button } from 'react-bootstrap';
 
-// ? [144.2]
-
-// * 1.1.4 Здесь нам понадобятся, знакомые по обычному Bootstrap, Container Row & Col.
-// ? 1.1.5 Напоминание как работает Bootstrap: Мы можем разделять наш контент сначала одним "Container", который ограничит ширину нашего контента, затем строка "Row" и внутри строки различные колонки "Col", которые будут разделяться на разной ширине экрана, в зависимости от указанных в брейкпоинтов.
-// 1.1.6 Но прежде всего нам нужно эти сущности импортировать.
-function CatCarousel() {
+/* function CatCarousel() {
   return (
     <Carousel>
       <Carousel.Item>
@@ -40,17 +35,19 @@ function SomeForm() {
       </Button>
     </Form>
   )
-}
+} */
 
-const BootstrapTest = () => {
+const BootstrapTest = (props) => {
   return (
     <Container className='mt-5 mb-5'>
       <Row>
         <Col>
-          <SomeForm/>
+          {props.left}
+          {/* <SomeForm /> */}
         </Col>
         <Col>
-          <CatCarousel/>
+          {props.right}
+          {/* <CatCarousel /> */}
         </Col>
       </Row>
     </Container>
@@ -58,4 +55,3 @@ const BootstrapTest = () => {
 }
 
 export default BootstrapTest;
-// ? 1.1.7 Не забудем также импортировать этот компонент в index.js
