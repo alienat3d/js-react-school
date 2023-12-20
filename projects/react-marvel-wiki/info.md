@@ -22,4 +22,5 @@ Homework:
 152 - Практика с жизненным циклом componentDidUpdate
 153 - Предохранители Error Boundaries
 154 - Пагинация данных - дозагрузка персонажей
-Homework: с 16:34
+Homework: с 16:34 и с 27:15
+155 - Проверка типов с помощью PropTypes

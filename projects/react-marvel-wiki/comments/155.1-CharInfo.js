@@ -1,14 +1,17 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import MarvelService from '../../services/MarvelService';
+import MarvelService from '../src/services/MarvelService';
 
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
-import Skeleton from '../skeleton/Skeleton';
+import Spinner from '../src/components/spinner/Spinner';
+import ErrorMessage from '../src/components/errorMessage/ErrorMessage';
+import Skeleton from '../src/components/skeleton/Skeleton';
 
 import './charInfo.scss';
 
+// ?[155.1] PropTypes
+
+// * 1.0.0 Теперь, после установки одноимённого npm-пакета и импорта сущности PropTypes, мы можем брать пропсы компонента CharInfo и проверять пропсы, которые в него приходят. (скролл в конец кода) ↓
 class CharInfo extends Component {
   state = {
     char: null,
@@ -127,7 +130,10 @@ const View = ({ char }) => {
     </>
   )
 }
-
+// 1.0.1 Перед экспортом запишем этот компонент, которому зададим статичное свойство propTypes и в него запишем объект, в котором свойством будет свойством название того пропа, что приходит (например charId), а значением будет его валидация (чем оно должно являться), а именно PropTypes.(то, что мы хотим проверять). Например нам нужно про верить, что charId должен быть числом. Но если мы поменяем например на string, то тут же получим предупреждение в консоли.
+// ? 1.0.2 В документации можно посмотреть, что также можно проверить на булево значение, функции, массивы, объекты и символы. Но и это не всё, можно ещё много на что проверять, например на ноду или элемент. И даже на определённую структуру.
+// ? 1.0.3 Отдельно стоит обратить внимание на "isRequired", который можно добавить к любому типу, чтобы показать предупреждение, если проп не был передан.
+// ? 1.0.4 Есть также опция написать собственный валидатор, если понадобится.
 CharInfo.propTypes = {
   charId: PropTypes.number
 }

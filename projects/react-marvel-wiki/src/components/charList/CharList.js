@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import MarvelService from '../../services/MarvelService';
 
@@ -19,7 +20,7 @@ class CharList extends Component {
 
   marvelService = new MarvelService();
 
-  componentDidMount() {
+  componentDidMount(offset) {
     this.onRequest()
   }
 
@@ -47,6 +48,22 @@ class CharList extends Component {
   }
 
   onError = () => this.setState({ error: true, loading: false })
+  // Пробовал сделать дозагрузку персонажей, но недоделал.
+  /*   onScrollCharLoading = (offset) => {
+      if (
+        window.scrollY + document.documentElement.clientHeight >=
+        document.documentElement.scrollHeight - 1
+      ) {
+        this.onRequest(offset);
+      }
+    }
+    componentDidMount(offset) {
+      this.onRequest()
+      window.addEventListener('scroll', () => this.onScrollCharLoading(offset));
+    }
+    componentWillUnmount() {
+      window.removeEventListener('scroll', this.onScrollCharLoading);
+    } */
 
   renderItems(arr) {
     const items = arr.map((item) => {
@@ -97,6 +114,10 @@ class CharList extends Component {
       </div>
     )
   }
+}
+
+CharList.propTypes = {
+  onCharSelected: PropTypes.func.isRequired
 }
 
 export default CharList;
