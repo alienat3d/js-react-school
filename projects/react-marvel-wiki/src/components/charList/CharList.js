@@ -20,7 +20,7 @@ class CharList extends Component {
 
   marvelService = new MarvelService();
 
-  componentDidMount(offset) {
+  componentDidMount() {
     this.onRequest()
   }
 
@@ -48,7 +48,7 @@ class CharList extends Component {
   }
 
   onError = () => this.setState({ error: true, loading: false })
-  // Пробовал сделать дозагрузку персонажей, но недоделал.
+  // Пробовал сделать дозагрузку персонажей, но не доделал.
   /*   onScrollCharLoading = (offset) => {
       if (
         window.scrollY + document.documentElement.clientHeight >=
