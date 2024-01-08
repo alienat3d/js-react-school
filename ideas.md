@@ -5,8 +5,9 @@
 - Quotes screensaver
 - Cook Recipes Collection
 - Mushroom Timer
-- Tee Timer
+- Tea Timer
 - Wares Comparison
 - Self-educating program
 - Photos Slideshow
 - Calender
+- Showing All Bonus Categories on Banking Cards and Loyalty programs
