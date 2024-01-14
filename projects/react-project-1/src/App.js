@@ -7,14 +7,12 @@ class Form extends Component {
   /*   myRef = React.createRef();
     mySecondRef = React.createRef(); */
 
-  /*   componentDidMount() {
-      this.myRef.current.focus();
-      // this.myRef.current.focusOnInput();
-    } */
-
-  setInputRef = (element) => {
-    this.myRef = element;
+  componentDidMount() {
+    this.myRef.focus();
+    // this.myRef.current.focusOnInput();
   }
+
+  setInputRef = element => this.myRef = element;
 
   focusFirstTextInput = () => {
     if (this.myRef) {

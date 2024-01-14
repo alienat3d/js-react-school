@@ -217,6 +217,7 @@ function cards() {
     );
   }); */
 }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cards);
 
 /***/ }),
@@ -315,7 +316,6 @@ const openingModal = (modalSelector, modalTimerID) => {
   modal.classList.add('show');
   modal.classList.remove('hide');
   document.body.style.overflow = 'hidden';
-  console.log(modalTimerID);
   if (modalTimerID) {
     clearInterval(modalTimerID);
   }
@@ -1939,7 +1939,7 @@ __webpack_require__.r(__webpack_exports__);
 const modalTimerID = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_2__.openingModal)('.modal', modalTimerID), 50000);
 (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_1__["default"])('.tabheader__item', '.tabcontent', '.tabcontainer', 'tabheader__item_active');
 (0,_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('[data-modal]', '.modal', modalTimerID);
-(0,_modules_timer__WEBPACK_IMPORTED_MODULE_3__["default"])('.timer', '2023-12-31');
+(0,_modules_timer__WEBPACK_IMPORTED_MODULE_3__["default"])('.timer', '2025-01-01');
 (0,_modules_cards__WEBPACK_IMPORTED_MODULE_4__["default"])();
 (0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])('form', modalTimerID);
 (0,_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])({

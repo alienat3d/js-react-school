@@ -15,7 +15,7 @@ const modalTimerID = setTimeout(() => openingModal('.modal', modalTimerID), 5000
 
 tabs('.tabheader__item', '.tabcontent', '.tabcontainer', 'tabheader__item_active');
 modal('[data-modal]', '.modal', modalTimerID);
-timer('.timer', '2023-12-31');
+timer('.timer', '2025-01-01');
 cards();
 forms('form', modalTimerID);
 slider({

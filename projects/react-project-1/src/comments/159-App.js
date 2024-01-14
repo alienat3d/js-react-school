@@ -27,9 +27,8 @@ class Form extends Component {
       // this.myRef.current.focusOnInput();
     } */
 
-  setInputRef = (element) => {
-    this.myRef = element;
-  }
+  setInputRef = element => this.myRef = element;
+
   // 1.4.2 И дальше мы этот реф можем использовать в других методах, однако стоит сделать на всякий случай проверку на действительность ссылки реф.
   // ? 1.4.3 В курсе сказали, что с приёмом коллбэк-рефов current не используется, но на деле браузеру Chrome всё равно, вероятно это пофиксили.
   // ? 1.4.4 Таким образом можно формировать целый массив ссылок на DOM-элементы, если рефы создаются внутри цикла.
@@ -54,8 +53,8 @@ class Form extends Component {
               className="form-control"
               id="exampleFormControlInput1"
               placeholder="name@example.com"
-              // ref={this.myRef} />
               ref={this.setInputRef} />
+              {/* ref={this.myRef} /> */}
             {/* <TextInput ref={this.myRef} /> */}
           </div>
           <div className="mb-3">
