@@ -50,16 +50,16 @@
   opacity: 0;
 }
 
-.list-group-item.like .fa-star {
+.list-group-item.rise .fa-star {
   opacity: 1;
   translate: 0;
 }
 
-.list-group-item.increase .list-group-item-label,
-.list-group-item.increase .list-group-item-input {
+.list-group-item.increased .list-group-item-label,
+.list-group-item.increased .list-group-item-input {
   color: #e09f3e;
 }
 
-.list-group-item.increase .btn-star {
+.list-group-item.increased .btn-star {
   color: #aeaeae;
 }
