@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import {Component} from 'react';
 
 import AppInfo from '../app-info/app-info';
 import SearchPanel from '../search-panel/search-panel';
@@ -13,28 +13,28 @@ class App extends Component {
     super(props);
     this.state = {
       data: [
-        { name: 'Денис Андреевич Зайцев', salary: 42000, increase: false, rise: false, id: 0 },
-        { name: 'Дмитрий Дмитриевич Дёмин', salary: 177000, increase: false, rise: false, id: 1 },
-        { name: 'Алексей Васильевич Цвайг', salary: 400000, increase: true, rise: true, id: 2 },
-        { name: 'Семён Моисеевич Циммерман', salary: 195000, increase: false, rise: false, id: 3 },
-        { name: 'Алёна Алексеевна Воробьёва', salary: 105000, increase: true, rise: true, id: 4 },
-        { name: 'Дмитрий Валерьевич Гонцов', salary: 95000, increase: true, rise: false, id: 5 },
-        { name: 'Василий Александрович Чёрный', salary: 45000, increase: false, rise: false, id: 6 },
-        { name: 'Марина Валерьевна Луговая', salary: 125000, increase: false, rise: true, id: 7 },
+        {name: 'Денис Андреевич Зайцев', salary: 42000, increase: false, rise: false, id: 0},
+        {name: 'Дмитрий Дмитриевич Дёмин', salary: 177000, increase: false, rise: false, id: 1},
+        {name: 'Алексей Васильевич Цвайг', salary: 400000, increase: true, rise: true, id: 2},
+        {name: 'Семён Моисеевич Циммерман', salary: 195000, increase: false, rise: false, id: 3},
+        {name: 'Алёна Алексеевна Воробьёва', salary: 105000, increase: true, rise: true, id: 4},
+        {name: 'Дмитрий Валерьевич Гонцов', salary: 95000, increase: true, rise: false, id: 5},
+        {name: 'Василий Александрович Чёрный', salary: 45000, increase: false, rise: false, id: 6},
+        {name: 'Марина Валерьевна Луговая', salary: 125000, increase: false, rise: true, id: 7},
       ],
       term: '',
       filter: 'all'
-    }
+    };
     this.maxId = 7;
   }
 
   deleteItem = (id) => {
-    this.setState(({ data }) => {
+    this.setState(({data}) => {
       return {
         data: data.filter(item => item.id !== id)
-      }
-    })
-  }
+      };
+    });
+  };
 
   addItem = (name, salary) => {
     const newItem = {
@@ -43,55 +43,67 @@ class App extends Component {
       increase: false,
       rise: false,
       id: ++this.maxId
-    }
-    this.setState(({ data }) => {
+    };
+    this.setState(({data}) => {
       const newArr = [...data, newItem];
       return {
         data: newArr
-      }
+      };
     });
-  }
+  };
 
+  // Универсальная функция, которая будет работать сразу с несколькими свойствами подставляя нужное в алгоритм (подробно в [comments/136.2-app.jsx])
   onToggleProp = (id, prop) => {
-    this.setState(({ data }) => ({
+    this.setState(({data}) => ({
       data: data.map(item => {
         if (item.id === id) {
-          return { ...item, [prop]: !item[prop] }
+          return {...item, [prop]: !item[prop]};
         }
         return item;
       })
-    }))
-  }
+    }));
+  };
 
   onEnterSpaceKeyDown = (evt, func) => {
     if (evt.key === 'Enter' || evt.key === 'Space') {
       return func;
     }
-  }
+  };
 
+  // Функция поиска по имени сотрудника и по зарплате
   searchEmployee = (items, term) => {
-    if (term.length === 0) {
-      return items;
+    if (term.length === 0) return items;
+
+    const convertedValue = Number(term);
+
+    if (!isNaN(convertedValue) && term.trim() !== '') {
+      return items.filter(item => {
+        return item.salary.toString().indexOf(term) > -1;
+      });
+    } else {
+      return items.filter(item => {
+        return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+      });
     }
-    return items.filter(item => item.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
-  }
-  onUpdateSearch = (term) => this.setState({ term })
+  };
+
+  onUpdateSearch = (term) => this.setState({term});
 
   filterEmployees = (items, filter) => {
     switch (filter) {
       case 'rise':
-        return items.filter(item => item.rise)
+        return items.filter(item => item.rise);
       case '> 100000':
-        return items.filter(item => item.salary > 100000)
+        return items.filter(item => item.salary > 100000);
       default:
         return items;
     }
-  }
+  };
 
-  onFilterSelect = (filter) => this.setState({ filter })
+  onFilterSelect = (filter) => this.setState({filter});
 
   render() {
-    const { data, term, filter } = this.state;
+    const {data, term, filter} = this.state;
     const employeesCount = data.length;
     const increasedCount = data.filter(item => item.increase).length;
     const visibleData = this.filterEmployees(this.searchEmployee(data, term), filter);
@@ -100,21 +112,21 @@ class App extends Component {
       <div className="app">
         <AppInfo
           employeesCount={employeesCount}
-          increasedCount={increasedCount} />
+          increasedCount={increasedCount}/>
 
         <div className="search-panel">
-          <SearchPanel onUpdateSearch={this.onUpdateSearch} />
+          <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
           <AppFilter
             filter={filter}
-            onFilterSelect={this.onFilterSelect} />
+            onFilterSelect={this.onFilterSelect}/>
         </div>
 
         <EmployeesList
           data={visibleData}
           onDelete={this.deleteItem}
-          onToggleProp={this.onToggleProp} />
+          onToggleProp={this.onToggleProp}/>
 
-        <EmployeeAddForm onAdd={this.addItem} />
+        <EmployeeAddForm onAdd={this.addItem}/>
       </div>
     );
   }
