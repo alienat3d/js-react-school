@@ -53,20 +53,21 @@ class App extends Component {
   };
 
   // Универсальная функция, которая будет работать сразу с несколькими свойствами подставляя нужное в алгоритм (подробно в [comments/136.2-app.jsx])
-  onToggleProp = (id, prop) => {
-    this.setState(({data}) => ({
-      data: data.map(item => {
-        if (item.id === id) {
-          return {...item, [prop]: !item[prop]};
-        }
-        return item;
-      })
-    }));
-  };
+  onToggleProp = (evt, id, prop) => {
+    const isClick = evt.type === 'click';
+    const isKeyDown = evt.type === 'keydown' && (evt.key === ' ' || evt.key === 'Enter');
 
-  onEnterSpaceKeyDown = (evt, func) => {
-    if (evt.key === 'Enter' || evt.key === 'Space') {
-      return func;
+    if (isClick || isKeyDown) {
+      if (evt.key === ' ') evt.preventDefault();
+
+      this.setState(({data}) => ({
+        data: data.map(item => {
+          if (item.id === id) {
+            return {...item, [prop]: !item[prop]};
+          }
+          return item;
+        })
+      }));
     }
   };
 
@@ -114,6 +115,13 @@ class App extends Component {
   };
 
   onFilterSelect = (filter) => this.setState({filter});
+
+  componentDidUpdate(prevProps) {
+  // If the parent prop changes, update our local input value
+  if (prevProps.salary !== this.props.salary) {
+    this.setState({ inputValue: this.props.salary });
+  }
+}
 
   render() {
     const {data, term, filter} = this.state;

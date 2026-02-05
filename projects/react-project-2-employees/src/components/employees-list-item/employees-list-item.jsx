@@ -12,7 +12,25 @@ class EmployeesListItem extends Component {
   onChangeSalary = (evt) => {
     const value = evt.target.value;
     const cleanedValue = value.replace(/\D/g, '');
-    this.props.onSalaryChange(cleanedValue);
+    this.setState({inputValue: cleanedValue});
+  };
+
+  onBlurSalary = () => {
+    const {onSalaryChange, salary} = this.props;
+    const {inputValue} = this.state;
+
+    if (inputValue !== salary) {
+      onSalaryChange(inputValue);
+    }
+  };
+
+  onKeyDownSalary = (evt) => {
+    if (evt.key === 'Enter') {
+      evt.currentTarget.blur();
+    }
+    if (evt.key === ' ') {
+      evt.preventDefault();
+    }
   };
 
   render() {
@@ -29,18 +47,22 @@ class EmployeesListItem extends Component {
 
     return (
       <li className={classNames}>
-      <span
-        className="list-group-item-label"
-        tabIndex={3}
-        onClick={onToggleProp}
-        data-toggle="rise">
-          {name}
-      </span>
+        <span
+          className="list-group-item-label"
+          tabIndex={3}
+          onKeyDown={onToggleProp}
+          onClick={onToggleProp}
+          data-toggle="rise">
+            {name}
+        </span>
         <input
+          tabIndex={4}
           type="text"
           className="list-group-item-input"
-          value={'₽' + salary}
+          value={'₽' + this.state.inputValue}
           onChange={this.onChangeSalary}
+          onBlur={this.onBlurSalary}
+          onKeyDown={this.onKeyDownSalary}
         />
         <button
           className="btn-cookie btn-sm"
