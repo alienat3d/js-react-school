@@ -1,5 +1,6 @@
 class MarvelService {
   // FIXME: Hide _apiBase & _apiKey!
+  // _apiBase = 'https://gateway.marvel.com:443/v1/public/';
   _apiBase = 'https://gateway.marvel.com:443/v1/public/';
   _apiKey = 'apikey=0856e08c6fd8cf6a102714f9dd77f559';
   /*   _apiBase = process.env.REACT_APP_API_BASE;
@@ -10,7 +11,7 @@ class MarvelService {
     let res = await fetch(url);
 
     if (!res.ok) {
-      throw new Error(`Could’nt fetch ${url}, status: ${res.status}`);
+      throw new Error(`Couldn't fetch ${url}, status: ${res.status}`);
     }
 
     return await res.json();
