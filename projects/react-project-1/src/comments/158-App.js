@@ -50,16 +50,11 @@ class WhoAmI extends Component {
       occupation: ''
     }
   }
-  nextYear = () => {
-    this.setState(state => ({
-      age: state.age + 1
-    }));
-  }
+  nextYear = () => this.setState(state => ({ age: state.age + 1 }));
+
   commitInputChanges = (evt, color) => {
     console.log(color);
-    this.setState({
-      occupation: evt.target.value
-    })
+    this.setState({ occupation: evt.target.value })
   }
   render() {
     const { name, surname, link } = this.props;
@@ -121,21 +116,17 @@ const HelloGreeting = (props) => {
 // ? 1.0.12 На самом деле мы могли бы назвать этот проп как угодно, то всё же принято называть именно render, чтобы сохранять наглядность и читаемость кода. Так любой разработчик сразу поймёт, что мы используем именно этот приём.
 // ? 1.0.13 Также можно передавать сразу несколько таких пропсов в виде функций, как впрочем и {this.props.render(this.state.counter)} мы могли бы указать сразу в нескольких местах компонента.
 const Message = (props) => {
-  return (
-    <h2>The counter is {props.counter}</h2>
-  )
+  return <h2>The counter is {props.counter}</h2>
 }
 // 1.0.1 Далее создадим ещё один классовый компонент, у которого будет стейт counter в значении 0. Также создадим внутри него метод для изменения значения счётчика. Вытащим деструктуризацией counter из объекта state и записывать мы будем значение counter + 1. Ну и render с кнопкой в которую будем передавать метод changeCounter.
-// 1.0.3 Также и отдельный классовый компонент Counter, который умеет свой стейт счётчика и рендерит кнопку, которая меняет этот стейт счётчика.
+// 1.0.3 Также и отдельный классовый компонент Counter, который имеет свой стейт счётчика, и рендерит кнопку, а она меняет этот стейт счётчика.
 // ? 1.0.4 Как мы можем связать эти два компонента, чтобы они оставались независимыми друг от друга, но при этом компонент Message находился бы внутри компонента Counter и использовал бы его состояние? Ведь если мы взяли и просто поместили бы Message внутрь компонента Counter в его функцию render, то это была бы жёсткая привязка. Компонент Counter потеряет свою специфичность, потому, что внутри будет содержать конкретный компонент. А значит, если понадобится внутри не Message, а другой компонент, то придётся создавать копию компонента Counter. 
 // 1.0.5 На практике мы не хотим делать, как в закомментированной строке ниже, чтобы не делать жёсткой привязки одного компонента к другому. И если понадобится такой же компонент Counter, но с другим компонентом вместо Message, то скорее всего придётся копировать весь Counter, чтобы заменить один компонент внутри.
 
 // 1.0.9 Теперь туда, где мы раньше прописывали жёстко Message мы можем записать {this.props.render()}, что означает, что там будет рендериться что-то, что мы только что записали в пропсе с именем render. Теперь там выполнится функция render() и на месте себя оставит <Message counter={counter} />, т.е. тот компонент, который мы туда динамически передали.
 // 1.0.10 Также нам понадобится передать какой-то аргумент, им как раз будет "this.state.counter".
 class Counter extends Component {
-  state = {
-    counter: 0
-  }
+  state = { counter: 0 }
 
   changeCounter = () => this.setState(({ counter }) => ({
     counter: ++counter
@@ -145,9 +136,7 @@ class Counter extends Component {
     return (
       <>
         {this.props.render(this.state.counter)}
-        <button
-          className='btn btn-primary text-center'
-          onClick={this.changeCounter}>
+        <button className='btn btn-primary text-center' onClick={this.changeCounter}>
           Click me
         </button>
         {this.props.render(this.state.counter)}

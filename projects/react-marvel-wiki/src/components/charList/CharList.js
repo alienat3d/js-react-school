@@ -20,9 +20,7 @@ class CharList extends Component {
 
   marvelService = new MarvelService();
 
-  componentDidMount() {
-    this.onRequest()
-  }
+  componentDidMount() { this.onRequest() }
 
   onRequest = (offset) => {
     this.onCharListLoading();
@@ -127,8 +125,7 @@ class CharList extends Component {
         {errorMessage}
         {spinner}
         {content}
-        <button
-          className="button button__main button__long"
+        <button className="button button__main button__long"
           disabled={newItemLoading}
           style={{ 'display': charEnded ? 'none' : 'block' }}
           onClick={() => this.onRequest(offset)}>
