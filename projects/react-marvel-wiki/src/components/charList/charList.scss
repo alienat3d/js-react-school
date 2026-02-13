@@ -24,8 +24,9 @@
     transition: 0.3s transform;
     img {
       width: 200px;
-      height: 200px;
+      height: 252px;
       object-fit: cover;
+      object-position: top;
       transform: translate(-15px, -15px);
     }
     &_selected {

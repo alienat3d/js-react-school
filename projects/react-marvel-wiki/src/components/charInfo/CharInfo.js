@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import MarvelService from '../../services/MarvelService';
+import ComicVineService from '../../services/ComicVineService';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -16,9 +16,11 @@ class CharInfo extends Component {
     error: false
   }
 
-  marvelService = new MarvelService();
+  comicVineService = new ComicVineService();
 
-  componentDidMount() { this.updateChar(); }
+  componentDidMount() {
+    this.updateChar();
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.charId !== prevProps.charId) this.updateChar();
@@ -30,7 +32,7 @@ class CharInfo extends Component {
 
     this.onCharLoading();
 
-    this.marvelService
+    this.comicVineService
       .getCharacter(charId)
       .then(this.onCharLoaded)
       .catch(this.onError);
@@ -43,7 +45,10 @@ class CharInfo extends Component {
     loading: false
   })
 
-  onCharLoading = () => this.setState({ loading: true })
+  onCharLoading = () => this.setState({
+    loading: true,
+    error: false
+  })
 
   onError = () => this.setState({
     loading: false,
@@ -70,47 +75,48 @@ class CharInfo extends Component {
 }
 
 const View = ({ char }) => {
-  const { thumbnail, name, description, homepage, wiki, comics } = char;
+  const { name, deck, thumbnail, homepage, wiki, volume_credits } = char;
 
-  let imgStyle = { 'objectPosition': 'center' };
+  /*let imgStyle = { 'objectPosition': 'center' };
   if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
     imgStyle = { 'objectPosition': 'left bottom' };
   } else if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif') {
     imgStyle = { 'objectPosition': 'right bottom' };
-  }
+  }*/
 
   return (
     <>
       <div className="char__basics">
-        <img
+        {/*<img
           src={thumbnail}
           alt={name}
-          style={imgStyle} />
+          style={imgStyle} />*/}
+        <img src={thumbnail}
+          alt={name} />
         <div>
           <div className="char__info-name">{name}</div>
           <div className="char__btns">
-            <a href={homepage} className="button button__main">
+            <a className="button button__main" href={homepage} target="_blank" rel="noreferrer">
               <div className="inner">homepage</div>
             </a>
-            <a href={wiki} className="button button__secondary">
+            <a className="button button__secondary" href={wiki} target="_blank" rel="noreferrer">
               <div className="inner">wiki</div>
             </a>
           </div>
         </div>
       </div>
-      <div className="char__descr">{description}</div>
+      <div className="char__descr">{deck}</div>
       <div className="char__comics">Comics:</div>
       <ul className="char__comics-list">
-        {comics.length > 0 ? null : 'There is no comics with this character found in our database.'}
+        {volume_credits.length > 0 ? null : 'There is no comics with this character found in our database.'}
         {
-          comics.map((item, index) => {
-            // eslint-disable-next-line
-            if (index > 9) return;
+          volume_credits.slice(0, 10).map((item, index) => {
+            // eslint-disable-next-line array-callback-return
+            // if (index > 9) return;
             return (
-              <li
-                className="char__comics-item"
+              <li className="char__comics-item"
                 key={index}>
-                {item.name}
+                <a href={item.site_detail_url} target="_blank" rel="noreferrer">{item.name}</a>
               </li>
             )
           })

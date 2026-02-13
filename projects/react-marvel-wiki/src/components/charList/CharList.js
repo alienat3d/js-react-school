@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import MarvelService from '../../services/MarvelService';
+import ComicVineService from '../../services/ComicVineService';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -18,16 +18,15 @@ class CharList extends Component {
     charEnded: false
   }
 
-  marvelService = new MarvelService();
+  comicVineService = new ComicVineService();
 
   componentDidMount() { this.onRequest() }
 
   onRequest = (offset) => {
     this.onCharListLoading();
-
-    this.marvelService.getAllCharacters(offset)
+    this.comicVineService.getAllCharacters(offset)
       .then(this.onCharListLoaded)
-      .catch(this.onError)
+      .catch(this.onError);
   }
 
   onCharListLoading = () => this.setState({ newItemLoading: true })
@@ -74,10 +73,10 @@ class CharList extends Component {
 
   renderItems(arr) {
     const items = arr.map((item, index) => {
-      let imgStyle = { 'objectFit': 'cover' };
+      /*let imgStyle = { 'objectFit': 'cover' };
       if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
         imgStyle = { 'objectFit': 'unset' };
-      }
+      }*/
 
       return (
         <li
@@ -97,18 +96,13 @@ class CharList extends Component {
           }} >
           <img
             src={item.thumbnail}
-            alt={item.name}
-            style={imgStyle} />
+            alt={item.name} />
           <div className="char__name">{item.name}</div>
         </li>
       )
     });
 
-    return (
-      <ul className="char__grid">
-        {items}
-      </ul>
-    )
+    return <ul className="char__grid">{items}</ul>;
   }
 
   render() {
