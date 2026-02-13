@@ -66,10 +66,35 @@ class CharList extends Component {
   setRef = ref => this.itemRefs.push(ref);
 
   focusOnItem = id => {
-    this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
-    this.itemRefs[id].classList.add('char__item_selected');
+    if (!this.itemRefs) return;
+
     this.itemRefs[id].focus();
   };
+
+  onKeyDown = (evt, index) => {
+    const { charList } = this.state;
+
+    // 1. Selection Keys
+    if (evt.key === ' ' || evt.key === "Enter") {
+        evt.preventDefault();
+        this.props.onCharSelected(charList[index].id);
+        this.focusOnItem(index);
+    }
+
+    // 2. Navigation Keys (3 columns grid)
+    if (evt.key === 'ArrowRight' && index < charList.length - 1) {
+        this.focusOnItem(index + 1);
+    }
+    if (evt.key === 'ArrowLeft' && index > 0) {
+        this.focusOnItem(index - 1);
+    }
+    if (evt.key === 'ArrowDown' && index + 3 < charList.length) {
+        this.focusOnItem(index + 3);
+    }
+    if (evt.key === 'ArrowUp' && index - 3 >= 0) {
+        this.focusOnItem(index - 3);
+    }
+}
 
   renderItems(arr) {
     const items = arr.map((item, index) => {
@@ -88,12 +113,7 @@ class CharList extends Component {
             this.props.onCharSelected(item.id);
             this.focusOnItem(index);
           }}
-          onKeyDown={evt => {
-            if (evt.key === ' ' || evt.key === "Enter") {
-              this.props.onCharSelected(item.id);
-              this.focusOnItem(index);
-            }
-          }} >
+          onKeyDown={(evt) => this.onKeyDown(evt, index)} >
           <img
             src={item.thumbnail}
             alt={item.name} />
