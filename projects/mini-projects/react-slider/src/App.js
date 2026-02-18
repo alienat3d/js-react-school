@@ -1,6 +1,10 @@
-import {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect, useCallback, useMemo} from 'react';
 import {Container} from 'react-bootstrap';
 import './App.css';
+
+const countTotalSlides = (num) => {
+  return num + 10;
+};
 
 const generateRandomNumber = () => Math.floor(Math.random() * (13 - 1) + 1);
 
@@ -9,8 +13,6 @@ const Slider = (props) => {
   const [autoplay, setAutoplay] = useState(false);
 
   const getImages = useCallback(() => {
-    console.log('getting images');
-
     return ['/assets/img/01.webp', '/assets/img/02.webp', '/assets/img/03.webp', '/assets/img/04.webp', '/assets/img/05.webp', '/assets/img/06.webp', '/assets/img/07.webp', '/assets/img/08.webp', '/assets/img/09.webp', '/assets/img/10.webp', '/assets/img/11.webp', '/assets/img/12.webp'];
   }, [slide]);
 
@@ -29,7 +31,7 @@ const Slider = (props) => {
   }, [slide]);
 
   function logging() {
-    console.log('log');
+    // console.log('log');
   }
 
   const previousSlide = () => {
@@ -44,11 +46,22 @@ const Slider = (props) => {
     setAutoplay((autoplay) => !autoplay);
   };
 
+  const totalSlides = useMemo(() => {
+    return countTotalSlides(slide);
+  }, [slide]);
+
+  const style = useMemo(() => ({color: slide > 4 ? 'slate' : 'lightgray'}), [slide]);
+
+  useEffect(() => {
+    console.log('Styles are changed');
+  }, [style]);
+
   return (
     <Container>
       <div className="slider w-50 m-auto">
         <Slide getImages={getImages}/>
         <div className="text-center mt-5">Active slide #{slide} <br/> {autoplay ? 'auto' : null}</div>
+        <div className="text-center mt-5" style={style}>Total slides {totalSlides}</div>
         <div className="buttons text-center mt-3">
           <button className="btn btn-primary me-2" onClick={previousSlide}>-1</button>
           <button className="btn btn-primary me-2" onClick={nextSlide}>+1</button>
