@@ -1,3 +1,4 @@
+// import { Component } from 'react';
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import ComicVineService from '../../services/ComicVineService';
@@ -5,12 +6,32 @@ import {useEffect, useState} from 'react';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
+// class RandomChar extends Component {
 const RandomChar = () => {
+  // comicVineService = new ComicVineService();
   const comicVineService = new ComicVineService();
+
+  /*  state = {
+    char: {},
+    loading: true,
+    error: false,
+  }*/
   const [char, setChar] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  /*  onCharLoaded = (char) => this.setState({
+      char,
+      loading: false
+    })*/
+  /*  onCharLoading = () => this.setState({
+      loading: true,
+      error: false
+    })*/
+  /*  onError = () => this.setState({
+      loading: false,
+      error: true
+    })*/
   const onCharLoaded = (char) => {
     setChar(char);
     setLoading(false);
@@ -26,12 +47,24 @@ const RandomChar = () => {
     setError(true);
   };
 
+  /*  updateCharacter = () => {
+      // const id = Math.floor(Math.random() * (1011428 - 1010669) + 1010669); // Old randomizer func for Marvel API, that we don't need anymore.
+      this.onCharLoading();
+      this.comicVineService
+        .getRandomCharacter()
+        .then(this.onCharLoaded)
+        .catch(this.onError);
+    }*/
   const updateCharacter = () => {
     // const id = Math.floor(Math.random() * (1011428 - 1010669) + 1010669); // Old randomizer func for Marvel API, that we don't need anymore.
     onCharLoading();
     comicVineService.getRandomCharacter().then(onCharLoaded).catch(onError);
   };
 
+  /*componentDidMount() {
+    this.updateCharacter();
+    // this.timerId = setInterval(this.updateCharacter, 15000);
+  };*/
   useEffect(() => {
     updateCharacter();
 /*    const timerId = setInterval(updateCharacter, 60000);
@@ -41,6 +74,12 @@ const RandomChar = () => {
     };*/
   }, []);
 
+  // componentWillUnmount() {
+  //   clearInterval(this.timerId);
+  // };
+
+  // render() {
+  //   const { char, loading, error } = this.state;
   const errorMessage = error ? <ErrorMessage/> : null;
   const spinner = loading ? <Spinner/> : null;
   const content = !(loading || error) ? <View char={char}/> : null;
@@ -59,12 +98,17 @@ const RandomChar = () => {
           Or choose another one
         </p>
         <button className="button button__main" onClick={updateCharacter}>
+          {/*<button className="button button__main" onClick={this.updateCharacter}>*/}
           <div className="inner">try it</div>
         </button>
-        <img className="randomchar__decoration" src={mjolnir} alt="A Mjolnir hammer"/>
+        <img
+          src={mjolnir}
+          alt="A Mjolnir hammer"
+          className="randomchar__decoration"/>
       </div>
     </div>
   );
+  // }
 };
 
 const View = ({char}) => {
@@ -78,6 +122,10 @@ const View = ({char}) => {
 
   return (
     <div className="randomchar__block">
+      {/*<img src={thumbnail}
+        alt="Random character"
+        className="randomchar__img"
+        style={imgStyle} />*/}
       <img className="randomchar__img" src={thumbnail} alt="Random character" />
       <div className="randomchar__info">
         <p className="randomchar__name">{name}</p>

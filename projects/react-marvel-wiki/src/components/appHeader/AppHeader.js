@@ -1,8 +1,10 @@
 import './appHeader.scss';
+import AppBanner from '../appBanner/AppBanner';
 
 const AppHeader = () => {
   return (
     <header className="app__header">
+      <AppBanner/>
       <h1 className="app__title">
         <a href="#">
           <span>Marvel</span> information portal
@@ -16,7 +18,7 @@ const AppHeader = () => {
         </ul>
       </nav>
     </header>
-  )
-}
+  );
+};
 
 export default AppHeader;

@@ -1,3 +1,4 @@
+// import { Component } from 'react';
 import './charInfo.scss';
 import PropTypes from 'prop-types';
 import ComicVineService from '../../services/ComicVineService';
@@ -6,12 +7,43 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
+// class CharInfo extends Component {
 const CharInfo = (props) => {
   const comicVineService = new ComicVineService();
-
+//   state = {
+//     char: null,
+//     loading: false,
+//     error: false
+//   }
   const [char, setChar] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  /*  updateChar = () => {
+      const { charId } = this.props;
+      if (!charId) return;
+
+      this.onCharLoading();
+
+      this.comicVineService
+        .getCharacter(charId)
+        .then(this.onCharLoaded)
+        .catch(this.onError);
+
+      // this.foo.bar = 0; - для теста предохранителей для ошибок
+    }*/
+  /*  onCharLoading = () => this.setState({
+    loading: true,
+    error: false
+  })*/
+  /*  onCharLoaded = (char) => this.setState({
+      char,
+      loading: false
+    })*/
+  /*  onError = () => this.setState({
+      loading: false,
+      error: true
+    })*/
 
   const onCharLoading = () => {
     setLoading(true);
@@ -28,14 +60,23 @@ const CharInfo = (props) => {
     setError(true);
   };
 
-  const updateChar = () => {
-    const {charId} = props;
+  const updateChar = (charId) => {
     if (!charId) return;
+
     onCharLoading();
-    comicVineService.getCharacter(charId).then(onCharLoaded).catch(onError);
+
+    comicVineService
+      .getCharacter(charId)
+      .then(onCharLoaded)
+      .catch(onError);
   };
 
-  useEffect(() => updateChar(), [props.charId]);
+  /*  componentDidMount() { this.updateChar(); }*/
+  useEffect(() => updateChar(), [char, updateChar]);
+  /*  componentDidUpdate(prevProps) { if (this.props.charId !== prevProps.charId) this.updateChar(); }*/
+
+  // render() {
+  // const {char, loading, error} = this.state;
 
   const skeleton = char || loading || error ? null : <Skeleton/>;
   const errorMessage = error ? <ErrorMessage/> : null;
@@ -50,9 +91,11 @@ const CharInfo = (props) => {
       {content}
     </div>
   );
+  // }
 };
 
-const View = ({char}) => {
+// const View = ({char}) => {
+const View = (char) => {
   /*let imgStyle = { 'objectPosition': 'center' };
   if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
     imgStyle = { 'objectPosition': 'left bottom' };
