@@ -1,74 +1,21 @@
-import { Component } from 'react';
-
 import './App.css';
+import {ApiQuotaProvider} from './context/ApiQuotaContext';
+import Counter from './components/Counter';
+import RandomCounter from './components/RandomCounter';
+import ReqCredit from './components/ReqsCredit';
 
-class Counter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      count: this.props.counter
-    }
-  }
-
-  onIncreaseCount = () => {
-    if (this.state.count < 50) {
-      this.setState(state => ({
-        count: state.count + 1
-      }));
-    }
-  }
-  onDecreaseCount = () => {
-    if (this.state.count > -50) {
-      this.setState(state => ({
-        count: state.count - 1
-      }));
-    }
-  }
-  onRandomizeCount = () => {
-    this.setState({
-      count: +(Math.random() * (50 - -50) + -50).toFixed(0)
-    })
-  }
-  onResetCount = () => {
-    this.setState({
-      count: this.props.counter
-    })
-  }
-
-  render() {
-    const {count} = this.state;
-
-    return (
-      <div className='app'>
-        <div className='counter'>{count}</div>
-        <div className='controls'>
-          <button onClick={this.onDecreaseCount}>
-            <img className='control-btn-img' src='./img/minus.svg' alt='' />
-          </button>
-          <button onClick={this.onIncreaseCount}>
-            <img className='control-btn-img' src='./img/plus.svg' alt='' />
-          </button>
-          <button onClick={this.onRandomizeCount}>
-            <img className='control-btn-img' src='./img/dice.svg' alt='' />
-          </button>
-          <button onClick={this.onResetCount}>
-            <img className='control-btn-img' src='./img/reset.svg' alt='' />
-          </button>
-        </div>
-      </div>
-    )
-  }
-}
+// 169.8.8 И, наконец, в главном компоненте App мы обернём в компонент-обёртку контекста другие компоненты, чтобы наш функционал заработал.
 
 function App() {
   return (
-    <Counter counter={0} />
+    <ApiQuotaProvider>
+      <div className="container">
+        <Counter />
+        <RandomCounter />
+        <ReqCredit/>
+      </div>
+    </ApiQuotaProvider>
   );
 }
 
 export default App;
-
-// 1) Начальное значение счетчика должно передаваться через props
-// 2) INC и DEC увеличивают и уменьшают счетчик соответственно на 1. Без ограничений, но можете добавить границу в -50/50. По достижению границы ничего не происходит
-// 3) RND изменяет счетчик в случайное значение от -50 до 50. Конструкцию можете прогуглить за 20 секунд :) Не зависит от предыдущего состояния
-// 4) RESET сбрасывает счетчик в 0 или в начальное значение из пропсов. Выберите один из вариантов
