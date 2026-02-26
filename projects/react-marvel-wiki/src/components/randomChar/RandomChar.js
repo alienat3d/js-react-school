@@ -1,44 +1,52 @@
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
-import ComicVineService from '../../services/ComicVineService';
+import useComicVineService from '../../services/ComicVineService';
 import {useEffect, useState} from 'react';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
 const RandomChar = () => {
-  const comicVineService = new ComicVineService();
   const [char, setChar] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  // 170.7.0 Эти стейты можем удалить, ведь теперь они у нас есть в хуке "http.hook", но извлечь мы их можем также из функции "ComicVineService". Ведь там мы их также импортировали и снова экспортировали.
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(false);
+  const {loading, error, getRandomCharacter, clearError} = useComicVineService();
 
+  // 170.7.1 А дальше мы удалим уже лишние/повторяющиеся функции для индикатора загрузки и ошибок, ведь они у нас есть теперь в хуке "http.hook" и контролируются оттуда.
+  // (Go to [/src/components/charList/CharList.js])
   const onCharLoaded = (char) => {
     setChar(char);
-    setLoading(false);
+    // setLoading(false);
   };
+  /*  const onCharLoading = () => {
+      setLoading(true);
+      setError(false);
+    };
+    const onError = () => {
+      setLoading(false);
+      setError(true);
+    };*/
 
-  const onCharLoading = () => {
-    setLoading(true);
-    setError(false);
-  };
-
-  const onError = () => {
-    setLoading(false);
-    setError(true);
-  };
-
+  // 170.13 Для стабилизации функции updateCharacter убедимся, что происходит отлов ошибок после того, как количество попыток соединиться истратилось.
+  // (Go to [/src/hooks/http.hook.js])
   const updateCharacter = () => {
-    // const id = Math.floor(Math.random() * (1011428 - 1010669) + 1010669); // Old randomizer func for Marvel API, that we don't need anymore.
-    onCharLoading();
-    comicVineService.getRandomCharacter().then(onCharLoaded).catch(onError);
+    clearError();
+    // const id = Math.floor(Math.random() * (196724 - 1) + 196724); // Old randomizer func for Marvel API, that we don't need anymore.
+    // onCharLoading();
+    // comicVineService.getRandomCharacter().then(onCharLoaded).catch(onError);
+    getRandomCharacter()
+      .then(onCharLoaded)
+      .catch(error => console.error("RandomChar failed to load a character:", error));
   };
 
   useEffect(() => {
     updateCharacter();
-/*    const timerId = setInterval(updateCharacter, 60000);
+    /*    const timerId = setInterval(updateCharacter, 60000);
 
-    return () => {
-      clearInterval(timerId);
-    };*/
+        return () => {
+          clearInterval(timerId);
+        };*/
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const errorMessage = error ? <ErrorMessage/> : null;
@@ -78,7 +86,7 @@ const View = ({char}) => {
 
   return (
     <div className="randomchar__block">
-      <img className="randomchar__img" src={thumbnail} alt="Random character" />
+      <img className="randomchar__img" src={thumbnail} alt="Random character"/>
       <div className="randomchar__info">
         <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">{deck ? `${deck.slice(0, 172)}...` : 'Description isn’t found...'}</p>
