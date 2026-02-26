@@ -1,6 +1,5 @@
 import decoration from '../../resources/img/vision.png';
 import {useState} from 'react';
-// import ComicVineService from '../../services/ComicVineService';
 import AppHeader from '../appHeader/AppHeader';
 import RandomChar from '../randomChar/RandomChar';
 import CharList from '../charList/CharList';

@@ -7,12 +7,33 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 
 const RandomChar = () => {
   const [char, setChar] = useState({});
+  // 170.7.0 Эти стейты можем удалить, ведь теперь они у нас есть в хуке "http.hook", но извлечь мы их можем также из функции "ComicVineService". Ведь там мы их также импортировали и снова экспортировали.
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(false);
   const {loading, error, getRandomCharacter, clearError} = useComicVineService();
 
-  const onCharLoaded = char => setChar(char);
+  // 170.7.1 А дальше мы удалим уже лишние/повторяющиеся функции для индикатора загрузки и ошибок, ведь они у нас есть теперь в хуке "http.hook" и контролируются оттуда.
+  // (Go to [/src/components/charList/CharList.js])
+  const onCharLoaded = (char) => {
+    setChar(char);
+    // setLoading(false);
+  };
+  /*  const onCharLoading = () => {
+      setLoading(true);
+      setError(false);
+    };
+    const onError = () => {
+      setLoading(false);
+      setError(true);
+    };*/
 
+  // 170.13 Для стабилизации функции updateCharacter убедимся, что происходит отлов ошибок после того, как количество попыток соединиться истратилось.
+  // (Go to [/src/hooks/http.hook.js])
   const updateCharacter = () => {
     clearError();
+    // const id = Math.floor(Math.random() * (196724 - 1) + 196724); // Old randomizer func for Marvel API, that we don't need anymore.
+    // onCharLoading();
+    // comicVineService.getRandomCharacter().then(onCharLoaded).catch(onError);
     getRandomCharacter()
       .then(onCharLoaded)
       .catch(error => console.error("RandomChar failed to load a character:", error));
@@ -20,6 +41,11 @@ const RandomChar = () => {
 
   useEffect(() => {
     updateCharacter();
+    /*    const timerId = setInterval(updateCharacter, 60000);
+
+        return () => {
+          clearInterval(timerId);
+        };*/
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,6 +77,12 @@ const RandomChar = () => {
 
 const View = ({char}) => {
   const {thumbnail, name, deck, homepage, wiki} = char;
+  /*let imgStyle = { 'objectPosition': 'center' };
+  if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+    imgStyle = { 'objectPosition': 'left bottom' };
+  } else if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif') {
+    imgStyle = { 'objectPosition': 'right bottom' };
+  }*/
 
   return (
     <div className="randomchar__block">
