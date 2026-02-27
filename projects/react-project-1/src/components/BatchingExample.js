@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {flushSync} from 'react-dom';
 
-function TestComponent() {
+function BatchingExample() {
   const [count, setCount] = useState(0);
   const [flag, setFlag] = useState(false);
 
@@ -36,4 +36,4 @@ function TestComponent() {
   );
 }
 
-export default TestComponent;
+export default BatchingExample;
