@@ -6,11 +6,13 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
+// 170.16.0 Здесь мы поработаем над функционалом, который будет показывать оставшиеся комиксы в списке (если таковые имеются) по нажатию на кнопку. Для этого нам нужно создать отдельный стейт, который будет держать кол-во комиксов отображаемых на странице.
 const CharInfo = (props) => {
   const {loading, error, getCharacter, clearError} = useComicVineService();
   const [char, setChar] = useState(null);
+  const [visibleComics, setVisibleComics] = useState(10);
 
-  const onCharLoaded = (char) => setChar(char);
+  const onCharLoaded = char => setChar(char);
 
   const updateChar = () => {
     const {charId} = props;
@@ -19,15 +21,24 @@ const CharInfo = (props) => {
     getCharacter(charId).then(onCharLoaded);
   };
 
+  // 170.16.2 А также нам нужна функция, которая будет увеличивать кол-во показываемых комиксов на 10.
+  const showMoreComics = () => setVisibleComics(prevValue => prevValue + 10);
+
+  // 170.16.1 И они будут сбрасываться до 10, когда будет выбран другой персонаж.
   useEffect(() => {
     updateChar();
+    setVisibleComics(10);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.charId]);
 
   const skeleton = char || loading || error ? null : <Skeleton/>;
   const errorMessage = error ? <ErrorMessage/> : null;
   const spinner = loading ? <Spinner/> : null;
-  const content = !(loading || error || !char) ? <View char={char}/> : null;
+  const content = !(loading || error || !char)
+    ? <View char={char}
+            visibleComics={visibleComics}
+            showMoreComics={showMoreComics}/>
+    : null;
 
   return (
     <div className="char__info">
@@ -39,7 +50,7 @@ const CharInfo = (props) => {
   );
 };
 
-const View = ({char}) => {
+const View = ({char, visibleComics, showMoreComics}) => {
   const {name, deck, thumbnail, homepage, wiki, issue_credits} = char;
 
   return (
@@ -62,7 +73,7 @@ const View = ({char}) => {
       <div className="char__comics">Comics:</div>
       <ul className="char__comics-list">
         {issue_credits.length > 0 ? null : 'There is no comics with this character found in our database.'}
-        {issue_credits.slice(0, 10).map((item, index) => {
+        {issue_credits.slice(0, visibleComics).map((item, index) => {
           return (
             <li className="char__comics-item"
                 key={index}>
@@ -73,6 +84,14 @@ const View = ({char}) => {
           );
         })}
       </ul>
+      {issue_credits.length > visibleComics && (
+        <button
+          className="char__comics-btn button button__main button__long"
+          onClick={showMoreComics}
+        >
+          <div className="inner">show more</div>
+        </button>
+      )}
     </>
   );
 };
