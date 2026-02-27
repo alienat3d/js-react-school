@@ -86,9 +86,8 @@ const CharList = (props) => {
       {errorMessage}
       {spinner}
       {items}
-      {!(loading || error) && <button className="button button__main button__long"
+      {!(loading || error || charEnded) && <button className="button button__main button__long"
                                       disabled={newItemLoading}
-                                      style={{'display': charEnded ? 'none' : 'block'}}
                                       onClick={() => onRequest(offset)}>
         <div className="inner">load more</div>
       </button>}

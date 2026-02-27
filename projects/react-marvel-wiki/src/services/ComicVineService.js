@@ -39,14 +39,14 @@ const useComicVineService = () => {
     }
   };
 
-/*  const getObjectById = async (id) => {
+  const getObjectById = async (id) => {
     const params = new URLSearchParams({
       api_key: _apiKey,
       format: 'json'
     });
     const res = await request(`${_apiBase}character/4005-${id}/?${params.toString()}`);
     return res.results;
-  };*/
+  };
 
   // Gets a list of characters
   const getAllCharacters = async (offset = _baseOffset) => {
@@ -88,13 +88,40 @@ const useComicVineService = () => {
     };
   };
 
+// Gets a list of comics (issues)
+  const getAllComics = async (offset = _baseOffset) => {
+    const params = new URLSearchParams({
+      api_key: _apiKey,
+      format: 'json',
+      limit: 8,
+      offset: offset,
+      field_list: 'id,name,issue_number,image,site_detail_url'
+    });
+
+    const res = await request(`${_apiBase}issues/?${params.toString()}`);
+    return res.results.map(_transformComics);
+  };
+
+  // Normalizes the comics data
+  const _transformComics = (comics) => {
+    return {
+      id: comics.id,
+      // Sometimes an issue doesn't have a specific name, so we fallback to its issue number
+      title: comics.name || `Issue #${comics.issue_number}`,
+      thumbnail: comics.image ? comics.image.small_url : 'http://via.placeholder.com/250x250',
+      url: comics.site_detail_url
+    };
+  };
+
   return {
     loading,
     error,
     clearError,
     getCharacter,
     getAllCharacters,
-    getRandomCharacter
+    getRandomCharacter,
+    getAllComics,
+    getObjectById
   };
 };
 
