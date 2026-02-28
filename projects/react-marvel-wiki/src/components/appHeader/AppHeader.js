@@ -1,24 +1,23 @@
 import './appHeader.scss';
-import AppBanner from '../appBanner/AppBanner';
+import {Link, NavLink} from 'react-router-dom';
 
 const AppHeader = () => {
   return (
     <header className="app__header">
       <div className="app__header-inner">
         <h1 className="app__title">
-          <a href="/">
+          <Link to="/">
             <span>Comics</span> information portal
-          </a>
+          </Link>
         </h1>
         <nav className="app__menu">
           <ul>
-            <li><a href="/">Characters</a></li>
+            <li><NavLink to="/all-characters" activeClassName="app__menu-link--active">Characters</NavLink></li>
             /
-            <li><a href="/">Comics</a></li>
+            <li><NavLink to="/all-comics" activeClassName="app__menu-link--active">Comics</NavLink></li>
           </ul>
         </nav>
       </div>
-      <AppBanner/>
     </header>
   );
 };
