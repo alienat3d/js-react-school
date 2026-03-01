@@ -88,18 +88,31 @@ const useComicVineService = () => {
     };
   };
 
-// Gets a list of comics (issues)
+  // Gets a list of comics (issues)
   const getAllComics = async (offset = _baseOffset) => {
     const params = new URLSearchParams({
       api_key: _apiKey,
       format: 'json',
       limit: 8,
       offset: offset,
-      field_list: 'id,name,issue_number,image,site_detail_url'
+      field_list: 'id,name,issue_number,image'
     });
 
     const res = await request(`${_apiBase}issues/?${params.toString()}`);
     return res.results.map(_transformComics);
+  };
+
+  // Gets a single comic (issue) by ID
+  const getComic = async (id) => {
+    const params = new URLSearchParams({
+      api_key: _apiKey,
+      format: 'json',
+      field_list: `id,name,deck,description,image,issue_number,cover_date,page_count,volume,site_detail_url`
+    });
+
+    const res = await request(`${_apiBase}issue/4000-${id}/?${params.toString()}`);
+    console.log(res);
+    return _transformComic(res.results);
   };
 
   // Normalizes the comics data
@@ -108,8 +121,46 @@ const useComicVineService = () => {
       id: comics.id,
       // Sometimes an issue doesn't have a specific name, so we fallback to its issue number
       title: comics.name || `Issue #${comics.issue_number}`,
-      thumbnail: comics.image ? comics.image.small_url : 'http://via.placeholder.com/250x250',
-      url: comics.site_detail_url
+      thumbnail: comics.image ? comics.image.small_url : 'http://via.placeholder.com/250x250'
+    };
+  };
+
+  // Normalizes a single comic data
+  const _transformComic = (comic) => {
+    if (!comic) {
+      return {
+        id: null,
+        title: 'Comic not found',
+        description: 'No data available.',
+        thumbnail: 'http://via.placeholder.com/250x250',
+        issueNumber: '?',
+        pageCount: 'Not specified',
+        coverDate: 'Unknown',
+        homepage: null
+      };
+    }
+
+    const volumeName = comic.volume?.name || 'Unknown Series';
+    const issueNumber = comic.issue_number || '?';
+
+    return {
+      id: comic.id,
+      title: comic.name
+        ? `${volumeName}: ${comic.name}`
+        : `${volumeName} #${issueNumber}`,
+
+      description:
+        comic.description ||
+        comic.deck ||
+        'No description available for this issue.',
+
+      thumbnail: comic.image?.small_url ||
+        'http://via.placeholder.com/250x250',
+
+      issueNumber,
+      pageCount: comic.page_count || 'Not specified',
+      coverDate: comic.cover_date || 'Unknown',
+      homepage: comic.site_detail_url
     };
   };
 
@@ -120,6 +171,7 @@ const useComicVineService = () => {
     getCharacter,
     getAllCharacters,
     getRandomCharacter,
+    getComic,
     getAllComics,
     getObjectById
   };

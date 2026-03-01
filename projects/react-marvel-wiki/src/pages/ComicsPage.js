@@ -2,7 +2,7 @@ import ErrorBoundary from '../components/errorBoundary/ErrorBoundary';
 import AppBanner from '../components/appBanner/AppBanner';
 import ComicsList from '../components/comicsList/ComicsList';
 
-const AllComicsPage = () => {
+const ComicsPage = () => {
   return (
     <>
       <AppBanner/>
@@ -13,4 +13,4 @@ const AllComicsPage = () => {
   );
 };
 
-export default AllComicsPage;
+export default ComicsPage;
