@@ -50,7 +50,7 @@ const View = ({comic}) => {
         <p className="single-comic__descr" dangerouslySetInnerHTML={{__html: description}}/>
         {pageCount && <p className="single-comic__descr">{pageCount} pages</p>}
         {language && <p className="single-comic__descr">Language: {language}</p>}
-        <a className="single-comic__comicvine-url" href={comicVineUrl}><img src={comicVineLogo} alt="ComicVine Logo"/></a>
+        <a className="single-comic__comicvine-url" href={comicVineUrl} target="_blank" rel="noreferrer"><img src={comicVineLogo} alt="ComicVine Logo"/></a>
       </div>
       <Link to="/comics" className="button button__main button__long">
         <div className="inner">back to all</div>

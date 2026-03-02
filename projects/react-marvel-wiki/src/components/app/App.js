@@ -4,11 +4,12 @@ import AppHeader from '../appHeader/AppHeader';
 // import useComicVineService from '../../services/ComicVineService';
 
 const AppContent = () => {
-  /*  const comicVineService = useComicVineService();
+/*    const comicVineService = useComicVineService();
     const triggerBtn = async () => {
       const res = await comicVineService.getObjectById(1254);
       console.log(res);
     };*/
+
   const matchComic = useMatch('/comics/:comicId');
   const matchChar = useMatch('/characters/:charId');
 

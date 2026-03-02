@@ -2,11 +2,11 @@ import './charInfo.scss';
 import PropTypes from 'prop-types';
 import useComicVineService from '../../services/ComicVineService';
 import {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
-// 170.16.0 Здесь мы поработаем над функционалом, который будет показывать оставшиеся комиксы в списке (если таковые имеются) по нажатию на кнопку. Для этого нам нужно создать отдельный стейт, который будет держать кол-во комиксов отображаемых на странице.
 const CharInfo = (props) => {
   const {loading, error, getCharacter, clearError} = useComicVineService();
   const [char, setChar] = useState(null);
@@ -21,10 +21,8 @@ const CharInfo = (props) => {
     getCharacter(charId).then(onCharLoaded);
   };
 
-  // 170.16.2 А также нам нужна функция, которая будет увеличивать кол-во показываемых комиксов на 10.
   const showMoreComics = () => setVisibleComics(prevValue => prevValue + 10);
 
-  // 170.16.1 И они будут сбрасываться до 10, когда будет выбран другой персонаж.
   useEffect(() => {
     updateChar();
     setVisibleComics(10);
@@ -75,11 +73,10 @@ const View = ({char, visibleComics, showMoreComics}) => {
         {issue_credits.length > 0 ? null : 'There is no comics with this character found in our database.'}
         {issue_credits.slice(0, visibleComics).map((item, index) => {
           return (
-            <li className="char__comics-item"
-                key={index}>
-              <a href={item.site_detail_url} target="_blank" rel="noreferrer">
+            <li className="char__comics-item" key={index}>
+              <Link to={`/comics/${item.id}`} target="_blank" rel="noreferrer">
                 {item.name || `Issue #${item.issue_number}`} {/* Fallback if name is missing */}
-              </a>
+              </Link>
             </li>
           );
         })}
