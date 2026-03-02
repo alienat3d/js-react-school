@@ -111,7 +111,7 @@ const useComicVineService = () => {
     });
 
     const res = await request(`${_apiBase}issue/4000-${id}/?${params.toString()}`);
-    console.log(res);
+    console.log(res.results);
     return _transformComic(res.results);
   };
 
@@ -154,13 +154,13 @@ const useComicVineService = () => {
         comic.deck ||
         'No description available for this issue.',
 
-      thumbnail: comic.image?.small_url ||
+      thumbnail: comic.image?.medium_url ||
         'http://via.placeholder.com/250x250',
 
       issueNumber,
-      pageCount: comic.page_count || 'Not specified',
+      pageCount: comic.page_count,
       coverDate: comic.cover_date || 'Unknown',
-      homepage: comic.site_detail_url
+      comicVineUrl: comic.site_detail_url
     };
   };
 
