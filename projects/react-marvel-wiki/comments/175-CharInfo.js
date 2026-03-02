@@ -69,13 +69,16 @@ const View = ({char, visibleComics, showMoreComics}) => {
       </div>
       <div className="char__descr">{deck}</div>
       <div className="char__comics">Comics:</div>
+      {/* * 175.4 (Homework) Чтобы сделать пункты списка комиксов, в которых принимал участие выбранный персонаж, нам всего лишь нужно было изучить получаемый объект данных и найти там массив с комиксами, затем увидеть, что у каждого из комиксов в этом массиве есть id. Его-то мы и используем в пути для формирования динамической ссылки на страницу информации о комиксе. (До этого там находилась ссылка на инфо о комиксе на сайте ComicVine.) */}
+      {/* (Go to [\src\components\singleComic\SingleComic.js]) */}
       <ul className="char__comics-list">
         {issue_credits.length > 0 ? null : 'There is no comics with this character found in our database.'}
         {issue_credits.slice(0, visibleComics).map((item, index) => {
           return (
             <li className="char__comics-item" key={index}>
+              {/* // 175.5.3 Добавим стейт линкам здесь и в [/src/components/comicsList/ComicsList.js]. */}
               <Link to={`/comics/${item.id}`} state={{ from: '/' }}>
-                {item.name || `Issue #${item.issue_number}`}
+                {item.name || `Issue #${item.issue_number}`} {/* Fallback if name is missing */}
               </Link>
             </li>
           );

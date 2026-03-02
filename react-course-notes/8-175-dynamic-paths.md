@@ -1,6 +1,6 @@
 *[Практика создания динамических путей (175)]*
 
-(Go to [\projects\react-marvel-wiki\src\components\app\App.js])
+(Go to [\projects\react-marvel-wiki\comments\175-App.js])
 
 |===:===:===:===>
 **links**
