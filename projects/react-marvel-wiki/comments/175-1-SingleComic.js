@@ -13,6 +13,8 @@ const SingleComic = () => {
 
   const [comic, setComic] = useState(null);
 
+  // 175.5.2 Здесь мы определим куда вернуться по клику на кнопке, продумав также и фоллбэк (на случай, если пользователь пришёл на эту страницу из-вне по ссылке, тогда вернём его на главную).
+  // (Go to [/src/components/charInfo/CharInfo.js])
   const backPath = location.state?.from || '/';
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const SingleComic = () => {
 
   const errorMessage = error ? <ErrorMessage/> : null;
   const spinner = loading ? <Spinner/> : null;
+  // 175.5.1.1 И сюда. ↑
   const content = !(loading || error || !comic) ? <View comic={comic} backPath={backPath}/> : null;
 
   return (
@@ -41,6 +44,7 @@ const SingleComic = () => {
   );
 };
 
+// 175.5.1.0 Также нужно передать стейт сюда. ↑
 const View = ({comic, backPath}) => {
   const {thumbnail, title, coverDate, description, pageCount, language, comicVineUrl} = comic;
 
@@ -56,6 +60,7 @@ const View = ({comic, backPath}) => {
         <a className="single-comic__comicvine-url" href={comicVineUrl} target="_blank" rel="noreferrer"><img
           src={comicVineLogo} alt="ComicVine Logo"/></a>
       </div>
+      {/* 175.5.0 (Homework) Вторая задача у нас была сделать так, чтобы можно было возвращаться со страницы о комиксе в то место, откуда мы на неё попали по клику на ссылку/кнопку. И сделать это можно через передачу значения пути страницы, с которой пришёл пользователь, через стейт ссылки. А опрашивать этот стейт мы будем хуком «useLocation». ↑ */}
       <Link to={backPath} className="button button__main button__long">
         <div className="inner">get back</div>
       </Link>

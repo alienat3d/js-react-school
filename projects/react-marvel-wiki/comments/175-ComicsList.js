@@ -1,9 +1,9 @@
 import './comicsList.scss';
 import useComicVineService from '../../services/ComicVineService';
 import {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
+import {Link} from 'react-router-dom';
 
 const ComicsList = () => {
   const {loading, error, getAllComics} = useComicVineService();
@@ -32,6 +32,7 @@ const ComicsList = () => {
       });
   };
 
+  // 175.1.1 Для начала мы заменим ссылку на Link, с путём на динамически формируемую страницу описания комикса по его id.
   function renderItems(arr) {
     const items = arr.map(item => {
       return (
