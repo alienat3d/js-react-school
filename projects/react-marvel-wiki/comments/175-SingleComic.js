@@ -6,7 +6,10 @@ import useComicVineService from '../../services/ComicVineService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
+// 175.3.0 Тут подключим также ComicVineService и специально добавленный в него метод получения и обработки данных отдельного комикса.
+
 const SingleComic = () => {
+  // 175.3.1 С помощью спец. хука «useParams» мы получим динамическое значение из переменной comicId, которое указали в пути в [App.js], чтобы затем подставлять его в метод "getComic" API-сервиса, для получения данных о конкретном комиксе.
   const {comicId} = useParams();
   const {loading, error, getComic, clearError} = useComicVineService();
 
@@ -39,7 +42,7 @@ const SingleComic = () => {
 };
 
 const View = ({comic}) => {
-  const {thumbnail, title, coverDate, description, pageCount, language, comicVineUrl} = comic;
+  const {title, description, thumbnail, pageCount, language, coverDate, comicVineUrl} = comic;
 
   return (
     <div className="single-comic">
@@ -60,3 +63,20 @@ const View = ({comic}) => {
 };
 
 export default SingleComic;
+
+/*return (
+<div className="single-comic">
+  <img src={xMen} alt="x-men" className="single-comic__img"/>
+  <div className="single-comic__info">
+    <h2 className="single-comic__name">X-Men: Days of Future Past</h2>
+    <p className="single-comic__descr">Re-live the legendary first journey into the dystopian future of 2013 - where
+      Sentinels stalk the Earth, and the X-Men are humanity's only hope...until they die! Also featuring the first
+      appearance of Alpha Flight, the return of the Wendigo, the history of the X-Men from Cyclops himself...and a
+      demon for Christmas!?</p>
+    <p className="single-comic__descr">144 pages</p>
+    <p className="single-comic__descr">Language: en-us</p>
+    <div className="single-comic__price">9.99$</div>
+  </div>
+  <Link to="/../comics" className="single-comic__back">Back to all</Link>
+</div>
+);*/
