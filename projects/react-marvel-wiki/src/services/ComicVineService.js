@@ -111,7 +111,7 @@ const useComicVineService = () => {
     });
 
     const res = await request(`${_apiBase}issue/4000-${id}/?${params.toString()}`);
-    console.log(res.results);
+    // console.log(res.results);
     return _transformComic(res.results);
   };
 
