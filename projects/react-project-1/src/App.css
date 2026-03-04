@@ -50,3 +50,8 @@ button {
   width: 30px;
   height: 30px;
 }
+
+.btn2 {
+  padding: 10px 12px;
+  display: block;
+}

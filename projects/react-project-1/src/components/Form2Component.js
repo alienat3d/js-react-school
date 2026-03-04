@@ -1,14 +1,19 @@
 import {memo} from 'react';
 import {Container} from 'react-bootstrap';
 
-// 177.2 Итак, здесь мы имеем компонент с двумя пропсами "mail" & "text", которые будут также соединены со значением атрибута value элементов input & textarea.
-// (Go to [projects/react-project-1/src/App.js])
-const Form2Component = memo(props => {
+/*function compareProps(prevProps, nextProps) {
+  return prevProps.mail.name === nextProps.mail.name;
+}*/
+
+const Form2Component = memo((props) => {
+  console.log('render');
+
   return (
     <Container>
       <form className="w-50 border mt-5 p-3 m-auto">
         <div className="mb-3">
           <label htmlFor="email" className="form-label mt-3">Email address</label>
+          {/*<input value={props.mail.name}*/}
           <input value={props.mail}
                  type="email"
                  className="form-control"
@@ -23,5 +28,6 @@ const Form2Component = memo(props => {
     </Container>
   );
 });
+// }, compareProps);
 
 export default Form2Component;
