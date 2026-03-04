@@ -1,3 +1,4 @@
+// Used for "React memo & PureComponent" lesson
 import {memo} from 'react';
 import {Container} from 'react-bootstrap';
 
