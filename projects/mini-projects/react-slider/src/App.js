@@ -14,6 +14,7 @@ const Slider = (props) => {
 
   const getImages = useCallback(() => {
     return ['/assets/img/01.webp', '/assets/img/02.webp', '/assets/img/03.webp', '/assets/img/04.webp', '/assets/img/05.webp', '/assets/img/06.webp', '/assets/img/07.webp', '/assets/img/08.webp', '/assets/img/09.webp', '/assets/img/10.webp', '/assets/img/11.webp', '/assets/img/12.webp'];
+    // eslint-disable-next-line
   }, [slide]);
 
   useEffect(() => {
