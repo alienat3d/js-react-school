@@ -1,0 +1,80 @@
+.modal-window {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.modal-window-enter {
+  opacity: 0;
+  transform: scale(.9);
+}
+
+.modal-window-enter-active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 250ms;
+}
+
+.modal-window-exit {
+  opacity: 1;
+}
+
+.modal-window-exit-active {
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(.9);
+  transition: all 250ms;
+}
+
+.label {
+  margin-bottom: 0.5rem;
+}
+
+.modes {
+  margin-bottom: 1rem;
+}
+
+.button-container {
+  margin-bottom: 0.5rem;
+}
+
+.fade-enter .btn {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.fade-enter-active .btn {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.fade-exit .btn {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.fade-exit-active .btn {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.fade-enter-active .btn,
+.fade-exit-active .btn {
+  transition: opacity 500ms, transform 500ms;
+}
+/*---*/
+/* Styles for TransitionGroup */
+.remove-btn {
+  margin-right: 0.5rem;
+}
+
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
