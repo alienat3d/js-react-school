@@ -1,17 +1,74 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-// import App from './App';
-// import SwitchTransitionApp from './SwitchTransitionApp';
-import TransitionGroupApp from './TransitionGroupApp';
-
+import {createRef} from 'react';
+import {createRoot} from 'react-dom/client';
+import {createBrowserRouter, RouterProvider, NavLink, useLocation, useOutlet} from 'react-router-dom';
+import {CSSTransition, SwitchTransition} from 'react-transition-group';
+import {Container, Navbar, Nav} from 'react-bootstrap';
+import {ModalPage, CssModalPage, SwitchTransitionPage, TransitionGroupPage} from './pages/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles.css';
 
-ReactDOM.render(
-    // <App/>,
-    // <SwitchTransitionApp/>,
-    <TransitionGroupApp/>,
-  document.getElementById('root')
-);
+const routes = [
+  {path: '/', name: 'Transition', element: <ModalPage/>, nodeRef: createRef()},
+  {path: '/css-transition', name: 'CSSTransition', element: <CssModalPage/>, nodeRef: createRef()},
+  {path: '/switch-transition', name: 'Switch Transition', element: <SwitchTransitionPage/>, nodeRef: createRef(),},
+  {path: '/transition-group', name: 'Transition Group', element: <TransitionGroupPage/>, nodeRef: createRef(),},
+];
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Example/>,
+    children: routes.map((route) => ({
+      index: route.path === '/',
+      path: route.path === '/' ? undefined : route.path,
+      element: route.element,
+    })),
+  },
+]);
 
+function Example() {
+  const location = useLocation();
+  const currentOutlet = useOutlet();
+  const {nodeRef} =
+  routes.find((route) => route.path === location.pathname) ?? {};
+  return (
+    <>
+      <Navbar bg="light">
+        <Nav className="mx-auto">
+          {routes.map((route) => (
+            <Nav.Link
+              key={route.path}
+              as={NavLink}
+              to={route.path}
+              className={({isActive}) => (isActive ? 'active' : undefined)}
+              end
+            >
+              {route.name}
+            </Nav.Link>
+          ))}
+        </Nav>
+      </Navbar>
+      <Container className="container">
+        <SwitchTransition>
+          <CSSTransition
+            key={location.pathname}
+            nodeRef={nodeRef}
+            timeout={300}
+            classNames="page"
+            unmountOnExit
+          >
+            {
+              <div ref={nodeRef} className="page">
+                {currentOutlet}
+              </div>
+            }
+          </CSSTransition>
+        </SwitchTransition>
+      </Container>
+    </>
+  );
+}
+
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<RouterProvider router={router}/>);

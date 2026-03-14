@@ -10,11 +10,9 @@ import {
 } from 'react-transition-group';
 import { v4 as uuidv4 } from 'uuid';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 
 // 182.10.0 Ещё один специальный компонент в этой библиотеке "TransitionGroup", который также, как и "SwitchTransition" является обёрткой, но уже для группы базовых компонентов. ↓
-
-export default function TodoList() {
+const TransitionGroupPage = () => {
   const [items, setItems] = useState(() => [
     {
       id: uuidv4(),
@@ -37,6 +35,7 @@ export default function TodoList() {
       nodeRef: createRef(null),
     },
   ]);
+
   return (
     <Container style={{ marginTop: '2rem' }}>
       <ListGroup style={{ marginBottom: '1rem' }}>
@@ -88,3 +87,5 @@ export default function TodoList() {
     </Container>
   );
 }
+
+export default TransitionGroupPage;

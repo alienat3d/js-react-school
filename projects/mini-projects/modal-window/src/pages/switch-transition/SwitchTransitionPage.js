@@ -6,7 +6,7 @@ import './SwitchTransitionStyles.css';
 
 const modes = ['out-in', 'in-out'];
 
-export default function SwitchTransitionApp() {
+const SwitchTransitionPage = () => {
   const [mode, setMode] = React.useState('out-in');
   const [state, setState] = React.useState(true);
   const helloRef = React.useRef(null);
@@ -33,7 +33,7 @@ export default function SwitchTransitionApp() {
       </div>
       {/* 182.9.2 Здесь мы обернём в "SwitchTransition" базовый компонент "CSSTransition", который устанавливает режим "рендеринга" атрибутом "mode". У него есть два значения: "out-in" & "in-out". В режим "out-in", как мы видим, следующий элемент дожидается, пока предыдущий не исчезнет, а уже потом появляется. */}
       {/* 182.9.3 В режиме "in-out" первый элемент дожидается, пока не появится другой, а уже потом исчезает сам. */}
-      {/* (Go to [/src/TransitionGroupApp.js]) */}
+      {/* (Go to [/src/TransitionGroupPage.js]) */}
       <div className="main">
         <SwitchTransition mode={mode}>
           <CSSTransition
@@ -55,3 +55,5 @@ export default function SwitchTransitionApp() {
     </div>
   );
 }
+
+export default  SwitchTransitionPage;

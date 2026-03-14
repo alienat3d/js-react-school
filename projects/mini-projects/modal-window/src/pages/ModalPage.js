@@ -1,6 +1,10 @@
+import {useState} from 'react';
+import {Container} from 'react-bootstrap';
 import {Transition} from 'react-transition-group';
 
-const Modal = (props) => {
+// 182.4.0 Здесь мы в компонент ModalPage передаём стейт, который отвечает за показ модального окна.
+// 182.7.2 Здесь нам потребуется ещё один стейт "showTrigger", потому, что в зависимости от него мы покажем или скроем эту кнопку.
+const ModalComponent = (props) => {
   // 182.2.0 Здесь пропишем настройки для нашей библиотеки React Transition Group. В переменной duration у нас будет находиться длительность анимации в мс.
   const duration = 250;
 
@@ -23,12 +27,12 @@ const Modal = (props) => {
 
   // 182.3 Здесь мы обернём всю вёрстку модального окна в специальный компонент библиотеки Transition. Точнее вёрстку будет возвращать функция, а принимать она будет стейт. Также, как мы уже говорили вначале, у Transition есть два базовых пропа "in" и "timeout". С пропом "timeout" у нас и так всё ясно, мы передаём туда в мс длительность анимации, то "in" у нас будет своего рода переключателем с булевым значением.
   // (Go to [/src/App.js])
-  // 182.4.1 В аттрибуте "in" мы добавим этот стейт, который приходит из пропсов компонента Modal.
+  // 182.4.1 В аттрибуте "in" мы добавим этот стейт, который приходит из пропсов компонента ModalPage.
   // ? 182.7.0 Однако на этом функционал не ограничивается и есть множество доп. пропсов (см. документацию библиотеки в ссылках), например при помощи «unmountOnExit» мы можем убирать компонент из вёрстки, после его исчезновения. Также есть возможность что-то сделать на каждом из 6 этапов "onEnter", "onEntering" и т.д. (см. заметки из начала урока и схему в ссылках). При специфических задачах этом может быть очень полезно (классический пример это скрывать кнопку, которая вызвала этот переход, например открытие модального окна, но могут быть много других действий разного характера).
   // 182.7.1 Итак, реализуем как раз эту механику, чтобы кнопка скрывалась, при появлении модального окна и снова появилось, когда модальное окно исчезает. Для этого добавим ещё два пропа "onEnter" (чтобы скрывать кнопку ещё перед стартом анимации появления модального окна) & "onExited" (когда анимация исчезания модального окна успешно завершилась - вновь покажем кнопку вызова модального окна).
   // (Go to [/src/App.js])
   // 182.7.4 Теперь мы подставим функцию "setShowTrigger" в нужные места с нужным булевым значением, запуская её через стрелку.
-  // (Go to [/src/components/CssModal.js])
+  // (Go to [/src/components/CssModalPage.js])
   return (
     <Transition in={props.show}
                 timeout={duration}
@@ -41,7 +45,7 @@ const Modal = (props) => {
           ...defaultStyle,
           ...transitionStyle[state]
         }}>
-          <div className="modal-dialog">
+          <div className="modal-dialog mt-5">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Typical modal window</h5>
@@ -72,4 +76,23 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+const ModalPage = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showTrigger, setShowTrigger] = useState(true);
+
+  return (
+    <Container>
+      <ModalComponent show={showModal} onClose={setShowModal} setShowTrigger={setShowTrigger}/>
+      {/* 182.7.3 запишем условный рендеринг на основании значения стейта "showTrigger". */}
+      {showTrigger &&
+        <button type="button"
+                className="btn btn-warning mt-5"
+                onClick={() => setShowModal(true)}>
+          Open Modal
+        </button>
+      }
+    </Container>
+  );
+};
+
+export default ModalPage;
