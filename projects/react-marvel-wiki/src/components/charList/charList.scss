@@ -1,5 +1,4 @@
-@import '../../style/variables.scss';
-
+@import '../../style/_variables';
 .char {
   &__content {
     margin-top: 50px;
@@ -8,20 +7,25 @@
     column-gap: 25px;
     align-items: start;
   }
+
   &__grid {
     display: grid;
     grid-template-columns: repeat(3, 200px);
     column-gap: 25px;
     row-gap: 30px;
   }
+
   &__item {
+    display: flex;
+    flex-direction: column;
     width: 200px;
-    height: 318px;
+    min-height: 318px;
     background-color: $dark;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
     padding: 15px;
     cursor: pointer;
     transition: 0.3s transform;
+
     img {
       width: 200px;
       height: 252px;
@@ -29,12 +33,19 @@
       object-position: top;
       transform: translate(-15px, -15px);
     }
-    &:focus{
+
+    &:focus {
       box-shadow: 0 5px 20px $main-color;
       transform: translateY(-8px);
     }
   }
+
   &__name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
     font-weight: bold;
     font-size: 22px;
     line-height: 29px;

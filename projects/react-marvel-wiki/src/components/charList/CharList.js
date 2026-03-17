@@ -1,5 +1,7 @@
 import './charList.scss';
+import '../../style/transition-animation.scss';
 import PropTypes from 'prop-types';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {useEffect, useRef, useState} from 'react';
 import useComicVineService from '../../services/ComicVineService';
 import Spinner from '../spinner/Spinner';
@@ -54,22 +56,30 @@ const CharList = (props) => {
   function renderItems(arr) {
     const items = arr.map((item, index) => {
       return (
-        <li className="char__item"
-            tabIndex={0}
-            ref={el => itemRefs.current[index] = el}
-            key={item.id}
-            onClick={() => {
-              props.onCharSelected(item.id);
-              focusOnItem(index);
-            }}
-            onKeyDown={evt => onKeyDown(evt, index)}>
-          <img src={item.thumbnail} alt={item.name}/>
-          <div className="char__name">{item.name}</div>
-        </li>
+        <CSSTransition key={item.id} timeout={500} classNames="fade">
+          <li className="char__item"
+              tabIndex={0}
+              ref={el => itemRefs.current[index] = el}
+              key={item.id}
+              onClick={() => {
+                props.onCharSelected(item.id);
+                focusOnItem(index);
+              }}
+              onKeyDown={evt => onKeyDown(evt, index)}>
+            <img src={item.thumbnail} alt={item.name}/>
+            <div className="char__name">{item.name}</div>
+          </li>
+        </CSSTransition>
       );
     });
 
-    return <ul className="char__grid">{items}</ul>;
+    return (
+      <ul className="char__grid">
+        <TransitionGroup component={null}>
+          {items}
+        </TransitionGroup>
+      </ul>
+    );
   }
 
   useEffect(() => {
@@ -87,8 +97,8 @@ const CharList = (props) => {
       {spinner}
       {items}
       {!(loading || error || charEnded) && <button className="button button__main button__long"
-                                      disabled={newItemLoading}
-                                      onClick={() => onRequest(offset)}>
+                                                   disabled={newItemLoading}
+                                                   onClick={() => onRequest(offset)}>
         <div className="inner">load more</div>
       </button>}
     </div>
