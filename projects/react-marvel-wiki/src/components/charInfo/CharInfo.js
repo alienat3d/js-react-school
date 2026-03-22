@@ -49,7 +49,7 @@ const CharInfo = (props) => {
 };
 
 const View = ({char, visibleComics, showMoreComics}) => {
-  const {name, deck, thumbnail, homepage, wiki, issue_credits} = char;
+  const {thumbnail, name, id, deck, wiki, issue_credits} = char;
 
   return (
     <>
@@ -58,9 +58,9 @@ const View = ({char, visibleComics, showMoreComics}) => {
         <div>
           <div className="char__info-name">{name}</div>
           <div className="char__btns">
-            <a className="button button__main" href={homepage} target="_blank" rel="noreferrer">
+            <Link className="button button__main" to={`./characters/${id}`} target="_blank" rel="noreferrer">
               <div className="inner">homepage</div>
-            </a>
+            </Link>
             <a className="button button__secondary" href={wiki} target="_blank" rel="noreferrer">
               <div className="inner">wiki</div>
             </a>

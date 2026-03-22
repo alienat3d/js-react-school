@@ -1,7 +1,8 @@
 import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
-import useComicVineService from '../../services/ComicVineService';
 import {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import useComicVineService from '../../services/ComicVineService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
@@ -50,7 +51,7 @@ const RandomChar = () => {
 };
 
 const View = ({char}) => {
-  const {thumbnail, name, deck, homepage, wiki} = char;
+  const {thumbnail, name, deck, id, wiki} = char;
 
   return (
     <div className="randomchar__block">
@@ -59,9 +60,9 @@ const View = ({char}) => {
         <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">{deck ? `${deck.slice(0, 172)}...` : 'Description isn’t found...'}</p>
         <div className="randomchar__btns">
-          <a href={homepage} className="button button__main" target="_blank" rel="noreferrer">
+          <Link to={`./characters/${id}`} className="button button__main" target="_blank" rel="noreferrer">
             <div className="inner">Homepage</div>
-          </a>
+          </Link>
           <a href={wiki} className="button button__secondary" target="_blank" rel="noreferrer">
             <div className="inner">Wiki</div>
           </a>
