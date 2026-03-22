@@ -69,40 +69,58 @@ input::-webkit-inner-spin-button {
 }
 
 main {
-  margin-top: 50px;
+  margin-top: 0;
   position: relative;
 }
 
-.error404 {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+// === Info page for single comic/character ===
+.single-page {
+    padding-top: 35px;
+  display: grid;
+  grid-template-columns: 400px 450px auto;
+  column-gap: 50px;
+  align-items: start;
 
-  &__inner {
-    margin-top: -250px;
-    max-width: 650px;
+  &__info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
-  &__title {
-    margin-bottom: 50px;
-    text-transform: uppercase;
-    font-size: 50px;
+  &__img {
+    width: 400px;
+  }
 
-    span {
-      font-family: monospace;
+  &__name {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 29px;
+  }
+
+  &__descr {
+    font-size: 18px;
+    line-height: 24px;
+    margin-top: 25px;
+  }
+
+  &__comicvine-url {
+    margin-top: auto;
+  }
+
+  &__back {
+    justify-self: end;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 24px;
+
+    &:hover {
+      color: $main-color;
     }
   }
 
-  &__undertitle {
-    font-size: 28px;
-    letter-spacing: .05em;
-  }
-
-  &__text {
-    margin-top: 20px;
-    margin-bottom: 60px;
-    font-size: 18px;
-    line-height: 1.5;
+  & .button__main {
+    margin-top: 0;
   }
 }
+
+// === / Info page for single comic/character ===

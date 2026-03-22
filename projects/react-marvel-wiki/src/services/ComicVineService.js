@@ -72,6 +72,7 @@ const useComicVineService = () => {
 
     // ComicVine uses "character/4005-ID" format for detail endpoints
     const res = await request(`${_apiBase}character/4005-${id}/?${params.toString()}`);
+    console.log(_transformCharacter(res.results));
     return _transformCharacter(res.results);
   };
 
@@ -80,12 +81,28 @@ const useComicVineService = () => {
     return {
       id: char.id,
       name: char.name,
-      deck: char.deck,
+      deck: char.deck || 'No description available for this character.',
       thumbnail: char.image ? char.image.small_url : 'http://via.placeholder.com/250x250',
-      homepage: char.site_detail_url,
+      pic: char.image ? char.image.medium_url : 'http://via.placeholder.com/400x625',
       wiki: char.site_detail_url,
       issue_credits: char.issue_credits || []
     };
+  };
+
+  // Gets a character by name using filter
+  const getCharacterByName = async (name) => {
+    const params = new URLSearchParams({
+      api_key: _apiKey,
+      format: 'json',
+      filter: `name:${name}`, // Use the filter parameter for exact or partial name matches
+      field_list: 'id,name'
+    });
+
+    const res = await request(`${_apiBase}characters/?${params.toString()}`);
+
+    // We return the map because filter might return multiple characters
+    // (e.g., searching "Spider-Man" returns Peter Parker, Miles Morales, etc.)
+    return res.results.map(_transformCharacter);
   };
 
   // Gets a list of comics (issues)
@@ -169,6 +186,7 @@ const useComicVineService = () => {
     error,
     clearError,
     getCharacter,
+    getCharacterByName,
     getAllCharacters,
     getRandomCharacter,
     getComic,

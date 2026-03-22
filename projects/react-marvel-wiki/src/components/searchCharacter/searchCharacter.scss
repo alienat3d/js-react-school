@@ -1,0 +1,46 @@
+@import '../../style/variables';
+
+.search-character {
+  z-index: 5;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  padding: 25px;
+  background-color: #FFFFFF;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 {
+    margin-bottom: 18px;
+    font-size: 18px;
+  }
+
+  &__input {
+    margin-right: 24px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border: none;
+    padding: 10px;
+    width: 250px;
+    height: 38px;
+    background-color: transparent;
+  }
+
+  &__error,
+  &__success {
+    margin-top: 25px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  &__error {
+    color: $main-color;
+  }
+
+  &__success {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #03710E;
+  }
+}
