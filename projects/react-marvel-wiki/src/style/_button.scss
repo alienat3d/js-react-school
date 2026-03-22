@@ -10,6 +10,9 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  &:disabled {
+    pointer-events: none;
+  }
   &__long {
     display: block;
     width: 170px;
@@ -92,4 +95,12 @@
   &:disabled {
     filter: grayscale(0.7);
   }
+}
+
+.btn-loader {
+  margin-bottom: -3px;
+  margin-right: -5px;
+  width: 14px;
+  object-fit: contain;
+  object-position: right bottom;
 }
