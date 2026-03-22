@@ -1,9 +1,12 @@
+import './error404Page.scss';
+import comicVineLogo from '../../resources/img/error404-bg.webp';
 import {Link} from 'react-router-dom';
 
 const Error404Page = () => {
   return (
     <div className="error404">
       <div className="error404__inner">
+        <img className="error404__bg" src={comicVineLogo} alt="Error 404 Background Pic"/>
         <h1 className="error404__title"><span>Error 404</span>: Page Not Found</h1>
         <strong className="error404__undertitle">Not even the Eye of Uatu sees your request…</strong>
         <p className="error404__text">Check that you typed the address correctly, go back to your previous page or click
