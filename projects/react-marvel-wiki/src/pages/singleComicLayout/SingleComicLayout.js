@@ -1,22 +1,18 @@
 import comicVineLogo from '../../resources/img/comic-vine-logo.jpg';
+import {Helmet} from 'react-helmet';
 import {Link} from 'react-router-dom';
 
+// 185.6 И да, если того требует задача, мы естественно можем вставлять данные динамически. Например, на этой динамически формирующейся из данных, полученных по id комикса информационной странице об отдельном комиксе, логично будет и в заголовок вставить название этого конкретного комикса.
 const SingleComponentLayout = ({data, backPath}) => {
 
   const {title, description, pageCount, thumbnail, language, coverDate, comicVineUrl} = data;
 
   return (
-    /*<div className="single-comic">
-      <img className="single-comic__img" src={thumbnail} alt={title}/>
-      <div className="single-comic__info">
-        <h2 className="single-comic__name">{title}</h2>
-        <p className="single-comic__description">{description}</p>
-        <p className="single-comic__description">{pageCount}</p>
-        <p className="single-comic__description">Language: {language}</p>
-      </div>
-      <Link to="comics"/>
-    </div>*/
     <div className="single-page">
+      <Helmet>
+        <meta name="description" content={`Info about «${title}» comic book`}/>
+        <title>«{title}» comic</title>
+      </Helmet>
       <img src={thumbnail} alt={title} className="single-page__img"/>
       <div className="single-page__info">
         <h2 className="single-page__name">{title}</h2>
