@@ -41,6 +41,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "formik": "^2.2.9",
+    "react-helmet": "^6.1.0",
     "sass": "^1.69.5",
     "yup": "^0.32.11"
   }
