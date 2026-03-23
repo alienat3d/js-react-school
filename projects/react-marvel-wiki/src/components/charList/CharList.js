@@ -7,8 +7,30 @@ import useComicVineService from '../../services/ComicVineService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
+/* 187.7.6 Итак мы скопируем сюда setContent, чтобы её адаптировать под этот компонент. Итак, что же здесь должно работать иначе:
+  1) в стейте "IDLE" у нас будет сразу Spinner, а не Skeleton, т.к. в этом компоненте Skeleton просто отсутствует;
+  2) в "LOADING" нам следует либо отображать спиннер, либо не менять тот контент, который был на странице, чтобы визуально он не исчезал. И в целом логично сделать также, как было до этого у нас, мы будем отталкиваться от значения стейта newItemLoading (т.к. функция у нас во внешней зоне видимости, то этот стейт будет приходить в качестве аргумента). */
+// (Go to [/src/components/comicsList/ComicsList.js])
+const setContent = (processState, Component, newItemLoading) => {
+  switch (processState) {
+    case 'IDLE':
+      return <Spinner/>;
+    case 'LOADING':
+      return newItemLoading ? <Component/> : <Spinner/>;
+    case 'ERROR':
+      return <ErrorMessage/>;
+    case 'SUCCESS':
+      return <Component/>;
+    default:
+      throw new Error('Unexpected process state');
+  }
+};
+
+// 187.7.0 Убедившись, что компонент CharInfo работает как раньше перейдём к рефакторингу CharList компонента. Здесь используется похожая логика получения данных от API и рендера списка персонажей, но со своими нюансами. ↓
+
 const CharList = (props) => {
-  const {loading, error, getAllCharacters} = useComicVineService();
+  // 187.7.1 Во-первых, нам нужно добавить также сюда стейт processState и метод для его изменения setProcessState, а loading & error можно удалить, т.к. здесь теперь будет также использоваться стейт-машина вместо старой системы. ↓
+  const {processState, setProcessState, getAllCharacters} = useComicVineService();
   const [charList, setCharList] = useState([]);
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(0);
@@ -24,10 +46,12 @@ const CharList = (props) => {
     setCharEnded(ended);
   };
 
+  // 187.7.2 Также, как и в случае с CharInfo, когда данные загрузились и сохранились в стейт, то нам нужно поменять стейт стейт-машины на "SUCCESS". ↓
   const onRequest = (offset, initial) => {
     initial ? setNewItemLoading(false) : setNewItemLoading(true);
     getAllCharacters(offset)
       .then(onCharListLoaded)
+      .then(() => setProcessState('SUCCESS'))
       .catch(error => {
         console.error('CharList failed to load characters:', error);
         setNewItemLoading(false);
@@ -87,18 +111,22 @@ const CharList = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const items = renderItems(charList);
-  const errorMessage = error ? <ErrorMessage/> : null;
-  const spinner = loading && !newItemLoading ? <Spinner/> : null;
+  // 187.7.3 Однако, здесь нет компонента View, а вёрстка формируется через функцию renderItems. ↓
+  /*  const items = renderItems(charList);
+    const errorMessage = error ? <ErrorMessage/> : null;
+    const spinner = loading && !newItemLoading ? <Spinner/> : null;*/
 
+  // 187.7.4 Здесь мы будем вызывать всё также функцию setContent, но вторым аргументом нам нужно передать компонент, формирующий вёрстку. И вот, мы знаем, что функциональный компонент — это функция, которая возвращает Реакт-элементы. И вот вместо компонента мы можем передать также функцию, например "renderItems(charList)", которая формирует список карточек персонажей. Ну, а третьего аргумента здесь не будет, что, впрочем, и не важно.
+  // 187.7.5 И, вроде бы, всё хорошо работает, пока мы не нажмём на кнопку «load more» и увидим, что поведение чуть поломалось: весь список исчезает и рендерится вновь. И это выглядит прямо скажем не очень здорово. И этот компонент пример того, когда какие-то компоненты выбиваются из общей структуры — у них есть своя собственная логика и посему нам нужно здесь написать адаптированную под этот конкретный компонент функцию setContent, которая будет отличаться. ↑
   return (
     <div className="char__list">
-      {errorMessage}
+      {/*{errorMessage}
       {spinner}
-      {items}
-      {!(loading || error || charEnded) && <button className="button button__main button__long"
-                                                   disabled={newItemLoading}
-                                                   onClick={() => onRequest(offset)}>
+      {items}*/}
+      {setContent(processState, () => renderItems(charList), newItemLoading)}
+      {!charEnded && <button className="button button__main button__long"
+                             disabled={newItemLoading}
+                             onClick={() => onRequest(offset)}>
         <div className="inner">load more</div>
       </button>}
     </div>

@@ -3,12 +3,13 @@ import mjolnir from '../../resources/img/mjolnir.png';
 import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import useComicVineService from '../../services/ComicVineService';
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import setContent from '../../utils/setContent';
+// import Spinner from '../spinner/Spinner';
+// import ErrorMessage from '../errorMessage/ErrorMessage';
 
 const RandomChar = () => {
   const [char, setChar] = useState({});
-  const {loading, error, getRandomCharacter, clearError} = useComicVineService();
+  const {processState, setProcessState, getRandomCharacter, clearError} = useComicVineService();
 
   const onCharLoaded = char => setChar(char);
 
@@ -16,7 +17,8 @@ const RandomChar = () => {
     clearError();
     getRandomCharacter()
       .then(onCharLoaded)
-      .catch(error => console.error("RandomChar failed to load a character:", error));
+      .then(() => setProcessState('SUCCESS'))
+      .catch(error => console.error('RandomChar failed to load a character:', error));
   };
 
   useEffect(() => {
@@ -24,15 +26,18 @@ const RandomChar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const errorMessage = error ? <ErrorMessage/> : null;
-  const spinner = loading ? <Spinner/> : null;
-  const content = !(loading || error) ? <View char={char}/> : null;
+  // 187.9 Здесь у нас была та же конструкция, которую нам бы хотелось заменить на новую со стейт-машиной. Этот компонент простой и у него стандартная логика, аналогичная CharInfo.
+  // (Go to [/src/components/singlePage/SinglePage.js])
+  /*  const errorMessage = error ? <ErrorMessage/> : null;
+    const spinner = loading ? <Spinner/> : null;
+    const content = !(loading || error) ? <View char={char}/> : null;*/
 
   return (
     <div className="randomchar">
-      {errorMessage}
+      {/*      {errorMessage}
       {spinner}
-      {content}
+      {content}*/}
+      {setContent(processState, View, {data: char})}
       <div className="randomchar__static">
         <p className="randomchar__title">
           Random character for today!<br/>
@@ -50,8 +55,8 @@ const RandomChar = () => {
   );
 };
 
-const View = ({char}) => {
-  const {thumbnail, name, deck, id, wiki} = char;
+const View = ({data}) => {
+  const {thumbnail, name, deck, id, wiki} = data;
 
   return (
     <div className="randomchar__block">
