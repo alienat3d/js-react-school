@@ -11,6 +11,8 @@ const HomePage = () => {
   const [selectedChar, setSelectedChar] = useState(null);
   const onCharSelected = id => setSelectedChar(id);
 
+  // 186.4 Здесь, на главной странице приложения мы добавим компонент библиотеки Helmet. И если, скажем, нам нужно менять на разных страницах title и мета-теги "name" & "content", то добавим их внутрь комп. Helmet. И мы сразу увидим, что заголовок закладки меняется, когда мы меняем содержимое тега title. Сделаем также и на других страницах.
+  // (Go to [projects/react-marvel-wiki/src/pages/ComicsPage.js])
   return (
     <>
       <Helmet>
