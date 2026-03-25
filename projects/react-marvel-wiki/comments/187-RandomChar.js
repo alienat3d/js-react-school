@@ -4,6 +4,8 @@ import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import useComicVineService from '../../services/ComicVineService';
 import setContent from '../../utils/setContent';
+// import Spinner from '../spinner/Spinner';
+// import ErrorMessage from '../errorMessage/ErrorMessage';
 
 const RandomChar = () => {
   const [char, setChar] = useState({});
@@ -19,11 +21,22 @@ const RandomChar = () => {
       .catch(error => console.error('RandomChar failed to load a character:', error));
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => updateCharacter(), []);
+  useEffect(() => {
+    updateCharacter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 187.9 Здесь у нас была та же конструкция, которую нам бы хотелось заменить на новую со стейт-машиной. Этот компонент простой и у него стандартная логика, аналогичная CharInfo.
+  // (Go to [/src/components/singlePage/SinglePage.js])
+  /*  const errorMessage = error ? <ErrorMessage/> : null;
+    const spinner = loading ? <Spinner/> : null;
+    const content = !(loading || error) ? <View char={char}/> : null;*/
 
   return (
     <div className="randomchar">
+      {/*      {errorMessage}
+      {spinner}
+      {content}*/}
       {setContent(processState, View, {data: char})}
       <div className="randomchar__static">
         <p className="randomchar__title">

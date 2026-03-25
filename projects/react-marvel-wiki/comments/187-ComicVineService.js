@@ -5,6 +5,8 @@ const useComicVineService = () => {
   const _apiKey = process.env.REACT_APP_API_KEY;
   const _baseOffset = 0;
 
+// 187.3.6.0 Помним, что мы передаём сущности из хука через этот файл сервиса, поэтому нам нужно и процесс вытащить отсюда, а затем...
+//   const {loading, error, processState, setProcessState, request, clearError} = useHttp();
   const {processState, setProcessState, request, clearError} = useHttp();
 
   // Gets one random character
@@ -62,6 +64,8 @@ const useComicVineService = () => {
     return res.results.map(_transformCharacter);
   };
 
+  // 187.5.2 Затем эти данные попадают в метод "getCharacter", но на получение данных с сервера, затем на их обработку здесь уходят мили-/секунды, но мы уже заранее сменили стейт processState на "SUCCESS".
+  // (Go to [/src/components/charInfo/CharInfo.js])
   // Gets a single character by ID
   const getCharacter = async (id) => {
     const params = new URLSearchParams({
@@ -179,7 +183,11 @@ const useComicVineService = () => {
     };
   };
 
+  // 187.3.6.1 ... экспортировать здесь.
+  // (Go to [/src/components/charInfo/CharInfo.js])
   return {
+    // loading,
+    // error,
     processState,
     setProcessState,
     clearError,

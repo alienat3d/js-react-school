@@ -12,6 +12,7 @@ const SingleCharacterLayout = lazy(() => import('../../pages/singleCharacterLayo
 const SinglePage = lazy(() => import('../singlePage/SinglePage'));
 
 const AppContent = () => {
+  // На случай, если понадобится получить в консоль объект со всеми данными персонажа.
   /*    const comicVineService = useComicVineService();
       const triggerBtn = async () => {
         const res = await comicVineService.getObjectById(1254);
@@ -30,9 +31,6 @@ const AppContent = () => {
           <Routes>
             <Route path="/" element={<HomePage/>}/>
             <Route path="/comics" element={<ComicsPage/>}/>
-            {/*<Route path="/comics/:comicId" element={<SingleComicPage/>}/>*/}
-            {/* 185.2.1 Здесь мы добавим ещё один путь для страницы персонажа и поменяем то, как мы записываем путь к странице о комиксе. Теперь мы поместим внутрь атрибута "element" SinglePage, с нужными ему двумя пропсами. */}
-            {/* 185.2.2 С пропом dataType всё ясно, он определяет какой метод для получения данных использовать в SinglePage, а вот для атрибута "Component" мы создали в папке "pages" отдельные компоненты страниц (или точнее шаблонов) для комикса и для персонажа. */}
             <Route path="/comics/:id"
                    element={<SinglePage Component={SingleComicLayout} dataType="comic"/>}/>
             <Route path="/characters/:id"
@@ -47,7 +45,8 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <Router>
+    // Добавил атрибут "future" сюда, чтобы избавиться от предупреждений в консоли, т.к. этот проект использует React Router v.6
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AppContent/>
     </Router>
   );

@@ -1,10 +1,11 @@
 import './comicsList.scss';
+import useComicVineService from '../../services/ComicVineService';
 import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import useComicVineService from '../../services/ComicVineService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
+// 187.8.0 Здесь у нас также очень похожа логика формирования списка, что была в CharList и можно потом это выделить в отдельный файл, но пока просто скопируем. Также добавим сущности для стейт-машины и удалим лишние стейты, а затем добавим ручное переключение стейта на "SUCCESS", после загрузки данных в функции "onRequest", как и делали раньше. ↓
 const setContent = (processState, Component, newItemLoading) => {
   switch (processState) {
     case 'IDLE':
@@ -52,7 +53,7 @@ const ComicsList = () => {
     const items = arr.map(item => {
       return (
         <li className="comics__item" key={item.id}>
-          <Link to={`/comics/${item.id}`} state={{from: '/comics'}}>
+          <Link to={`/comics/${item.id}`} state={{ from: '/comics' }}>
             <img src={item.thumbnail} alt={item.title} className="comics__item-img"/>
             <div className="comics__item-name">{item.title}</div>
           </Link>
@@ -63,15 +64,26 @@ const ComicsList = () => {
     return <ul className="comics__grid">{items}</ul>;
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onRequest(offset, true), []);
+/*  const items = renderItems(comicsList);
+  const errorMessage = error ? <ErrorMessage/> : null;
+  const spinner = loading && !newItemLoading ? <Spinner/> : null;*/
 
+  useEffect(() => {
+    onRequest(offset, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 187.8.1 Здесь у нас всё то же самое, что и было в CharList, только в метод renderItems мы положим уже comicsList соответственно.
+  // (Go to [/src/components/randomChar/RandomChar.js])
   return (
     <div className="comics__list">
+      {/*{errorMessage}
+      {spinner}
+      {items}*/}
       {setContent(processState, () => renderItems(comicsList), newItemLoading)}
       {!comicsEnded && <button className="button button__main button__long"
-                               disabled={newItemLoading}
-                               onClick={() => onRequest(offset)}>
+                                      disabled={newItemLoading}
+                                      onClick={() => onRequest(offset)}>
         <div className="inner">load more</div>
       </button>}
     </div>
