@@ -8,8 +8,7 @@ export const useHttp = () => {
     method = 'GET',
     body = null,
     headers = {
-      'Content-Type': 'application/json', // Не факт, что обязательно нужен (нужно потестить)
-      'User-Agent': 'MyComicApp/1.0' // ComicVine requires an User-Agent
+      'Content-Type': 'application/json'
     },
     retries = 3 // количество попыток установить соединение
   ) => {

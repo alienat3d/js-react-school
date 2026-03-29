@@ -1,7 +1,7 @@
 import {useHttp} from '../hooks/http.hook';
 
 const useComicVineService = () => {
-  const _apiBase = 'https://cors-anywhere.com/comicvine.gamespot.com/api/';
+  const _apiBase = '/api/';
   const _apiKey = process.env.REACT_APP_API_KEY;
   const _baseOffset = 0;
 
