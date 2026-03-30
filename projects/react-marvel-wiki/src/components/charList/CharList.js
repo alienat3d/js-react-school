@@ -2,7 +2,7 @@ import './charList.scss';
 import '../../style/transition-animation.scss';
 import PropTypes from 'prop-types';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import useComicVineService from '../../services/ComicVineService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -101,9 +101,11 @@ const CharList = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => onRequest(offset, true), []);
 
+  const elements = useMemo(() => setContent(processState, () => renderItems(charList), newItemLoading), [processState]);
+
   return (
     <div className="char__list">
-      {setContent(processState, () => renderItems(charList), newItemLoading)}
+      {elements}
       {!charEnded && <button className="button button__main button__long"
                              disabled={newItemLoading}
                              onClick={() => onRequest(offset)}>
