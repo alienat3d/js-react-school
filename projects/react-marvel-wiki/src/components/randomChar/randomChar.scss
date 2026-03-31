@@ -76,3 +76,31 @@
     right: 25px;
   }
 }
+
+  /* RandomChar Fade Animation */
+  .fade-random-appear {
+    opacity: 0;
+  }
+
+  .fade-random-appear-active {
+    opacity: 1;
+    transition: opacity 400ms ease;
+  }
+
+  .fade-random-enter {
+    opacity: 0;
+  }
+
+  .fade-random-enter-active {
+    opacity: 1;
+    transition: opacity 400ms ease;
+  }
+
+  .fade-random-exit {
+    opacity: 1;
+  }
+
+  .fade-random-exit-active {
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }

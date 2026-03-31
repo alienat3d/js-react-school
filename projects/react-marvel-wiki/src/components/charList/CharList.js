@@ -1,5 +1,4 @@
 import './charList.scss';
-import '../../style/transition-animation.scss';
 import PropTypes from 'prop-types';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {useEffect, useRef, useState} from 'react';
@@ -13,6 +12,7 @@ const CharList = (props) => {
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(0);
   const [charEnded, setCharEnded] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const onCharListLoaded = (newCharList) => {
     let ended = false;
@@ -57,7 +57,7 @@ const CharList = (props) => {
   function renderItems(arr) {
     const items = arr.map((item, index) => {
       return (
-        <CSSTransition key={item.id} timeout={500} classNames="fade">
+        <CSSTransition key={item.id} timeout={500} classNames="fade-list">
           <li className="char__item"
               tabIndex={0}
               ref={el => itemRefs.current[index] = el}
@@ -66,7 +66,7 @@ const CharList = (props) => {
                 focusOnItem(index);
               }}
               onKeyDown={evt => onKeyDown(evt, index)}>
-            <img src={item.thumbnail} alt={item.name}/>
+            <img src={item.thumbnail} alt={item.name} width="200" height="252"/>
             <div className="char__name">{item.name}</div>
           </li>
         </CSSTransition>
@@ -82,8 +82,16 @@ const CharList = (props) => {
     );
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onRequest(offset, true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      onRequest(offset, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted]);
 
   return (
     <div className="char__list">

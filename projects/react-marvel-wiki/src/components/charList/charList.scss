@@ -53,3 +53,25 @@
     color: #fff;
   }
 }
+
+  /* CharList Fade Animation */
+  .fade-list-enter {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .fade-list-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 500ms ease, transform 500ms ease;
+  }
+
+  .fade-list-exit {
+    opacity: 1;
+  }
+
+  .fade-list-exit-active {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 500ms ease, transform 500ms ease;
+  }
