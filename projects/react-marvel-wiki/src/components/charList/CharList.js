@@ -2,25 +2,10 @@ import './charList.scss';
 import '../../style/transition-animation.scss';
 import PropTypes from 'prop-types';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
-import {useEffect, useMemo, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import useComicVineService from '../../services/ComicVineService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
-
-const setContent = (processState, Component, newItemLoading) => {
-  switch (processState) {
-    case 'IDLE':
-      return <Spinner/>;
-    case 'LOADING':
-      return newItemLoading ? <Component/> : <Spinner/>;
-    case 'ERROR':
-      return <ErrorMessage/>;
-    case 'SUCCESS':
-      return <Component/>;
-    default:
-      throw new Error('Unexpected process state');
-  }
-};
 
 const CharList = (props) => {
   const {processState, setProcessState, getAllCharacters} = useComicVineService();
@@ -76,7 +61,6 @@ const CharList = (props) => {
           <li className="char__item"
               tabIndex={0}
               ref={el => itemRefs.current[index] = el}
-              key={item.id}
               onClick={() => {
                 props.onCharSelected(item.id);
                 focusOnItem(index);
@@ -101,11 +85,14 @@ const CharList = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => onRequest(offset, true), []);
 
-  const elements = useMemo(() => setContent(processState, () => renderItems(charList), newItemLoading), [processState]);
-
   return (
     <div className="char__list">
-      {elements}
+      {processState === 'ERROR' && <ErrorMessage/>}
+      {processState === 'IDLE' && <Spinner/>}
+
+      {renderItems(charList)}
+
+      {newItemLoading && <Spinner/>}
       {!charEnded && <button className="button button__main button__long"
                              disabled={newItemLoading}
                              onClick={() => onRequest(offset)}>
