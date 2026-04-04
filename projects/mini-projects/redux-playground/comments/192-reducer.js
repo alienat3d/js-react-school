@@ -1,3 +1,5 @@
+// 192.1.2 Также поступим и с функцией-редьюсером, не забывая и про initialState, т.к. он у нас используется.
+// (Go to [/src/index.js])
 const initialState = {value: 0};
 
 const reducer = (state = initialState, action) => {
