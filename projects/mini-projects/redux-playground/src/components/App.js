@@ -1,15 +1,8 @@
-import Counter from './Counter';
+// import Counter from './Counter';
+import ClassCounter from './ClassCounter';
 
-// 193.6.0 Но теперь мы столкнулись с тем, что нужно сюда как-то перенести все сущности, которые нужно передавать в комп Counter для его работы, а находятся они в родительском компоненте (index.js). И вложенность эта может быть довольно глубокой в разных компонентах (в приложениях гораздо более сложных и объёмных, чем этот тестовый проект). Конечно, можно было бы придумать что-то при помощи React Context, и там действительно довольно похожий механизм действия, но это излишнее, т.к. мы работаем с Redux, в котором уже встроен свой механизм передачи его сущностей.
-// (Go to [/src/index.js])
 const App = () => {
-  return <Counter count={getState().value}
-                  inc={inc}
-                  dec={dec}
-                  rnd={() => {
-                    const value = Math.floor(Math.random() * 10);
-                    rnd(value);
-                  }}/>;
+  return <ClassCounter/>;
 };
 
 export default App;

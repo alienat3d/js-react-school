@@ -1,0 +1,64 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {bindActionCreators, createStore} from 'redux';
+import {Provider} from 'react-redux';
+import reducer from './reducer';
+// 193.6.2 Теперь уже нам не понадобится импортировать здесь action creators. ↓
+// import * as actions from './actions';
+// import Counter from './components/Counter';
+import App from './components/App';
+
+// 193.0 В этом уроке мы добавим React, чтобы потом соединить его с Redux.
+// (Go to [/src/Counter.js])
+
+const store = createStore(reducer);
+// 193.6.3 Также не нужны больше эти сущности здесь, т.к. мы будем извлекать их на том уровне, где это будет применяться.
+// const {dispatch, subscribe, getState} = store;
+
+// 193.2.1 И этот тоже. ↓
+// const update = () => document.getElementById('counter').textContent = getState().value;
+
+// subscribe(update);
+
+// 193.6.4 А также нам больше не требуется извлекать здесь сущности action creators при помощи "bindActionCreators". ↓
+// const {inc, dec, rnd} = bindActionCreators(actions, dispatch);
+
+// 193.2.0 Этот функционал для работы с вёрсткой нам больше не нужен, т.к. мы будем использовать React-компонент.
+/*document.getElementById('inc').addEventListener('click', inc);
+document.getElementById('dec').addEventListener('click', dec);
+document.getElementById('rnd').addEventListener('click', () => {
+  const value = Math.floor(Math.random() * 10);
+  rnd(value);
+});*/
+
+// 193.3 Здесь мы передадим компоненту Counter пару пропсов, во-первых, получение актуального стейта с помощью метода store "getState" (важно, что именно её вызов, т.к. нам нужно получить значение стейта, а не саму функцию в компонент), а также не забудем добавить через "." название свойства "value", где у нас хранится значение счётчика. А ещё передадим все три экшена, однако третий "rnd" у нас будет чуть усложнён, т.к. нам нужно передавать в payload сгенерированное число для него.
+// 193.4.0 Осталась ещё одна вещь, хотя счётчик уже работает, но React ещё не знает, когда ему обновлять компоненты. Когда мы использовали метод сохранения стейта setState или хук «useState», то там это происходило автоматически — когда менялся стейт, то запускался ререндер компонента. Здесь мы можем это сделать с помощью метода "subscribe". Напоминаем, что это как бы "слушатель store", который запускает какую-то функцию, когда в store изменился стейт. До этого у нас была функция "update", которая запускалась, когда шло изменение стейта. И вот мы можем обернуть весь "root.render" в функцию "update".
+// ! 193.4.1 В настоящих проектах так делать не надо, но мы сделали здесь так для примера, что это будет работать.
+const container = document.getElementById('root');
+const root = createRoot(container);
+// 193.4.2 Теперь, всякий раз, когда будет изменяться стейт — запустится функция update, которая будет ререндерить приложение с обновлённым данными.
+// 193.5 А теперь создадим более привычную структуру Реакт-приложения с App и нормальной архитектурой. Мы создадим компонент App и перенесём комп. Counter в него.
+// (Go to [\src\components\App.js])
+// 193.6.1 Как, и в обычном Реакт-контексте, нам нужна специальная обёртка "Provider" вокруг комп. App, которую, однако мы уже импортируем из библиотеки "react-redux". А чтобы всё приложение, которое находится к App могло пользоваться глобальным хранилищем Redux store, то мы передадим его пропсом "store" в Provider. А Provider, как и в React-context будет служить своего рода "ретранслятором", который передаст данные хранилища любому дочернему компоненту. ↑
+// const update = () => {
+  root.render(
+    <React.StrictMode>
+      {/*<Counter count={getState().value}
+               inc={inc}
+               dec={dec}
+               rnd={() => {
+                 const value = Math.floor(Math.random() * 10);
+                 rnd(value);
+               }}/>*/}
+      <Provider store={store}>
+        <App/>
+      </Provider>
+    </React.StrictMode>,
+  );
+// }
+
+// 193.4.3 И нам нужно один раз запустить эту функцию вручную, иначе у нас будет показывать пустая страница.
+// 193.4.4 И вот, у нас уже компонент Реакта работает с одним глобальным стейтом Redux. А вообще, Redux можно использовать не только с нативным JS или React, но и в принципе с любой библиотекой или фреймворком, отвечающим за UI (или часть View на схеме Redux). ↑
+// 193.6.5 Как, и эти конструкции с функцией "update" и методом store "subscribe" становятся лишними, т.к. Provider теперь будет отслеживать изменения стейта и запускать ререндер приложения самостоятельно.
+/*update();
+subscribe(update);*/
