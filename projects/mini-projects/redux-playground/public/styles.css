@@ -16,8 +16,11 @@
 .btn {
   width: 40px;
   height: 40px;
-  font-size: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.btn-primary img {
+  width: 25px;
 }
