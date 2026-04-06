@@ -1,8 +1,9 @@
-// import Counter from './Counter';
-import ClassCounter from './ClassCounter';
+import Counter from './Counter';
+// import ClassCounter from './ClassCounter';
 
 const App = () => {
-  return <ClassCounter/>;
+  return <Counter/>;
+  // return <ClassCounter/>;
 };
 
 export default App;
