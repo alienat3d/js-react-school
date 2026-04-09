@@ -1,3 +1,7 @@
+// Задача для этого компонента: Реализовать создание нового героя с введенными данными. Он должен попадать в общее состояние и отображаться в списке + фильтроваться. Уникальный идентификатор персонажа можно сгенерировать через uiid.
+// Усложненная задача: Персонаж создается и в файле json при помощи метода POST
+// Дополнительно: Элементы <option></option> желательно сформировать на базе данных из фильтров
+
 import {useHttp} from '../../hooks/http.hook';
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -6,6 +10,8 @@ import {v4 as uuidv4} from 'uuid';
 import {heroCreated} from '../../actions';
 
 const HeroesAddForm = () => {
+// 198.2.0 Теперь, что касается формы добавления новых персонажей, здесь мы добавили локальных стейтов, которые никуда не передаются, чтобы элементы формы были контролируемыми. ↓
+  // Состояния для контроля формы
   const [heroName, setHeroName] = useState('');
   const [heroDescr, setHeroDescr] = useState('');
   const [heroElement, setHeroElement] = useState('');
@@ -16,6 +22,9 @@ const HeroesAddForm = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    // 198.2.1 Создаётся новый объект, который, кроме поля "id" заполняется через данные, введённые в форму. ↓
+    // Можно сделать и одинаковые названия состояний, здесь они разные, чтобы было нагляднее
+    // Генерация id через библиотеку "UUID"
     const newHero = {
       id: uuidv4(),
       name: heroName,
@@ -23,11 +32,13 @@ const HeroesAddForm = () => {
       element: heroElement
     };
 
+    // Отправляем данные на сервер в формате JSON только если запрос успешен - отправляем персонажа в store
     request('http://localhost:3001/heroes', 'POST', JSON.stringify(newHero))
       .then(res => console.log(res, 'Отправка успешна'))
       .then(dispatch(heroCreated(newHero)))
       .catch(err => console.log(err));
 
+    // Очищаем форму после отправки
     setHeroName('');
     setHeroDescr('');
     setHeroElement('');
@@ -40,8 +51,10 @@ const HeroesAddForm = () => {
       return <option>Ошибка загрузки</option>;
     }
 
+    // Если фильтры есть, то рендерим их
     if (filters && filters.length > 0) {
       return filters.map(({name, label}) => {
+        // Один из фильтров нам тут не нужен
         // eslint-disable-next-line
         if (name === 'all') return;
 
@@ -50,6 +63,7 @@ const HeroesAddForm = () => {
     }
   };
 
+  // 198.2.2 На каждой строке ввода у нас есть обработчик события "change", атрибут "value" привязан к локальному стейту, делая его управляемым инпутом. И по вводу каждого символа изменяется соответствующий локальный стейт, из которого потом формируется объект для записи в БД в виде нового героя.
   return (
     <form className="border p-4 shadow-lg rounded" onSubmit={onSubmitHandler}>
       <div className="mb-3">
