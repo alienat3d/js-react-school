@@ -23,6 +23,12 @@
       "name": "Лёха",
       "description": "Кодить",
       "element": "earth"
+    },
+    {
+      "id": "c66c66d1-7c17-46b7-aebf-4e4ce3a151a0",
+      "name": "Костян",
+      "description": "Договариваться",
+      "element": "fire"
     }
   ],
   "filters": [

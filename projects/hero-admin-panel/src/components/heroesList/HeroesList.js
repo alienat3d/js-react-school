@@ -7,58 +7,71 @@ import Spinner from '../spinner/Spinner';
 import HeroesListItem from '../heroesListItem/HeroesListItem';
 
 import './heroesList.scss';
+import {createSelector} from 'reselect';
 
 const HeroesList = () => {
-  const {filteredHeroes, heroesLoadingStatus} = useSelector(state => state);
-  const dispatch = useDispatch();
-  const {request} = useHttp();
+    const filteredHeroesSelector = createSelector(
+      (state) => state.filters.activeFilter,
+      (state) => state.heroes.heroes,
+      (filter, heroesArr) => {
+        return filter === 'all' ?
+          heroesArr :
+          heroesArr.filter(item => item.element === filter);
+      }
+    );
 
-  useEffect(() => {
-    dispatch(heroesFetching());
-    request('http://localhost:3001/heroes')
-      .then(data => dispatch(heroesFetched(data)))
-      .catch(() => dispatch(heroesFetchingError()));
-    // eslint-disable-next-line
-  }, []);
+    const filteredHeroes = useSelector(filteredHeroesSelector);
+    const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);
+    const dispatch = useDispatch();
+    const {request} = useHttp();
 
-  const onDelete = useCallback(id => {
-    request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-      .then(data => console.log(data, `${data.name} has been deleted.`))
-      .then(data => dispatch(heroDeleted(id)))
-      .catch(error => console.log(error));
-    // eslint-disable-next-line
-  }, [request]);
+    useEffect(() => {
+      dispatch(heroesFetching());
+      request('http://localhost:3001/heroes')
+        .then(data => dispatch(heroesFetched(data)))
+        .catch(() => dispatch(heroesFetchingError()));
+      // eslint-disable-next-line
+    }, []);
 
-  if (heroesLoadingStatus === 'loading') {
-    return <Spinner/>;
-  } else if (heroesLoadingStatus === 'error') {
-    return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
-  }
+    const onDelete = useCallback(id => {
+      request(`http://localhost:3001/heroes/${id}`, 'DELETE')
+        .then(data => console.log(data, `${data.name} has been deleted.`))
+        .then(data => dispatch(heroDeleted(id)))
+        .catch(error => console.log(error));
+      // eslint-disable-next-line
+    }, [request]);
 
-  const renderHeroesList = arr => {
-    if (arr.length === 0) {
-      return (
-        <CSSTransition timeout={0} classNames="hero">
-          <h5 className="text-center mt-5">Героев пока нет</h5>
-        </CSSTransition>
-      );
+    if (heroesLoadingStatus === 'loading') {
+      return <Spinner/>;
+    } else if (heroesLoadingStatus === 'error') {
+      return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
     }
 
-    return arr.map(({id, ...props}) => {
-      return (
-        <CSSTransition key={id} timeout={500} classNames="hero">
-          <HeroesListItem {...props} onDelete={() => onDelete(id)}/>
-        </CSSTransition>
-      );
-    });
-  };
+    const renderHeroesList = arr => {
+      if (arr.length === 0) {
+        return (
+          <CSSTransition timeout={0} classNames="hero">
+            <h5 className="text-center mt-5">Героев пока нет</h5>
+          </CSSTransition>
+        );
+      }
 
-  const elements = renderHeroesList(filteredHeroes);
-  return (
-    <TransitionGroup component="ul">
-      {elements}
-    </TransitionGroup>
-  );
-};
+      return arr.map(({id, ...props}) => {
+        return (
+          <CSSTransition key={id} timeout={500} classNames="hero">
+            <HeroesListItem {...props} onDelete={() => onDelete(id)}/>
+          </CSSTransition>
+        );
+      });
+    };
+
+    const elements = renderHeroesList(filteredHeroes);
+    return (
+      <TransitionGroup component="ul">
+        {elements}
+      </TransitionGroup>
+    );
+  }
+;
 
 export default HeroesList;

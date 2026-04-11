@@ -2,10 +2,13 @@ import {useHttp} from '../../hooks/http.hook';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
+
 import {filtersFetching, filtersFetched, filtersFetchingError, activeFilterChanged} from '../../actions';
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
+  // 199.3.6.3 Здесь мы также уточняем, что нам требуется достать из стейта только то, что в свойстве "filters".
+  // (Go to [/src/components/heroesList/HeroesList.js])
   const {filters, filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
   const dispatch = useDispatch();
   const {request} = useHttp();

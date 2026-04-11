@@ -2,6 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
+
 import {heroCreated} from '../../actions';
 
 const HeroesAddForm = () => {
@@ -9,6 +10,8 @@ const HeroesAddForm = () => {
   const [heroDescr, setHeroDescr] = useState('');
   const [heroElement, setHeroElement] = useState('');
 
+  // 199.3.6.2 Начнём исправление путей к стейту с компонента добавления героя через форму. Заметим, что тут мы из стейта получаем только то, что относится к фильтрам, следовательно, мы можем сразу обращаться к свойству "filters", т.к. теперь стейт у нас разгруппирован.
+  // (Go to [/src/components/heroesFilters/HeroesFilters.js])
   const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
   const dispatch = useDispatch();
   const {request} = useHttp();
