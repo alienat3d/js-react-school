@@ -29,6 +29,12 @@
       "name": "Костян",
       "description": "Договариваться",
       "element": "fire"
+    },
+    {
+      "id": "28048ab1-952f-4266-8505-93c66d4fa1d2",
+      "name": "Аистмэн",
+      "description": "Летать",
+      "element": "wind"
     }
   ],
   "filters": [

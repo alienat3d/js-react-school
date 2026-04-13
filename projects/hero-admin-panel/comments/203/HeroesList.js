@@ -1,6 +1,8 @@
 import {useHttp} from '../../hooks/http.hook';
 import {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+// 203.4.2 Теперь целых три action creator у нас заменит один новый. ↓
+// import {heroesFetching, heroesFetched, heroesFetchingError, heroDeleted} from '../../actions';
 import {fetchHeroes, heroDeleted} from '../../actions';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import Spinner from '../spinner/Spinner';
@@ -25,7 +27,19 @@ const HeroesList = () => {
     const dispatch = useDispatch();
     const {request} = useHttp();
 
+    // 203.2 Здесь протестируем как работает "ReduxThunk" и где мы подставляли в диспэтч строку, подставим в этот раз функцию без вызова. Всё работает как прежде, а значит "ReduxThunk" активизировалась и расширила функции диспэтча в нашем проекте.
+    // (Go to [\src\components\heroesFilters\HeroesFilters.js])
+    // 203.4.0 Ок, теперь рассмотрим задачу более реалистичную. У нас здесь есть действие по получению данных с сервера и оно довольно неплохо работает, но, во-первых, может смущать повторение dispatch внутри. А во-вторых, что для получения списка героев нам придётся копипастить этот участок кода из компонента в компонент. И мы могли бы прийти к мысли, что было бы удобнее создать одно действие, которые будет это всё в себя включать. И именно для этого уместно создать action creator в виде функции.
+    // (Go to [projects/hero-admin-panel/src/actions/index.js])
+    // 203.4.3 Осталось здесь запустить диспэтч-функцию с новым action creator "fetchHeroes" и подставить в него функцию запроса на сервер "request".
+    // 203.5.0 Создадим нечто схожее с action creator "fetchHeroes", но уже для фильтров в [/src/components/heroesFilters/HeroesFilters.js]
+    // (Go to [/src/actions/index.js])
     useEffect(() => {
+      // dispatch('HEROES_FETCHING');
+      /*dispatch(heroesFetching);
+      request('http://localhost:3001/heroes')
+        .then(data => dispatch(heroesFetched(data)))
+        .catch(() => dispatch(heroesFetchingError()));*/
       dispatch(fetchHeroes(request));
       // eslint-disable-next-line
     }, []);
