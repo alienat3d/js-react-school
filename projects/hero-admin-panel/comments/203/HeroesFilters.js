@@ -2,6 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
+// import { filtersFetching, filtersFetched, filtersFetchingError, activeFilterChanged } from '../../actions';
 import {fetchFilters, activeFilterChanged} from '../../actions';
 import Spinner from '../spinner/Spinner';
 
@@ -10,7 +11,12 @@ const HeroesFilters = () => {
   const dispatch = useDispatch();
   const {request} = useHttp();
 
+  // 203.5.2 Ну, а здесь мы импортируем новый action creator и применим, который будет включать в себя весь закомментированный код.
   useEffect(() => {
+    /*dispatch(filtersFetching());
+    request('http://localhost:3001/filters')
+      .then(data => dispatch(filtersFetched(data)))
+      .catch(() => dispatch(filtersFetchingError()));*/
     dispatch(fetchFilters(request));
     // eslint-disable-next-line
   }, []);
@@ -27,10 +33,13 @@ const HeroesFilters = () => {
     }
 
     return arr.map(({name, className, label}) => {
+
       const btnClass = classNames('btn', className, {
         'active': name === activeFilter
       });
 
+      // 203.3.0 Теперь рассмотрим два случая: один будет тестовый, а другой реальный. Представим, что у нас есть задача: нужно сделать так, чтобы фильтры переключались с задержкой, т.е. не сразу, а спустя пол секунды после нажатия на кнопку. Без middleware нам пришлось бы функцию, которая вызывается в обработчике события клик на кнопках обернуть в метод "setTimeout". Но это не самое красивое решение и лучше сделать это более централизовано.
+      // (Go to [/src/actions/index.js])
       return (
         <button
           key={name}

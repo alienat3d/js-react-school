@@ -10,6 +10,8 @@ const stringMiddleware = () => (next) => (action) => {
   return next(action);
 };
 
+// 203.1 Импортируем ReduxThunk и добавим его в метод "applyMiddleware", причём на первом месте. Вот собственно и всё, функционал добавлен.
+// (Go to [/src/components/heroesList/HeroesList.js])
 const store = createStore(
   combineReducers({heroes, filters}),
   compose(
