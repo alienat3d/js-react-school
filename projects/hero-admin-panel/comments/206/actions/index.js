@@ -24,6 +24,7 @@ export const heroesFetching = createAction('HEROES_FETCHING');
 
 export const heroesFetched = createAction('HEROES_FETCHED');
 
+// 206.4.0 Но пока у нас есть одна проблема, если запустить веб-приложение, то оно выдаст ошибку. Дело в том, что метод "createReducer" требует, чтобы мы также при создании action creator использовали везде лишь метод "createAction". Поэтому нам нужно здесь переделать все action creators таким образом, чтобы они создавались через метод "createAction". ↓
 /*export const heroesFetchingError = () => {
   return {
     type: 'HEROES_FETCHING_ERROR'
@@ -72,9 +73,12 @@ export const activeFilterChanged = (filter) => {
   };
 };*/
 
+// 206.4.1 Напоминаем, что в "createAction" payload передаётся автоматически и потому, при работе с "createAction", мы его специально не указываем.
+// (Go to [/src/reducers/heroes.js])
 export const heroCreated = createAction('HERO_CREATED');
 
-/*export const heroDeleted = (id) => {
+/*
+export const heroDeleted = (id) => {
   return {
     type: 'HERO_DELETED',
     payload: id
