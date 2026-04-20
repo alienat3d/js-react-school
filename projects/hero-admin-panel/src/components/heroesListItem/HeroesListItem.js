@@ -1,4 +1,5 @@
 import unknownHero from '../../assets/unknown-hero.png';
+import './heroesListItem.scss';
 
 const HeroesListItem = ({name, description, element, onDelete}) => {
   let elementClassName;
@@ -23,9 +24,8 @@ const HeroesListItem = ({name, description, element, onDelete}) => {
   return (
     <li className={`card px-2 flex-row mb-4 shadow-lg text-white ${elementClassName}`}>
       <img src={unknownHero}
-           className="img-fluid w-25 d-inline mt-3"
-           alt="unknown hero"
-           style={{'objectFit': 'cover'}}/>
+           className="hero-img img-fluid object-fit-contain object-position-bottom"
+           alt="unknown hero" />
       <div className="card-body">
         <h3 className="card-title">{name}</h3>
         <p className="card-text">{description}</p>
