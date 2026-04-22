@@ -2,6 +2,9 @@ import {useHttp} from '../../hooks/http.hook';
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
+// 207.7.4 Также нам нужно поменять в некоторые пути к action creators, т.к. раньше они тянулись из "actions", а теперь они создаются в слайсе.
+// (Go to [/src/components/heroesList/HeroesList.js])
+// import {heroCreated} from '../../actions';
 import {heroCreated} from '../heroesList/heroesSlice';
 
 

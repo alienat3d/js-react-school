@@ -1,7 +1,10 @@
 import {useHttp} from '../../hooks/http.hook';
 import {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchHeroes} from '../../actions';
+// 207.7.5 Также и для этого компонента надо поменять путь, откуда мы вытаскиваем action creators.
+import {fetchHeroes} from '../../actions'; // однако мы здесь пока оставим импорт комплексного action creator, пока мы его не переделали в следующем уроке.
+// (Go to [/tmp/reducers/heroes.js/])
+// import {fetchHeroes, heroDeleted} from '../../actions';
 import {heroDeleted} from './heroesSlice';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import Spinner from '../spinner/Spinner';

@@ -1,5 +1,4 @@
 // ? 207.7.6 В принципе, этот файл нам больше не требуется в проекте, т.к. мы его полностью заменили файлом слайса [\src\components\heroesList\heroesSlice.js]
-// (Go to [/src/components/heroesList/heroesSlice.js])
 import {createReducer} from '@reduxjs/toolkit';
 import {heroesFetching, heroesFetched, heroesFetchingError, heroCreated, heroDeleted} from '../actions';
 

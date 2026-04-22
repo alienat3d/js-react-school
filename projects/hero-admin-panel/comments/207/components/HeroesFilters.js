@@ -2,6 +2,9 @@ import {useHttp} from '../../hooks/http.hook';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
+// 207.10.1 Здесь мы также будем уже импортировать action creators из слайса фильтров, но при этом сохраним пока один комплексный action creator в файле "actions" (до след. урока, где мы это поправим).
+// (Go to [/src/actions/index.js])
+// import {fetchFilters, activeFilterChanged} from '../../actions';
 import {activeFilterChanged} from './filtersSlice';
 import {fetchFilters} from '../../actions';
 import Spinner from '../spinner/Spinner';
