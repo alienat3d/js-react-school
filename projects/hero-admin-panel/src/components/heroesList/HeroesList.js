@@ -8,7 +8,7 @@ import Spinner from '../spinner/Spinner';
 import HeroesListItem from '../heroesListItem/HeroesListItem';
 
 import './heroesList.scss';
-import {createSelector} from 'reselect';
+import {createSelector} from '@reduxjs/toolkit';
 
 const HeroesList = () => {
     const filteredHeroesSelector = createSelector(
