@@ -1,7 +1,11 @@
+// import {useHttp} from '../../hooks/http.hook';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
-import {fetchFilters, activeFilterChanged} from './filtersSlice';
+import {activeFilterChanged} from './filtersSlice';
+// 208.7.2 Заменим путь к асинхронному action creator "fetchFilters", который теперь переехал в слайс [filtersSlice.js].
+// import {fetchFilters} from '../../actions';
+import {fetchFilters} from './filtersSlice';
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
