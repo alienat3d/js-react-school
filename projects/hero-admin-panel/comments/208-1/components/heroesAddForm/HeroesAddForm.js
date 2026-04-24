@@ -1,5 +1,8 @@
+// 5.2.0 Здесь мы также избавляемся от нашего старого React-хука "useHttp" и запроса при помощи функции "request"... ↓
+// import {useHttp} from '../../hooks/http.hook';
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+// import {heroCreated} from '../heroesList/heroesSlice';
 import {createHero} from '../heroesList/heroesSlice';
 import {v4 as uuidv4} from 'uuid';
 
@@ -10,6 +13,7 @@ const HeroesAddForm = () => {
 
   const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
   const dispatch = useDispatch();
+  // const {request} = useHttp();
 
   const onSubmitHandler = (evt) => {
     evt.preventDefault();
@@ -21,7 +25,19 @@ const HeroesAddForm = () => {
       element: heroElement
     };
 
+    // 5.2.1 ..., а вместо этого просто запустим диспэтч thunk-функции "createHero" из слайса "heroesSlice".
+    /*request('http://localhost:3001/heroes', 'POST', JSON.stringify(newHero))
+      .then(res => console.log(res, 'Отправка успешна'))
+      .then(dispatch(heroCreated(newHero)))
+      .catch(err => console.log(err));*/
     dispatch(createHero(newHero));
+
+    /* ? 5.3 Почему такой подход лучше:
+    * Разделение интересов: нашему компоненту не нужно знать, как создается герой (URL, метод, заголовки). Он просто сообщает: «Эй, я хочу создать этого героя».
+    *
+    * Легкость обслуживания: если конечная точка API для героев когда-либо изменится (например, с localhost:3001 на URL в облаке), нам нужно будет изменить её только в одном месте (heroesSlice.js), а не искать каждый компонент, который создаёт героя.
+    *
+    * Согласованность: теперь всё наше приложение следует одному и тому же жизненному циклу «Действие -> Thunk -> Обновление состояния», что значительно упрощает отладку. */
 
     setHeroName('');
     setHeroDescr('');

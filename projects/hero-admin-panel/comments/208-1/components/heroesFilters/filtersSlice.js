@@ -7,6 +7,8 @@ const initialState = {
   activeFilter: 'all'
 };
 
+// 3 Здесь мы всего лишь импортируем функцию "request" и используем её в thunk используя "async...await".
+// (Go to [/src/components/heroesList/HeroesList.js])
 export const fetchFilters = createAsyncThunk(
   'filters/fetchFilters',
   async () => {

@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {useHttp} from '../../hooks/http.hook';
+import {request} from '../../utils';
 
 const initialState = {
   heroes: [],
@@ -8,39 +8,51 @@ const initialState = {
 
 export const fetchHeroes = createAsyncThunk(
   'heroes/fetchHeroes',
-  () => {
-    const {request} = useHttp();
-    return request('http://localhost:3001/heroes');
+  async () => {
+    return await request('http://localhost:3001/heroes');
+  }
+);
+export const deleteHero = createAsyncThunk(
+  'heroes/deleteHero',
+  async (id) => {
+    await request(`http://localhost:3001/heroes/${id}`, 'DELETE');
+    return id;
+  }
+);
+export const createHero = createAsyncThunk(
+  'heroes/createHero',
+  async (newHero) => {
+    await request('http://localhost:3001/heroes', 'POST', JSON.stringify(newHero));
+    return newHero;
   }
 );
 
 const heroesSlice = createSlice({
   name: 'heroes',
   initialState,
-  reducers: {
-    heroCreated: (state, action) => { state.heroes.push(action.payload); },
-    heroDeleted: (state, action) => { state.heroes = state.heroes.filter(item => item.id !== action.payload); },
-  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchHeroes.pending, state => { state.heroesLoadingStatus = 'loading'; })
+      .addCase(fetchHeroes.pending, state => {
+        state.heroesLoadingStatus = 'loading';
+      })
       .addCase(fetchHeroes.fulfilled, (state, action) => {
         state.heroes = action.payload;
         state.heroesLoadingStatus = 'idle';
       })
-      .addCase(fetchHeroes.rejected, state => { state.heroesLoadingStatus = 'error'; })
-      .addDefaultCase(() => {});
+      .addCase(fetchHeroes.rejected, state => {
+        state.heroesLoadingStatus = 'error';
+      })
+      // 2.3.1 ...т.к. он теперь «переезжает» во внешние action creators.
+      .addCase(deleteHero.fulfilled, (state, action) => {
+        state.heroes = state.heroes.filter(item => item.id !== action.payload);
+      })
+      .addCase(createHero.fulfilled, (state, action) => {
+        state.heroes.push(action.payload);
+      })
+      .addDefaultCase(() => {
+      });
   }
 });
 
-const {actions, reducer} = heroesSlice;
-
+const {reducer} = heroesSlice;
 export default reducer;
-
-export const {
-/*  heroesFetching,
-  heroesFetched,
-  heroesFetchingError,*/
-  heroCreated,
-  heroDeleted
-} = actions;
