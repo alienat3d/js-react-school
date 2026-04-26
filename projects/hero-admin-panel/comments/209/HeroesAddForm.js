@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
 import {heroCreated} from '../heroesList/heroesSlice';
+// 209.10.8 Также, как и в HeroesFilters нам нужно и здесь импортировать "selectAll", который извлечёт объекты фильтров в качестве массива, ...
 import {selectAll as selectAllFilters} from '../heroesFilters/filtersSlice';
 
 const HeroesAddForm = () => {
@@ -10,13 +11,15 @@ const HeroesAddForm = () => {
   const [heroDescr, setHeroDescr] = useState('');
   const [heroElement, setHeroElement] = useState('');
 
+  // 209.10.9 А затем передать его в "useSelector", чтобы не было ошибок.
   const filters = useSelector(selectAllFilters);
+  // const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
   const {filtersLoadingStatus} = useSelector(state => state.filters);
   const dispatch = useDispatch();
   const {request} = useHttp();
 
-  const onSubmitHandler = (evt) => {
-    evt.preventDefault();
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
     const newHero = {
       id: uuidv4(),
       name: heroName,
