@@ -1,25 +1,19 @@
-import {useHttp} from '../../hooks/http.hook';
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {createHero} from '../heroesList/heroesSlice';
 import {v4 as uuidv4} from 'uuid';
-import {heroCreated} from '../heroesList/heroesSlice';
-// 209.10.8 Также, как и в HeroesFilters нам нужно и здесь импортировать "selectAll", который извлечёт объекты фильтров в качестве массива, ...
-import {selectAll as selectAllFilters} from '../heroesFilters/filtersSlice';
 
 const HeroesAddForm = () => {
   const [heroName, setHeroName] = useState('');
   const [heroDescr, setHeroDescr] = useState('');
   const [heroElement, setHeroElement] = useState('');
 
-  // 209.10.9 А затем передать его в "useSelector", чтобы не было ошибок.
-  const filters = useSelector(selectAllFilters);
-  // const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
-  const {filtersLoadingStatus} = useSelector(state => state.filters);
+  const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
   const dispatch = useDispatch();
-  const {request} = useHttp();
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
+  const onSubmitHandler = (evt) => {
+    evt.preventDefault();
+
     const newHero = {
       id: uuidv4(),
       name: heroName,
@@ -27,10 +21,7 @@ const HeroesAddForm = () => {
       element: heroElement
     };
 
-    request('http://localhost:3001/heroes', 'POST', JSON.stringify(newHero))
-      .then(res => console.log(res, 'Отправка успешна'))
-      .then(dispatch(heroCreated(newHero)))
-      .catch(err => console.log(err));
+    dispatch(createHero(newHero));
 
     setHeroName('');
     setHeroDescr('');
@@ -66,7 +57,7 @@ const HeroesAddForm = () => {
           id="name"
           placeholder="Как меня зовут?"
           value={heroName}
-          onChange={(e) => setHeroName(e.target.value)}/>
+          onChange={(evt) => setHeroName(evt.target.value)}/>
       </div>
 
       <div className="mb-3">
@@ -79,7 +70,7 @@ const HeroesAddForm = () => {
           placeholder="Что я умею?"
           style={{'height': '130px'}}
           value={heroDescr}
-          onChange={(e) => setHeroDescr(e.target.value)}/>
+          onChange={(evt) => setHeroDescr(evt.target.value)}/>
       </div>
 
       <div className="mb-3">
@@ -90,7 +81,7 @@ const HeroesAddForm = () => {
           id="element"
           name="element"
           value={heroElement}
-          onChange={(e) => setHeroElement(e.target.value)}>
+          onChange={(evt) => setHeroElement(evt.target.value)}>
           <option value="">Я владею элементом...</option>
           {renderFilters(filters, filtersLoadingStatus)}
         </select>

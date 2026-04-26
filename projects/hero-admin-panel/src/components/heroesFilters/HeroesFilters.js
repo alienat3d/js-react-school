@@ -1,11 +1,16 @@
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
-import {fetchFilters, activeFilterChanged} from './filtersSlice';
+// 209.10.6 Теперь здесь мы импортируем метод "selectAll" из слайса фильтров и переименуем его в "selectAllFilters" для наглядности. ↓
+import {fetchFilters, activeFilterChanged, selectAll as selectAllFilters} from './filtersSlice';
 import Spinner from '../spinner/Spinner';
 
 const HeroesFilters = () => {
-  const {filters, filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+  // 209.10.7 Здесь же, нам уже нужно в метод "useSelector" помещать то, что извлечёт метод "selectAll" в объекте-адаптере в слайсе, т.к. структура у нас поменялась и иначе у нас будет в filters попадать не массив, а объект и вызывать ошибку далее в коде.
+  // (Go to [/src/components/heroesAddForm/HeroesAddForm.js])
+  // const {filters, filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
+  const filters = useSelector(selectAllFilters);
+  const {filtersLoadingStatus, activeFilter} = useSelector(state => state.filters);
   const dispatch = useDispatch();
 
   useEffect(() => {
